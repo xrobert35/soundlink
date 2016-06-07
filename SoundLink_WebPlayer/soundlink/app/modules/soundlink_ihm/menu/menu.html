@@ -1,0 +1,8 @@
+<div ng-controller="leftbarController as ctrl" class="menu">
+    <div class="artiste_menu" ng-class="{currentUrl : ctrl.isCurrentUrl('soundlink.artistes')}">
+        <a class="menuButton" ng-include="'app/assets/svg/artiste_menu.svg'" href="/#/soundlink/artistes"></a>
+    </div>
+    <div class="album_menu" ng-class="{currentUrl : ctrl.isCurrentUrl('soundlink.albums')}">
+        <a class="menuButton" ng-include="'app/assets/svg/album_menu.svg'" href="/#/soundlink/albums"></a>
+    </div>
+</div>

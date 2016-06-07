@@ -1,0 +1,33 @@
+<div ng-controller="audioplayerController as control" class="player">
+    <sound-manager></sound-manager>
+
+    <div class="action">
+        <p class="playing">
+            Currently Playing: {{ currentPlaying.title }} by {{ currentPlaying.artist }} ({{ currentPosition }} / {{ currentDuration }})
+            {{repeat}}
+        </p>
+
+        <a ng-if="!isPlaying" play-music class="circleButton" data-play="Play!" ng-include="'app/assets/svg/play-icon.svg'"></a>
+        <a ng-if="isPlaying" pause-music class="circleButton" data-pause="Pause!" ng-include="'app/assets/svg/pause-icon.svg'"></a>
+        <a ng-if="repeat" ng-click="ctrl2.toto" repeat-music class="circleButton" ng-include="'app/assets/svg/repeat-icon.svg'"></a>
+        
+        <a repeat-music class="circleButton" ng-class="{'selected' : repeat}" ng-include="'app/assets/svg/repeat-icon.svg'"></a>
+        <a class="circleButton" ng-include="'app/assets/svg/random-icon.svg'"></a>
+        <a class="circleButton" ng-include="'app/assets/svg/speaker-volume.svg'"></a>
+        
+        
+        <div class="volume" volume-bar>
+            <div class="volumeBorder">
+                <a class="circleButton volumeButton" ng-include="'app/assets/svg/volume-circle.svg'" ng-style="{'left' : volume-8 + 'px'}"></a>
+                <div class="bar" ng-style="{'width' : volume + 'px', 'background-color' : red}"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="loading" seek-track>
+        <div class="loadingBorder">
+            <a class="circleButton loadingButton" ng-include="'app/assets/svg/music-circle.svg'" ng-style="{'left' : ((progress*500)/100)-16 + 'px'}"></a>
+            <div class="bar" ng-style="{'width' : progress + '%', 'background-color' : soundLinkCtrl.selectedAlbum.coverGeneralColor}"></div>
+        </div>
+    </div>
+</div>

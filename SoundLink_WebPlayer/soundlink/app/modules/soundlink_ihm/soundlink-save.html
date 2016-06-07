@@ -1,0 +1,64 @@
+<div class="albumsPage">
+    <sound-manager></sound-manager>
+    <div class="albumList">
+        <div ng-repeat="album in soundLinkCtrl.albums | filter:soundLinkCtrl.albumFilter" class="album">
+            <span><img ng-click="soundLinkCtrl.showAlbumMusics(album)" ng-src="data:image/JPEG;base64,{{::album.cover}}" class="albumCover"><span>
+            <span ng-click="soundLinkCtrl.showAlbumMusics(album)" class="albumName">{{::album.albumName }}({{ ::album.extension }})</span>
+            <span class="artisteName">By {{ ::album.artisteName }}</span>
+        </div>
+    </div>
+
+    <div class="music" ng-style="{'border-color' : soundLinkCtrl.selectedAlbum.coverGeneralColor}">
+        <div class="musiclist" ng-if="soundLinkCtrl.albumSongs">
+            <div class="album">
+                <span><img ng-src="data:image/JPEG;base64,{{soundLinkCtrl.selectedAlbum.cover}}" class="albumCover"></span>
+                <span ng-click="soundLinkCtrl.showAlbumMusics(album)" class="albumName">{{soundLinkCtrl.selectedAlbum.albumName }}({{soundLinkCtrl.selectedAlbum.extension }})</span>
+                <span class="artisteName">By {{soundLinkCtrl.selectedAlbum.artisteName }}</span>
+            </div>
+            <div class="list">
+                <table>
+                    <thead>
+                        <th>N°</th>
+                        <th>Name</th>
+                        <th>Duration</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="music in soundLinkCtrl.albumSongs | orderBy : 'trackNumber'" ng-style="$index%2 === 0 && {'background-color' : soundLinkCtrl.selectedAlbum.coverGeneralColor}">
+                            <td class="trackNumber">{{::music.trackNumber}}</td>
+                            <td class="musicName">{{::music.title}}</td>
+                            <td class="duration">{{::music.duration}}</td>
+                            <td class="play">
+                                <a ng-if="currentPlaying.id != music.id" music-player="play" add-song="music" class="circleButton" ng-include="'resources/img/play-icon.svg'"/></a>
+                                <a ng-if="currentPlaying.id == music.id" music-player="play" add-song="music" class="circleButton" ng-include="'resources/img/pause-icon.svg'"/></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="playlist">
+            <span> {{'albumspage.playlist' | translate}}  </span>
+            <table>
+                <thead>
+                    <th>N°</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="song in playlist">
+                        <td class="trackNumber">{{::song.trackNumber}}</td>
+                        <td class="musicName">{{::song.title}}</td>
+                        <td class="duration">{{::song.duration}}</td>
+                        <td>
+                            <button remove-from-playlist="song" data-index="{{$index}}"> R </button>
+                        </td>
+                        <span ng-if="currentPlaying.id == song.id"> - (current)</span>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="loginPage">
+    <div class="loginPanel">
+        <h1> SoundLink </h1>
+        <form>
+            <span ng-if="loginCtrl.loginMessage">{{loginCtrl.loginMessage}}</span>
+            <span><label>Login :  </label><input type="text" ng-model="loginCtrl.username" /></span>
+            <span><label>Password : </label><input type="password" ng-model="loginCtrl.password" /></span>
+            <span class="submit"><button ng-click="loginCtrl.login()"> Login </button></span>
+        </form>
+    </div>
+</div>

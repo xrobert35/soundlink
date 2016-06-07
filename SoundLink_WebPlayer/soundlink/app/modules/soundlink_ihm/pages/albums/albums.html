@@ -1,0 +1,9 @@
+<div class="albumsPage">   
+    <div class="albumList">
+        <div ng-repeat="album in albumsCtrl.albums | filter:albumsCtrl.albumFilter" class="album">
+            <span><img ng-click="albumsCtrl.showAlbumMusics(album)" ng-src="data:image/JPEG;base64,{{::album.cover}}" class="albumCover"><span>
+            <span ng-click="albumsCtrl.showAlbumMusics(album)" class="albumName">{{::album.albumName }}({{ ::album.extension }})</span>
+            <span class="artisteName">By {{ ::album.artisteName }}</span>
+        </div>
+    </div>
+</div>

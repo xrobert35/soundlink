@@ -1,0 +1,82 @@
+@import "lessvars";
+
+@header-height : 50px;
+@header-diag : 10px;
+
+@border-color : @blue-grey3;
+
+.header {
+    height: @header-height;
+    width : 100%;
+    position : fixed;
+    z-index : 1;
+}
+
+.header .lefthead{
+    filter : drop-shadow(4px 0px 2px rgba(0,0,0,0.3));
+    
+    float : left;
+    min-width: 0px;
+    width  : 33%;
+    height: @header-height;
+    
+    position : fixed;
+    left : 0;
+    top : 0;
+    z-index: 3;
+    background : @border-color;
+    border-radius : 0px 0px 5px 0px;
+}
+
+.header .lefthead .search{ 
+    padding-left : 28px;
+    float : left; 
+    min-width: 0px;
+    
+    position : fixed;
+    width  : 33%;
+    z-index: 0;
+    
+    padding-top : 8px;
+    
+}
+
+.header .lefthead .search input{ 
+    width : 220px;
+    border : 2px solid;
+}
+
+.header .righthead{
+    filter : drop-shadow(-4px 0px 2px rgba(0,0,0,0.3));
+    
+    float : right;
+    min-width: 0px;
+    width  : 33%;
+    height: @header-height;
+    
+    position : fixed;
+    right : 0;
+    top : 0;
+    z-index: 3;
+    background : @border-color;
+    border-radius : 0px 5px 0px 0px;
+}
+
+.header .midhead {
+    text-align: center;
+    z-index : 1;
+    height: @header-height;
+    margin : 0 auto;
+    
+    position :fixed;
+    right : 0;
+    left: 0;
+    top : 0;
+}
+
+.header .midhead .title{
+    display : block;
+    margin-top : 10px;
+    height: 25px;
+    width : 100%;
+}

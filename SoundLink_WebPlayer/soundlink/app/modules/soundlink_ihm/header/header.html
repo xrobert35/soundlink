@@ -1,0 +1,11 @@
+<header ng-controller="headerController as ctrlHeader" class="header">
+    <div class="lefthead">
+        <div class="search">
+            <span> Recherche : </span>
+            <input type="text" ng-model="soundLinkCtrl.albumFilter.artisteName">
+        </div>
+    </div>
+    <div class="midhead"><span class="title">Sound Link</span></div>
+    <div class="righthead"></div>
+    <ng-include src="'./app/modules/soundlink_ihm/header/band/band.html'"></ng-include>
+</header>
