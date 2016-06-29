@@ -1,0 +1,237 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>soundlink</groupId>
+	<artifactId>soundlink</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+
+		<spring.version>4.2.5.RELEASE</spring.version>
+		<spring.boot.version>1.3.3.RELEASE</spring.boot.version>
+
+		<h2.database.version>1.4.191</h2.database.version>
+		<postgres.database.version>9.1-901-1.jdbc4</postgres.database.version>
+
+		<junit.version>4.11</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<servlet.api.version>3.1.0</servlet.api.version>
+		<jackson.version>2.7.2</jackson.version>
+
+		<dozer.version>5.5.1</dozer.version>
+
+		<jaudio.tagger.version>2.2.6-SNAPSHOT</jaudio.tagger.version>
+		<xutils.version>0.0.1-SNAPSHOT</xutils.version>
+
+		<apache.commons.io.version>2.4</apache.commons.io.version>
+		<apache.commons.collection.version>3.2.2</apache.commons.collection.version>
+		<apache.commons.lang3.version>3.4</apache.commons.lang3.version>
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.3.3.RELEASE</version>
+	</parent>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Personnel -->
+			<dependency>
+				<groupId>xutils</groupId>
+				<artifactId>xutils</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Project -->
+			<dependency>
+				<groupId>soundlink</groupId>
+				<artifactId>soundlink_service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>soundlink</groupId>
+				<artifactId>soundlink_model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>soundlink</groupId>
+				<artifactId>soundlink_server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>soundlink</groupId>
+				<artifactId>soundlink_dao</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Spring boot -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter</artifactId>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-websocket</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-messaging</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<version>${spring.boot.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Spring security -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-security</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Base de données H2 -->
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgres.database.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>${dozer.version}</version>
+			</dependency>
+			<!-- JSON Jackson -->
+			<!-- <dependency> -->
+			<!-- <groupId>com.fasterxml.jackson.core</groupId> -->
+			<!-- <artifactId>jackson-core</artifactId> -->
+			<!-- <version>${jackson.version}</version> -->
+			<!-- </dependency> -->
+			<!-- <dependency> -->
+			<!-- <groupId>com.fasterxml.jackson.core</groupId> -->
+			<!-- <artifactId>jackson-annotations</artifactId> -->
+			<!-- <version>${jackson.version}</version> -->
+			<!-- </dependency> -->
+			<!-- <dependency> -->
+			<!-- <groupId>com.fasterxml.jackson.core</groupId> -->
+			<!-- <artifactId>jackson-databind</artifactId> -->
+			<!-- <version>${jackson.version}</version> -->
+			<!-- </dependency> -->
+
+			<!-- Audio Tagger -->
+			<dependency>
+				<groupId>org</groupId>
+				<artifactId>jaudiotagger</artifactId>
+				<version>${jaudio.tagger.version}</version>
+			</dependency>
+
+			<!-- Apache Common -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${apache.commons.io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>${apache.commons.collection.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commons.lang3.version}</version>
+			</dependency>
+
+			<!-- Logger -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<!-- Test -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<scope>test</scope>
+				<version>${junit.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>soundlink_security</module>
+		<module>soundlink_server</module>
+		<module>soundlink_service</module>
+		<module>soundlink_dao</module>
+		<module>soundlink_model</module>
+	</modules>
+
+	<profiles>
+		<profile>
+			<id>soundLinkDev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<play.workspace>${project.parent.basedir}</play.workspace>
+				<play.configDir>${play.workspace}/config/dev</play.configDir>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<!-- Tell maven to filtre resources -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
