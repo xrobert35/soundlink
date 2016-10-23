@@ -39,11 +39,6 @@ public class SoundLinkController {
     @Autowired
     private MusicDtoConverter musicDtoConverter;
 
-    @RequestMapping(value = "/ping", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    public String ping() {
-        return "ok";
-    }
-
     /**
      * Entry point to get all albums
      *

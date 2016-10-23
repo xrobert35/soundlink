@@ -9,7 +9,7 @@ package soundlink.service.business;
 public interface MusicExplorerService {
 
     /**
-     * Method used to load from a path It will create new artiste, new album,
+     * Method used to load from a path. It will create new artiste, new album,
      * new music if they don't already exist
      *
      * @param rootPath

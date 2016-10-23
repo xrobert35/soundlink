@@ -1,6 +1,7 @@
 package soundlink.model.entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -121,72 +122,22 @@ public class Music {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((album == null) ? 0 : album.hashCode());
-        result = prime * result + ((bitRate == null) ? 0 : bitRate.hashCode());
-        result = prime * result + ((durationInSeconde == null) ? 0 : durationInSeconde.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((trackNumber == null) ? 0 : trackNumber.hashCode());
-        return result;
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Music)) {
+            return false;
+        }
+        Music castOther = (Music) other;
+        return Objects.equals(id, castOther.id) || Objects.equals(name, castOther.name)
+                && Objects.equals(album, castOther.album) && Objects.equals(trackNumber, castOther.trackNumber)
+                && Objects.equals(durationInSeconde, castOther.durationInSeconde)
+                && Objects.equals(bitRate, castOther.bitRate) && Objects.equals(extension, castOther.extension);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Music)) {
-            return false;
-        }
-        Music other = (Music) obj;
-        if (album == null) {
-            if (other.album != null) {
-                return false;
-            }
-        } else if (!album.equals(other.album)) {
-            return false;
-        }
-        if (bitRate == null) {
-            if (other.bitRate != null) {
-                return false;
-            }
-        } else if (!bitRate.equals(other.bitRate)) {
-            return false;
-        }
-        if (durationInSeconde == null) {
-            if (other.durationInSeconde != null) {
-                return false;
-            }
-        } else if (!durationInSeconde.equals(other.durationInSeconde)) {
-            return false;
-        }
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        if (trackNumber == null) {
-            if (other.trackNumber != null) {
-                return false;
-            }
-        } else if (!trackNumber.equals(other.trackNumber)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, name, album, trackNumber, durationInSeconde, bitRate, extension);
     }
 }

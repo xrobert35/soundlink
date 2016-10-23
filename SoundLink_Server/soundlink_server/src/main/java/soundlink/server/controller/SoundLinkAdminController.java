@@ -26,7 +26,7 @@ public class SoundLinkAdminController {
 
     /**
      * Entry point used to load all music from the music folder
-     * 
+     *
      * @See application.properties
      */
     @RequestMapping(value = "/loadmusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

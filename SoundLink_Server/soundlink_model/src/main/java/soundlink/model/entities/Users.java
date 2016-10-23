@@ -1,6 +1,7 @@
 package soundlink.model.entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -94,56 +95,21 @@ public class Users {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((role == null) ? 0 : role.hashCode());
-        result = prime * result + ((login == null) ? 0 : login.hashCode());
-        return result;
+    public boolean equals(final Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Users)) {
+            return false;
+        }
+        Users castOther = (Users) other;
+        return Objects.equals(id, castOther.id) && Objects.equals(login, castOther.login)
+                && Objects.equals(password, castOther.password) && Objects.equals(email, castOther.email)
+                && Objects.equals(role, castOther.role);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Users)) {
-            return false;
-        }
-        Users other = (Users) obj;
-        if (email == null) {
-            if (other.email != null) {
-                return false;
-            }
-        } else if (!email.equals(other.email)) {
-            return false;
-        }
-        if (password == null) {
-            if (other.password != null) {
-                return false;
-            }
-        } else if (!password.equals(other.password)) {
-            return false;
-        }
-        if (role == null) {
-            if (other.role != null) {
-                return false;
-            }
-        } else if (!role.equals(other.role)) {
-            return false;
-        }
-        if (login == null) {
-            if (other.login != null) {
-                return false;
-            }
-        } else if (!login.equals(other.login)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id, login, password, email, role);
     }
 }
