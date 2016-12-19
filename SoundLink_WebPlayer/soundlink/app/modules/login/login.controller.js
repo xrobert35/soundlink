@@ -1,19 +1,21 @@
-angular.module('mod-login').controller('loginController', ['loginService', 'eventManager', loginController]);
+angular.module('mod-login').controller('loginController', loginController);
 
-function loginController(loginService, eventManager) {
-    var controller = this;
+loginController.$inject = ['$state','loginService'];
 
-    controller.username = "";
-    controller.password = "";
-    controller.loginMessage = "";
+function loginController($state, loginService) {
+    var vm = this;
 
-    controller.login = function login() {
-        controller.loginMessage = "Connecting...";
-        loginService.login(controller.username, controller.password).then(function (message) {
-            controller.loginMessage = "Connection success"
-        }).catch(function (message) {
-            console.log(message);
-            controller.loginMessage = message;
+    vm.login = function login() {
+        vm.loginMessage = "Connecting...";
+        loginService.login(vm.username, vm.password).then(function (message) {
+            vm.loginMessage = "Connection success";
+            $state.go('soundlink');
+        }).catch(function (data, status) {
+            if (status === -1) {
+                vm.loginMessage = 'Communication problem : contact the administrator';
+            } else {
+                vm.loginMessage = 'Wrong login/password';
+            }
         });
     };
 }

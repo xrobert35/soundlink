@@ -4,7 +4,7 @@ function urlLanguageStore($location) {
     return {
         put: function (name, value) { },
         get: function (name) {
-            return $location.search()['lang']
+            return $location.search()['lang'];
         }
     };
 }

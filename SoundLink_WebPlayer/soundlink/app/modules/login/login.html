@@ -1,11 +1,23 @@
-<div class="loginPage">
-    <div class="loginPanel">
-        <h1> SoundLink </h1>
-        <form>
-            <span ng-if="loginCtrl.loginMessage">{{loginCtrl.loginMessage}}</span>
-            <span><label>Login :  </label><input type="text" ng-model="loginCtrl.username" /></span>
-            <span><label>Password : </label><input type="password" ng-model="loginCtrl.password" /></span>
-            <span class="submit"><button ng-click="loginCtrl.login()"> Login </button></span>
-        </form>
+<form ng-submit="vm.login()">
+    <div class="heightfull" layout="row" layout-align="center center" flex>
+        <div layout="row" class="background-white" layout-align="center" flex>
+            <div layout="column" flex="30">
+                <h1 layout="row" layout-align="center"> SoundLink </h1>
+                <span ng-if="vm.loginMessage">{{vm.loginMessage}}</span>
+                <md-input-container>
+                    <label>Login</label>
+                    <input type="text" ng-model="vm.username" /></span>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password</label>
+                    <input type="password" ng-model="vm.password" />
+                </md-input-container>
+                <div layout="row" layout-align="center">
+                    <md-button class="md-raised" type="submit">
+                        <span>Login</span>
+                    </md-button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</form>

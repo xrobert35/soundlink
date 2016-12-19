@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import soundlink.server.dto.socket.Greeting;
+import soundlink.dto.socket.Greeting;
 
 @Controller
 public class SoundLinkSocketController {

@@ -1,11 +1,21 @@
-<header ng-controller="headerController as ctrlHeader" class="header">
-    <div class="lefthead">
-        <div class="search">
-            <span> Recherche : </span>
-            <input type="text" ng-model="soundLinkCtrl.albumFilter.artisteName">
+<header layout="row">
+    <md-button class="md-raised" ng-click="$ctrl.showMenu()">
+        <md-icon>menu</md-icon>
+    </md-button>
+    <md-toolbar class="md-raised">
+        <div class="md-toolbar-tools">
+            <span class="margin-left-10 font-orange">SoundLink</span>
+            <span flex></span>
+            <md-menu md-offset="0 -5">
+                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, ev)">
+                    <md-icon>menu</md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item ng-repeat="item in $ctrl.getMenuItems()">
+                        <md-button ng-click="item.action()"><span md-menu-align-target></span> {{item.libelle}} </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </div>
-    </div>
-    <div class="midhead"><span class="title">Sound Link</span></div>
-    <div class="righthead"></div>
-    <ng-include src="'./app/modules/soundlink_ihm/header/band/band.html'"></ng-include>
+    </md-toolbar>
 </header>

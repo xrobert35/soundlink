@@ -1,4 +1,8 @@
-angular.module("soundlink").config(function ($stateProvider, $urlRouterProvider) {
+angular.module("soundlink").config(artistesConfig);
+
+artistesConfig.$inject = ['$stateProvider'];
+
+function artistesConfig ($stateProvider, $urlRouterProvider) {
 
     var viewFolder = "app/modules/soundlink_ihm/pages";
 
@@ -8,4 +12,4 @@ angular.module("soundlink").config(function ($stateProvider, $urlRouterProvider)
         controllerAs: "artistesCtrl",
         templateUrl: viewFolder + '/artistes/artistes.html'
     });
-});
+}

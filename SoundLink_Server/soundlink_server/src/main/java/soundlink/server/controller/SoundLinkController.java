@@ -12,26 +12,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import soundlink.server.converter.AlbumDtoConverter;
-import soundlink.server.converter.MusicDtoConverter;
-import soundlink.server.dto.AlbumDto;
-import soundlink.server.dto.MusicDto;
-import soundlink.service.manager.AlbumManager;
-import soundlink.service.manager.MusicManager;
-import soundlink.service.manager.impl.FileManagerImpl;
+import soundlink.dto.AlbumDto;
+import soundlink.dto.MusicDto;
+import soundlink.service.converter.AlbumDtoConverter;
+import soundlink.service.converter.MusicDtoConverter;
+import soundlink.service.manager.IAlbumManager;
+import soundlink.service.manager.IMusicManager;
+import soundlink.service.manager.impl.FileManager;
 
 @RestController
 @RequestMapping("/soundlink")
 public class SoundLinkController {
 
     @Autowired
-    private FileManagerImpl fileManager;
+    private FileManager fileManager;
 
     @Autowired
-    private AlbumManager albumManager;
+    private IAlbumManager albumManager;
 
     @Autowired
-    private MusicManager musicManager;
+    private IMusicManager musicManager;
 
     @Autowired
     private AlbumDtoConverter albumDtoConverter;
@@ -46,7 +46,7 @@ public class SoundLinkController {
      */
     @RequestMapping(value = "/albums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Set<AlbumDto> getAlbums() {
-        Set<AlbumDto> allAlbums = albumDtoConverter.convertToDtoSet(albumManager.getAllAlbums(), AlbumDto.class);
+        Set<AlbumDto> allAlbums = albumDtoConverter.convertToDtoSet(albumManager.getAllAlbums());
         return allAlbums;
     }
 
@@ -61,8 +61,7 @@ public class SoundLinkController {
         if (albumId == null) {
             throw new InvalidParameterException("Album id cannot be null");
         }
-        Set<MusicDto> musicsFromAlbum = musicDtoConverter.convertToDtoSet(musicManager.getMusicsFromAlbum(albumId),
-                MusicDto.class);
+        Set<MusicDto> musicsFromAlbum = musicDtoConverter.convertToDtoSet(musicManager.getMusicsFromAlbum(albumId));
         return musicsFromAlbum;
     }
 
@@ -88,6 +87,6 @@ public class SoundLinkController {
     @RequestMapping(value = "/image/{path}/{name}.{ext}", produces = MediaType.IMAGE_PNG_VALUE)
     public FileSystemResource showImage(@PathVariable("path") String path, @PathVariable("name") String name,
             @PathVariable("ext") String ext) {
-        return new FileSystemResource(fileManager.getFile(path + FileManagerImpl.separator + name + "." + ext));
+        return new FileSystemResource(fileManager.getFile(path + FileManager.separator + name + "." + ext));
     }
 }

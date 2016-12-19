@@ -15,7 +15,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>soundlink</groupId>
+			<artifactId>soundlink_security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>soundlink</groupId>
 			<artifactId>soundlink_service</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>soundlink</groupId>
+			<artifactId>soundlink_dto</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

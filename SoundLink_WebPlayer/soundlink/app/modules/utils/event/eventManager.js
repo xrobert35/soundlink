@@ -6,10 +6,10 @@ function eventManager($q) {
 
     this.subscribeToEvent = function subscribeToEvent(event, listener) {
         if (!subscribers[event]) {
-            subscribers[event] = new Array();
+            subscribers[event] = [];
         }
         subscribers[event].push(listener);
-    }
+    };
 
     this.fireEvent = function (event, info) {
         if (subscribers[event]) {
@@ -17,5 +17,5 @@ function eventManager($q) {
                 listener(info);
             });
         }
-    }
+    };
 }

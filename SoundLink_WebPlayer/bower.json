@@ -1,22 +1,26 @@
 {
-	"name" : "asi_intra",
-	"dependencies": {
-		"angular-sanitize" : "1.5.5",
-		"sockjs": "0.3.4",
-        "stomp-websocket": "2.3.4",
-        "ng-websocket" : "0.2.1",
-        "angular-websocket" : "1.0.13",
-		"angular" :"1.5.5",
-        "angular-translate" : "2.10.0",
-        "angular-translate-loader-url" : "2.10.0",
-        "angular-soundmanager2" : "0.5.6",
-        "angular.less" : "latest",
-        "less" : "2.5.1",
-        "angular-cookies" : "1.5.0",
-		"angular-resource" : "1.5.5",
-		"ui-router" :"0.2.18"
-	}
-	,"devDependencies": {
-		"angular-mocks": "latest"
-	}	
+  "name": "asi_intra",
+  "dependencies": {
+    "angular-sanitize": "1.5.5",
+    "sockjs": "0.3.4",
+    "stomp-websocket": "2.3.4",
+    "ng-websocket": "0.2.1",
+    "angular-websocket": "1.0.13",
+    "angular": "1.5.9",
+    "angular-translate": "2.10.0",
+    "angular-translate-loader-url": "2.10.0",
+    "angular-soundmanager2": "0.5.6",
+    "angular.less": "latest",
+    "angular-aria": "1.5.9",
+    "angular-animate": "1.5.9",
+    "angular-material": "1.1.x",
+    "material-design-icons" : "3.0.1",
+    "less": "2.5.1",
+    "angular-cookies": "1.5.0",
+    "angular-resource": "1.5.5",
+    "ui-router": "0.2.18"
+  },
+  "devDependencies": {
+    "angular-mocks": "latest"
+  }
 }

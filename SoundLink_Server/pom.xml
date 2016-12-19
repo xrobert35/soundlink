@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>soundlink</groupId>
 	<artifactId>soundlink</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -50,6 +50,11 @@
 			<!-- Project -->
 			<dependency>
 				<groupId>soundlink</groupId>
+				<artifactId>soundlink_security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>soundlink</groupId>
 				<artifactId>soundlink_service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -68,7 +73,11 @@
 				<artifactId>soundlink_dao</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>soundlink</groupId>
+				<artifactId>soundlink_dto</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- Spring boot -->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -125,7 +134,7 @@
 				<scope>provided</scope>
 			</dependency>
 
-			<!-- Base de données H2 -->
+			<!-- Base de données -->
 			<dependency>
 				<groupId>postgresql</groupId>
 				<artifactId>postgresql</artifactId>
@@ -136,22 +145,6 @@
 				<artifactId>dozer</artifactId>
 				<version>${dozer.version}</version>
 			</dependency>
-			<!-- JSON Jackson -->
-			<!-- <dependency> -->
-			<!-- <groupId>com.fasterxml.jackson.core</groupId> -->
-			<!-- <artifactId>jackson-core</artifactId> -->
-			<!-- <version>${jackson.version}</version> -->
-			<!-- </dependency> -->
-			<!-- <dependency> -->
-			<!-- <groupId>com.fasterxml.jackson.core</groupId> -->
-			<!-- <artifactId>jackson-annotations</artifactId> -->
-			<!-- <version>${jackson.version}</version> -->
-			<!-- </dependency> -->
-			<!-- <dependency> -->
-			<!-- <groupId>com.fasterxml.jackson.core</groupId> -->
-			<!-- <artifactId>jackson-databind</artifactId> -->
-			<!-- <version>${jackson.version}</version> -->
-			<!-- </dependency> -->
 
 			<!-- Audio Tagger -->
 			<dependency>
@@ -200,6 +193,7 @@
 		<module>soundlink_service</module>
 		<module>soundlink_dao</module>
 		<module>soundlink_model</module>
+		<module>soundlink_dto</module>
 	</modules>
 
 	<profiles>

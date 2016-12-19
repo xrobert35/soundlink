@@ -16,8 +16,8 @@ function SocketProvider(SOCKET_EVENTS) {
         //Global service var
         var stompClient = null;
 
-        var onConnectCallBakcs = new Array();
-        var onDisconnectCallBacks = new Array();
+        var onConnectCallBakcs = [];
+        var onDisconnectCallBacks = [];
 
         var subscribedServices = {};
 
@@ -30,7 +30,7 @@ function SocketProvider(SOCKET_EVENTS) {
 
 
             var deferred = $q.defer();
-            if (providerArgs.serverUrl == null) {
+            if (providerArgs.serverUrl === null) {
                 deferred.reject("Server url is undefined, please configure serverUrl thank to the provider");
             } else {
                 var socket = new SockJS(providerArgs.serverUrl);
@@ -52,14 +52,14 @@ function SocketProvider(SOCKET_EVENTS) {
                 });
             }
             return deferred.promise;
-        }
+        };
 
         /**
          * Disconnection function
          */
         socketService.disconnect = function disconnect() {
             var deferred = $q.defer();
-            if (stompClient != null) {
+            if (stompClient !== null) {
                 stompClient.disconnect(function () {
                     deferred.resolve(providerArgs.serverUrl);
                     subscribedServices = {};
@@ -69,13 +69,13 @@ function SocketProvider(SOCKET_EVENTS) {
                 deferred.reject(providerArgs.serverUrl);
             }
             return deferred.promise;
-        }
+        };
 
         /**
          * Subscribing function
          */
         socketService.subscribe = function subscribe(service, listener) {
-            if (stompClient != null) {
+            if (stompClient !== null) {
                 if (!subscribedServices[service]) {
                     var subscribeInfo = stompClient.subscribe(service, function (info) {
                         listener.call(info);
@@ -83,7 +83,7 @@ function SocketProvider(SOCKET_EVENTS) {
                     subscribedServices[service] = subscribeInfo;
                 }
             }
-        }
+        };
 
         /**
          * Unsubscribing function
@@ -93,14 +93,14 @@ function SocketProvider(SOCKET_EVENTS) {
                 subscribedServices[service].unsubscribe();
                 delete subscribedServices[service];
             }
-        }
+        };
 
         /**
          * Send message function
          */
         socketService.sendMessage = function (service, jsonstr) {
             stompClient.send(service, {}, jsonstr);
-        }
+        };
 
         /**
          * Allow you to had a connection listener
@@ -142,4 +142,4 @@ var socketsEvents = {
     "DISCONNECTED": "disconnected",
     "SUBSCRIBED": "subcribe",
     "UNSUBSCRIBED": "unsubcribed"
-}
+};

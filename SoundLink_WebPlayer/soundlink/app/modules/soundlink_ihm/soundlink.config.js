@@ -9,6 +9,6 @@ angular.module("soundlink").config(function ($stateProvider, $urlRouterProvider)
         controller: "soundlinkController",
         controllerAs: "soundlinkCtrl",
         templateUrl: viewFolder + '/soundlink.html',
-        abstract : true
+        redirectTo : 'soundlink.albums'
     });
 });

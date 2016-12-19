@@ -1,5 +1,5 @@
-angular.module('soundlink').controller('artistesController', ['socketService', 'musicService', 'eventManager', artistesController]);
+angular.module('soundlink').controller('artistesController', artistesController);
 
-function artistesController(socketService, musicService, eventManager) {
+function artistesController() {
         var controller = this;
 }

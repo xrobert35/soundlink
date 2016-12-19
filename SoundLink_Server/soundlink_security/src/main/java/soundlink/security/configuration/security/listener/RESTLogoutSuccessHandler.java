@@ -15,14 +15,14 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  * approach.
  */
 public class RESTLogoutSuccessHandler implements LogoutSuccessHandler {
-	@Override
-	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException, ServletException {
 
-		Cookie cookie = new Cookie("JSESSIONID", "");
-		cookie.setPath("/SoundLink_Server/");
-		cookie.setHttpOnly(true);
-		response.addCookie(cookie);
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setPath("/soundlink_server/");
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
 
-	}
+    }
 }

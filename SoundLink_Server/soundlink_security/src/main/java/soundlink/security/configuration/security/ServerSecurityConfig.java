@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import soundlink.security.configuration.security.filter.CsrfTokenResponseCookieBindingFilter;
 import soundlink.security.configuration.security.filter.RESTCrossDomainFilter;
@@ -40,76 +39,77 @@ import soundlink.security.configuration.security.service.TokenAuthenticationServ
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Resource
-	private RESTCrossDomainFilter crossDomainFilter;
-	@Resource
-	private CsrfTokenResponseCookieBindingFilter csrfTokenFilter;
-	@Resource
-	private AuthenticationEntryPoint authenticationEntryPoint;
-	@Resource
-	private AuthenticationFailureHandler authenticationFailureHandler;
-	@Resource
-	private AuthenticationSuccessHandler authenticationSuccessHandler;
-	@Resource
-	private LogoutSuccessHandler logoutSuccessHandler;
+    @Resource
+    private RESTCrossDomainFilter crossDomainFilter;
+    @Resource
+    private CsrfTokenResponseCookieBindingFilter csrfTokenFilter;
+    @Resource
+    private AuthenticationEntryPoint authenticationEntryPoint;
+    @Resource
+    private AuthenticationFailureHandler authenticationFailureHandler;
+    @Resource
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Resource
+    private LogoutSuccessHandler logoutSuccessHandler;
 
-	@Autowired
-	@Qualifier("soundlinkUserDetails")
-	private UserDetailsService userDetailsService;
+    @Autowired
+    @Qualifier("soundlinkUserDetails")
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	@Qualifier("bCryptPasswordEncoder")
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    @Qualifier("bCryptPasswordEncoder")
+    private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private TokenAuthenticationService tokenAuthenticationService;
+    @Autowired
+    private TokenAuthenticationService tokenAuthenticationService;
 
-	public ServerSecurityConfig() {
-		super(true);
-	}
+    public ServerSecurityConfig() {
+        super(true);
+    }
 
-	@Override
-	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-	}
+    @Override
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// Allow unauthenticaded request on /login
-		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests = http
-				.authorizeRequests();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // Allow unauthenticaded request on /login
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests = http
+                .authorizeRequests();
 
-		http.exceptionHandling().and().anonymous().and().servletApi().and().headers().cacheControl();
+        http.exceptionHandling().and().anonymous().and().servletApi().and().headers().cacheControl();
 
-		authorizeRequests = authorizeRequests.antMatchers("security/login", "/soundlinkMessage/**/*").permitAll();
-		authorizeRequests = authorizeRequests.antMatchers("/admin/**").hasRole("ADMIN");
-		authorizeRequests = authorizeRequests.anyRequest().authenticated();
+        authorizeRequests = authorizeRequests.antMatchers("/security/login", "/message/**/*").permitAll();
+        authorizeRequests = authorizeRequests.antMatchers("/admin/**").hasRole("ADMIN");
+        authorizeRequests = authorizeRequests.anyRequest().authenticated();
 
-		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("security/logout"));
+        // http.logout().logoutRequestMatcher(new
+        // AntPathRequestMatcher("/security/logout"));
 
-		// Handlers and entry points
-		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
-		http.formLogin().successHandler(authenticationSuccessHandler);
-		http.formLogin().failureHandler(authenticationFailureHandler);
-		http.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
+        // Handlers and entry points
+        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+        http.formLogin().successHandler(authenticationSuccessHandler);
+        http.formLogin().failureHandler(authenticationFailureHandler);
+        http.logout().logoutUrl("/security/logout");
 
-		http.csrf().disable();
+        http.csrf().disable();
 
-		// Add cross domain filter and csrf filter to add token into response
-		// cookie
-		http.addFilterBefore(crossDomainFilter, ChannelProcessingFilter.class);
+        // Add cross domain filter and csrf filter to add token into response
+        // cookie
+        http.addFilterBefore(crossDomainFilter, ChannelProcessingFilter.class);
 
-		// custom JSON based authentication by POST of
-		// {"username":"<name>","password":"<password>"} which sets the token
-		// header upon authentication
-		http.addFilterBefore(new StatelessLoginFilter("/security/login", tokenAuthenticationService, userDetailsService,
-				authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        // custom JSON based authentication by POST of
+        // {"username":"<name>","password":"<password>"} which sets the token
+        // header upon authentication
+        http.addFilterBefore(new StatelessLoginFilter("/security/login", tokenAuthenticationService, userDetailsService,
+                authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 
-		// custom Token based authentication based on the header
-		// previously given to the client
-		http.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService),
-				UsernamePasswordAuthenticationFilter.class);
+        // custom Token based authentication based on the header
+        // previously given to the client
+        http.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService),
+                UsernamePasswordAuthenticationFilter.class);
 
-		// http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
-	}
+        // http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
+    }
 }

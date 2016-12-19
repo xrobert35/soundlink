@@ -1,7 +1,10 @@
-<div class="soundlink">
-    <ng-include src="'app/modules/soundlink_ihm/header/header.html'"></ng-include>
-    <ng-include src="'app/modules/soundlink_ihm/menu/menu.html'"></ng-include>
-    <ng-include src="'app/modules/soundlink_ihm/audioPlayer/audioPlayer.html'"></ng-include>
-
-    <div class="content" ui-view></div>
-</div>
+<md-content layout-fill>
+    <soundlink-header></soundlink-header>
+    <div layout="column" layout-align="space-between" layout-fill>
+        <div layout="row" layout-align="start stretch" flex>
+            <soundlink-menu></soundlink-menu>
+            <div class="content" ui-view></div>
+        </div>
+        <soundlink-audioplayer></soundlink-audioplayer>
+    </div>
+</md-content>

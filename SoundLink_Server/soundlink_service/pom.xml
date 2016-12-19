@@ -17,6 +17,10 @@
 			<groupId>soundlink</groupId>
 			<artifactId>soundlink_dao</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>soundlink</groupId>
+			<artifactId>soundlink_dto</artifactId>
+		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>xutils</groupId> -->
 		<!-- <artifactId>xutils</artifactId> -->

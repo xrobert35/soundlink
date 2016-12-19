@@ -1,42 +1,39 @@
-angular.module('soundlink').controller('albumsController', ['socketService', 'musicService', 'eventManager', albumsController]);
+angular.module('soundlink').controller('albumsController',  albumsController);
+
+albumsController.$inject = ['socketService', 'musicService', 'eventManager'];
 
 function albumsController(socketService, musicService, eventManager) {
-    var controller = this;
+    var vm = this;
 
-    controller.albums = null;
-    controller.selectedAlbum = null;
-    controller.albumMusics = null;
-    controller.albumSongs = null;
+    vm.albums = [];
 
-    controller.getAlbums = function getAlbums() {
+    vm.getAlbums = function getAlbums() {
         console.log("changement des albums");
-        musicService.getAlbums().then(function (data) {
-            controller.albums = data;
-        }).catch(function (value) {
-            eventManager.fireEvent("bandError", "Une erreur est survenu lors de la recuperation des albums");
+        musicService.getAlbums().then(function (albums) {
+            vm.albums = albums;
         });
-    }
+    };
 
-    controller.showAlbumMusics = function showAlbumMusics(album) {
-        controller.selectedAlbum = album;
+    vm.showAlbumMusics = function showAlbumMusics(album) {
+        vm.selectedAlbum = album;
         musicService.getMusicsFromAlbum(album.artisteName, album.albumName).then(function (data) {
-            controller.albumMusics = data;
-            controller.albumSongs = new Array();
-            angular.forEach(data, function (key, value) {
+            vm.albumMusics = data;
+            vm.albumSongs = [];
+            angular.forEach(data, function (music, value) {
                 var song = new Song();
-                song.setId(key.title + key.trackNumber);
-                song.setTitle(key.title);
-                song.setArtist(key.artist);
-                song.setDuration(key.duration)
-                song.setTrackNumber(key.trackNumber);
-                song.setUrl("/SoundLink_Server/soundlink/music/" + key.artist + "/" + key.album + "/" + key.title);
-                controller.albumSongs.push(song);
+                song.setId(music.title + key.trackNumber);
+                song.setTitle(music.title);
+                song.setArtist(music.artist);
+                song.setDuration(music.duration)
+                song.setTrackNumber(music.trackNumber);
+                song.setUrl("/soundlink_server/soundlink/music/" + music.id);
+                vm.albumSongs.push(song);
             });
-        }).catch(function (value) {
-            eventManager.fireEvent("bandError", "Une erreur est survenu lors de la recupation des musics pour l'album" + album.albumName);
         });
-    }
-    controller.getAlbums();
+    };
+
+
+    vm.getAlbums();
 }
 
 

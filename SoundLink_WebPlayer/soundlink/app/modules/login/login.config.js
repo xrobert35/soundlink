@@ -1,14 +1,18 @@
-angular.module("mod-login", ['ngCookies']);
+angular.module("mod-login", ['ngCookies', 'ngMaterial']);
 
 //Route configuration
-angular.module("mod-login").config(function ($stateProvider, $urlRouterProvider) {
-    
-    var viewFolder = "app/modules";
-    
+angular.module("mod-login").config(loginConfig);
+
+loginConfig.$inject = ['$stateProvider'];
+
+function loginConfig($stateProvider) {
+
+    var viewFolder = "";
+
     $stateProvider.state('login', {
         url: '/login',
         controller: "loginController",
-        controllerAs: "loginCtrl",
-        templateUrl: viewFolder + '/login/login.html'
+        controllerAs: "vm",
+        templateUrl: '/app/modules/login/login.html'
     });
-});
+}

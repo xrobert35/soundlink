@@ -30,7 +30,7 @@ public class Music {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
 
     @ManyToOne
     @JoinColumn(name = "album_id")
@@ -57,12 +57,12 @@ public class Music {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Album getAlbum() {
@@ -130,7 +130,7 @@ public class Music {
             return false;
         }
         Music castOther = (Music) other;
-        return Objects.equals(id, castOther.id) || Objects.equals(name, castOther.name)
+        return Objects.equals(id, castOther.id) || Objects.equals(title, castOther.title)
                 && Objects.equals(album, castOther.album) && Objects.equals(trackNumber, castOther.trackNumber)
                 && Objects.equals(durationInSeconde, castOther.durationInSeconde)
                 && Objects.equals(bitRate, castOther.bitRate) && Objects.equals(extension, castOther.extension);
@@ -138,6 +138,6 @@ public class Music {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, album, trackNumber, durationInSeconde, bitRate, extension);
+        return Objects.hash(id, title, album, trackNumber, durationInSeconde, bitRate, extension);
     }
 }

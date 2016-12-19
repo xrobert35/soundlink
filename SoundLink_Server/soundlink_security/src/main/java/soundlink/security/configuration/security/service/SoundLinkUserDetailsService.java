@@ -1,10 +1,6 @@
 package soundlink.security.configuration.security.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,8 +16,8 @@ public class SoundLinkUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findOne(username);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Users user = userRepository.findByLogin(login);
 
         if (user == null) {
             throw new UsernameNotFoundException("Unknow user");
@@ -32,22 +28,18 @@ public class SoundLinkUserDetailsService implements UserDetailsService {
         userDetails.setEmail(user.getEmail());
         userDetails.setPassword(user.getPassword());
         if (user.getRole() != null) {
-            userDetails.setAuthorities(getGrantedAuthorities(user.getRole().name()));
+            userDetails.getAuthorities().add(getGrantedAuthorities(user.getRole().name()));
         }
 
         return userDetails;
     }
 
-    private Collection<GrantedAuthority> getGrantedAuthorities(String userRole) {
-        Collection<GrantedAuthority> authorities;
+    private SimpleGrantedAuthority getGrantedAuthorities(String userRole) {
         if (userRole.equals("ADMIN")) {
-            SimpleGrantedAuthority admin = new SimpleGrantedAuthority("ADMIN");
-            authorities = Arrays.asList(admin);
+            return new SimpleGrantedAuthority("ADMIN");
         } else {
-            SimpleGrantedAuthority basic = new SimpleGrantedAuthority("BASIC");
-            authorities = Arrays.asList(basic);
+            return new SimpleGrantedAuthority("BASIC");
         }
-        return authorities;
     }
 
 }

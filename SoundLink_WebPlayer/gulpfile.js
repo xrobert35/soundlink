@@ -28,15 +28,18 @@ gulp.task('process-third-js', function () {
 	var src = [
 		'bower_components/angular/angular.js',
 		'bower_components/angular-resource/angular-resource.js',
+		'bower_components/angular-aria/angular-aria.js',
+		'bower_components/angular-animate/angular-animate.js',
+		'bower_components/angular-material/angular-material.js',
 		'bower_components/angular-cookies/angular-cookies.js',
 		'bower_components/angular-translate/angular-translate.js',
-        'bower_components/angular-translate-loader-url/angular-translate-loader-url.js',
+		'bower_components/angular-translate-loader-url/angular-translate-loader-url.js',
 		'bower_components/angular-ui-router/release/angular-ui-router.js',
-        'bower_components/angular-soundmanager2/dist/angular-soundmanager2.js',
-        'bower_components/angular-sanitize/angular-sanitize.js',
-        'bower_components/ui-router/release/angular-ui-router.js',
-        'bower_components/sockjs/sockjs.js',
-        'bower_components/stomp-websocket/lib/stomp.js'
+		'bower_components/angular-soundmanager2/dist/angular-soundmanager2.js',
+		'bower_components/angular-sanitize/angular-sanitize.js',
+		'bower_components/ui-router/release/angular-ui-router.js',
+		'bower_components/sockjs/sockjs.js',
+		'bower_components/stomp-websocket/lib/stomp.js'
 	];
 
 	vendorOutputStream = gulp.src(src)
@@ -62,7 +65,7 @@ gulp.task('process-third-js', function () {
 		))
 		.pipe(gulpif(envProd(), p.uglify()))
 
-		.pipe(gulp.dest(appName + '/js'));
+		.pipe(gulp.dest(appName + '/public/js'));
 });
 
 gulp.task('process-js', function () {
@@ -96,18 +99,15 @@ gulp.task('process-js', function () {
 			})
 		))
 		.pipe(gulpif(envProd(), p.uglify()))
-		.pipe(gulp.dest(appName + '/js'));
+		.pipe(gulp.dest(appName + '/public/js'));
 });
 
 gulp.task('process-css', function () {
 	var src = [
-		appName +'/app/assets/less/**/*.less',
-		'bower_components/bootstrap/less/bootstrap.less'
+		appName + '/app/assets/less/**/*.less',
+		'bower_components/material-design-icons/iconfont/material-icons.css',
+		'bower_components/angular-material/angular-material.css'
 	];
-
-	// if (getEnv() == 'DEBUG') {
-	//   src.push('app-dev/modules/**/*.scss');
-	// }
 
 	return gulp.src(src)
 		// .pipe(p.sourcemaps.init())
@@ -126,27 +126,27 @@ gulp.task('process-css', function () {
 			})
 		))
 		.pipe(gulpif(envProd(), p.cleanCss()))
-		.pipe(gulp.dest(appName + '/css'));
+		.pipe(gulp.dest(appName + '/public/css'));
 });
 
+function notifyLiveReload(event) {
+  var fileName = require('path').relative(__dirname, event.path);
+  tinylr.changed({
+    body: {
+      files: [fileName]
+    }
+  });
+}
 
 /**
  * Watch changes.
  */
-gulp.task('watch',['process'], function () {
-	
-	
+gulp.task('watch', ['process'], function () {
 	gulp.watch(appName + "/app/**/*.js", ['process-js']);
 	gulp.watch(appName + "/app/assets/less/*.less", ['process-css']);
-	// gulp.watch('app/**/*.html', ['process-templates']);
-	// gulp.watch('app/assets/img/**/*', ['process-images']);
-
-	// gulp.watch('app/modules/**/locales/locale-*.properties', ['i18n-custom']);
-
-	//   gulp.watch('public/**/*.html', notifyLiveReload);
-	//   gulp.watch('public/css/*.css', notifyLiveReload);
-	//   gulp.watch('public/js/**/*.js', notifyLiveReload);
-	//   gulp.watch('public/i18n/**/*.json', notifyLiveReload);
+	gulp.watch('public/**/*.html', notifyLiveReload);
+	gulp.watch('public/css/*.css', notifyLiveReload);
+	gulp.watch('public/js/*.js', notifyLiveReload);
 });
 
 gulp.task('process', [
