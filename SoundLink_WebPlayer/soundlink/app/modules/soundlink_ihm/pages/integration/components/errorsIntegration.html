@@ -1,0 +1,9 @@
+<md-content class="md-padding">
+  <md-list>
+    <md-list-item ng-repeat-start="error in $ctrl.errors" class="noright">
+      <p flex="50">{{ error.filePath }}</p>
+      <p layout="row" layout-align="center">{{ error.errorMessage }}</p>
+    </md-list-item>
+    <md-divider ng-repeat-end></md-divider>
+  </md-list>
+</md-content>

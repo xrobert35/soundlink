@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -26,9 +27,10 @@ import javax.persistence.Table;
 public class Music {
 
     @Id
+    @SequenceGenerator(name = "music_id_seq", sequenceName = "music_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "music_id_seq")
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String title;
 
@@ -46,14 +48,16 @@ public class Music {
 
     private String musicFilePath;
 
+    private Long musicFileSize;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "musics")
     private Set<Playlist> playlist = new HashSet<Playlist>(0);
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -93,8 +97,8 @@ public class Music {
         return bitRate;
     }
 
-    public void setBitRate(String byteRate) {
-        this.bitRate = byteRate;
+    public void setBitRate(String bitRate) {
+        this.bitRate = bitRate;
     }
 
     public String getExtension() {
@@ -119,6 +123,14 @@ public class Music {
 
     public void setMusicFilePath(String musicFilePath) {
         this.musicFilePath = musicFilePath;
+    }
+
+    public Long getMusicFileSize() {
+        return musicFileSize;
+    }
+
+    public void setMusicFileSize(Long musicFileSize) {
+        this.musicFileSize = musicFileSize;
     }
 
     @Override

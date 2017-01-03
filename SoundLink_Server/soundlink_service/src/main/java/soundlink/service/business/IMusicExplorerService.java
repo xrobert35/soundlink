@@ -1,5 +1,7 @@
 package soundlink.service.business;
 
+import soundlink.dto.IntegrationDto;
+
 /**
  * Service used to explore music files
  *
@@ -15,6 +17,6 @@ public interface IMusicExplorerService {
      * @param rootPath
      * @throws Exception
      */
-    void loadMusics() throws Exception;
+    IntegrationDto loadMusics();
 
 }

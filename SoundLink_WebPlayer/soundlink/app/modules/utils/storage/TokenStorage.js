@@ -1,4 +1,4 @@
-angular.module("soundlink-data").factory('tokenStorage', function () {
+angular.module("soundlink").factory('tokenStorage', function () {
     var storageKey = 'auth_token';
     return {
         store: function (token) {

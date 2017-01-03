@@ -35,11 +35,7 @@ public class SoundLinkUserDetailsService implements UserDetailsService {
     }
 
     private SimpleGrantedAuthority getGrantedAuthorities(String userRole) {
-        if (userRole.equals("ADMIN")) {
-            return new SimpleGrantedAuthority("ADMIN");
-        } else {
-            return new SimpleGrantedAuthority("BASIC");
-        }
+        return new SimpleGrantedAuthority(userRole);
     }
 
 }

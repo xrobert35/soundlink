@@ -20,7 +20,6 @@ public class MusicDtoConverter extends AbstractDtoConverter<Music, MusicDto> {
 
     @Override
     protected void subConvertToEntity(MusicDto dto, Music entity) {
-
     }
 
 }

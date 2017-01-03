@@ -1,44 +1,39 @@
-<div>
+<md-content class="audio-player">
     <sound-manager></sound-manager>
 
-    <div>
-        <p class="playing">
-            Currently Playing: {{ currentPlaying.title }} by {{ currentPlaying.artist }} ({{ currentPosition }} / {{ currentDuration
-            }}) {{repeat}}
-        </p>
-        <md-icon ng-if="!isPlaying" data-play="Play!" class="md-48">play_circle_filled</md-icon>
-        <md-icon ng-if="isPlaying" data-pause="Pause!">pause_circle_filled</md-icon>
-        <md-icon>stop</md-icon>
-
-        <md-icon>repeat</md-icon>
-        <md-icon>repeat_one</md-icon>
-
-        <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"></md-progress-linear>
-
-        <md-slider-container>
-            <md-icon>volume_up</md-icon>
-            <md-slider flex min="0" max="255" ng-model="color.red" aria-label="red" id="red-slider">
-            </md-slider>
-        </md-slider-container>
-
-        <!--<a ng-if="repeat" ng-click="ctrl2.toto" repeat-music class="circleButton" ng-include="'app/assets/svg/repeat-icon.svg'"></a>-->
-        <!--<a repeat-music class="circleButton" ng-class="{'selected' : repeat}" ng-include="'app/assets/svg/repeat-icon.svg'"></a>
-        <a class="circleButton" ng-include="'app/assets/svg/random-icon.svg'"></a>
-        <a class="circleButton" ng-include="'app/assets/svg/speaker-volume.svg'"></a>-->
-
-
-        <!--<div class="volume" volume-bar>
-            <div class="volumeBorder">
-                <a class="circleButton volumeButton" ng-include="'app/assets/svg/volume-circle.svg'" ng-style="{'left' : volume-8 + 'px'}"></a>
-                <div class="bar" ng-style="{'width' : volume + 'px', 'background-color' : red}"></div>
-            </div>
-        </div>-->
-    </div>
-
-    <!--<div class="loading" seek-track>
-        <div class="loadingBorder">
-            <a class="circleButton loadingButton" ng-include="'app/assets/svg/music-circle.svg'" ng-style="{'left' : ((progress*500)/100)-16 + 'px'}"></a>
-            <div class="bar" ng-style="{'width' : progress + '%', 'background-color' : soundLinkCtrl.selectedAlbum.coverGeneralColor}"></div>
+    <div layout="column">
+        <div>
+            <md-progress-linear md-mode="determinate" value="{{$ctrl.getProgress()}}"></md-progress-linear>
         </div>
-    </div>-->
-</div>
+        <div layout="row" layout-align="center">
+            <div flex></div>
+            <md-button previous-music class="no-margin">
+                <md-icon>skip_previous</md-icon>
+            </md-button>
+            <md-button play-music ng-if="!$ctrl.isPlaying()" class="no-margin">
+                <md-icon>play_circle_filled</md-icon>
+            </md-button>
+            <md-button pause-music ng-if="$ctrl.isPlaying()" class="no-margin">
+                <md-icon>pause_circle_filled</md-icon>
+            </md-button>
+            <md-button next-music class="no-margin">
+                <md-icon>skip_next</md-icon>
+            </md-button>
+            <md-button repeat-music class="no-margin" ng-class="{'selected' : repeat}">
+                <md-icon>repeat</md-icon>
+            </md-button>
+            <!--<md-button class="no-margin">
+                <md-icon>repeat_one</md-icon>
+            </md-button>-->
+            <md-slider-container class="margin-left-20">
+                <md-icon>volume_up</md-icon>
+                <md-slider flex min="0" max="255" ng-model="color.red" aria-label="red" id="red-slider"></md-slider>
+            </md-slider-container>
+            <div layout="row" layout-align="end" flex>
+                <md-button ng-click="$ctrl.openPlaylist()">
+                    <md-icon>list</md-icon>
+                </md-button>
+            </div>
+        </div>
+    </div>
+</md-content>

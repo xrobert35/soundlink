@@ -10,7 +10,7 @@ import soundlink.model.entities.Artiste;
  * @author xrobert
  *
  */
-public interface ArtisteRepository extends JpaRepository<Artiste, Long> {
+public interface ArtisteRepository extends JpaRepository<Artiste, Integer> {
 
     /**
      * Allow you to find an artiste by is name

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('soundlink').directive('screenHeight', function ($window) {
     return function (scope, element) {
         var w = angular.element($window);

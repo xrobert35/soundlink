@@ -5,34 +5,20 @@ angular.module('soundlink').component('soundlinkHeader', {
     controller: headerController
 });
 
-headerController.$inject = ['loginService', 'eventManager','$location'];
+headerController.$inject = ['$scope', 'loginService', 'eventManager', '$state', 'userStorage'];
 
-function headerController(loginService, eventManager, $location) {
+function headerController($scope, loginService, eventManager, $state, userStorage) {
     var vm = this;
 
-    var originatorEv;
+    vm.userInformation = userStorage.getUserInformation();
 
-    vm.openMenu = function ($mdOpenMenu, ev) {
-        originatorEv = ev;
-        $mdOpenMenu(ev);
-    };
+    $scope.$watch('menuOpen', function (isOpen) {
+        eventManager.fireEvent("menuOpen", isOpen);
+    });
 
-    vm.showMenu = function(){
-        eventManager.fireEvent("showMenu");
-    };
-
-    var menuItems = [{
-        libelle : "Logout",
-        action : logout
-    }];
-
-    vm.getMenuItems = function(){
-        return menuItems;
-    };
-
-    function logout(){
-        loginService.logout().then(function(){
-            $location.path('/');
+    vm.logout = function () {
+        loginService.logout().then(function () {
+            $state.go('login');
         });
-    }
+    };
 }

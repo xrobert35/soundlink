@@ -8,5 +8,5 @@ package soundlink.model.enums;
  */
 public enum UserRoleEnum {
 
-    BASIC, ADMIN
+    ROLE_BASIC, ROLE_ADMIN
 }

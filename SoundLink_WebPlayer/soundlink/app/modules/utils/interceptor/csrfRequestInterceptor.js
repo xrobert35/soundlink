@@ -1,4 +1,4 @@
-angular.module("soundlink-data").factory('csrfRequestInterceptor', csrfRequestInterceptor);
+angular.module("soundlink").factory('csrfRequestInterceptor', csrfRequestInterceptor);
 
 csrfRequestInterceptor.$inject = ['$q', 'tokenStorage', '$location'];
 

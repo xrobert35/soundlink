@@ -1,24 +1,30 @@
-'use strict'; 
+'use strict';
 
 angular.module('soundlink').component('soundlinkMenu', {
     templateUrl: 'app/modules/soundlink_ihm/menu/menu.html',
     controller: menuController
 });
 
-menuController.$inject = ['eventManager', '$rootScope', 'soundlinkadminResource'];
+menuController.$inject = ['eventManager', '$rootScope', '$state'];
 
-function menuController(eventManager, $rootScope, soundlinkadminResource) {
+function menuController(eventManager, $rootScope, $state) {
     var vm = this;
 
-    vm.showMenu = true;
+    vm.showMenu = false;
 
     vm.isCurrentUrl = function isCurrentUrl(url) {
         return $rootScope.currentStateUrl === url;
     };
 
-    eventManager.subscribeToEvent("showMenu", function () {
-        vm.showMenu = !vm.showMenu;
+    eventManager.subscribeToEvent("menuOpen", function (isOpen) {
+        vm.showMenu = isOpen;
     });
 
-    vm.loadMusics = soundlinkadminResource.loadMusics;
+    vm.goToIntegration = function () {
+        $state.go("soundlink.integration");
+    };
+
+    vm.goToUserProfile = function () {
+        $state.go("soundlink.userprofile");
+    };
 }

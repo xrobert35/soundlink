@@ -1,4 +1,4 @@
-angular.module("soundlink-data").service('eventManager', eventManager);
+angular.module("soundlink").service('eventManager', eventManager);
 
 function eventManager($q) {
 

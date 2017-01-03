@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -33,12 +34,15 @@ import soundlink.model.enums.UserRoleEnum;
 public class Users {
 
     @Id
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true)
     private String login;
+
+    private String picture;
 
     private String password;
 
@@ -61,6 +65,38 @@ public class Users {
     @Cascade({ CascadeType.ALL })
     @JoinTable(name = "user_fav_playlists", schema = "public", inverseJoinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id", columnDefinition = "long"), joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "long"))
     private Set<Playlist> playlists = new HashSet<Playlist>(0);
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Artiste> getFavortiesArtistes() {
+        return favortiesArtistes;
+    }
+
+    public void setFavortiesArtistes(Set<Artiste> favortiesArtistes) {
+        this.favortiesArtistes = favortiesArtistes;
+    }
+
+    public Set<Artiste> getFavoriteAlbums() {
+        return favoriteAlbums;
+    }
+
+    public void setFavoriteAlbums(Set<Artiste> favoriteAlbums) {
+        this.favoriteAlbums = favoriteAlbums;
+    }
+
+    public Set<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(Set<Playlist> playlists) {
+        this.playlists = playlists;
+    }
 
     public String getEmail() {
         return email;
@@ -92,6 +128,14 @@ public class Users {
 
     public void setRole(UserRoleEnum role) {
         this.role = role;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     @Override

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -30,9 +31,10 @@ import org.hibernate.annotations.CascadeType;
 public class Album {
 
     @Id
+    @SequenceGenerator(name = "album_id_seq", sequenceName = "album_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "album_id_seq")
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "artiste_id")
@@ -46,7 +48,7 @@ public class Album {
 
     private String coverGeneralColor;
 
-    private byte[] cover;
+    private String cover;
 
     private String albumDirectory;
 
@@ -57,11 +59,11 @@ public class Album {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favoriteAlbums")
     private Set<Users> users = new HashSet<Users>(0);
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -105,11 +107,11 @@ public class Album {
         this.coverGeneralColor = coverGeneralColor;
     }
 
-    public byte[] getCover() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCover(byte[] cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 

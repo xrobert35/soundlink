@@ -1,11 +1,13 @@
 package soundlink.service.business.impl;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Base64;
+import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
@@ -22,6 +24,9 @@ import org.springframework.stereotype.Service;
 
 import soundlink.dto.AlbumDto;
 import soundlink.dto.ArtisteDto;
+import soundlink.dto.FileIntegrationErrorDto;
+import soundlink.dto.IntegrationDto;
+import soundlink.dto.MusicDto;
 import soundlink.model.entities.Album;
 import soundlink.model.entities.Artiste;
 import soundlink.model.entities.Music;
@@ -64,21 +69,22 @@ public final class MusicExplorerService implements IMusicExplorerService {
     private MusicDtoConverter musicDtoConveter;
 
     // Returned object
-    private static final ThreadLocal<List<ArtisteDto>> artistesDto = new ThreadLocal<List<ArtisteDto>>() {
+    private static final ThreadLocal<IntegrationDto> integrationDto = new ThreadLocal<IntegrationDto>() {
         @Override
-        protected List<ArtisteDto> initialValue() {
-            return new ArrayList<ArtisteDto>();
+        protected IntegrationDto initialValue() {
+            return new IntegrationDto();
         }
     };
 
     @Override
-    public void loadMusics() throws Exception {
+    public IntegrationDto loadMusics() {
         File mainDirectory = new File(filePath);
         if (mainDirectory.isDirectory()) {
             exploreDirectory(mainDirectory);
         } else {
             throw new IllegalArgumentException("Root path must be a valide directory !");
         }
+        return integrationDto.get();
     }
 
     /**
@@ -105,44 +111,99 @@ public final class MusicExplorerService implements IMusicExplorerService {
             AudioFile audioFile = AudioFileIO.read(musicFile);
             Tag tag = audioFile.getTag();
 
-            String artisteName = tag.getFirst(FieldKey.ARTIST);
-
             // Check if the artiste already exist in database
+            String artisteName = tag.getFirst(FieldKey.ARTIST);
             Artiste artiste = artisteManager.getArtisteByName(artisteName);
+            ArtisteDto artisteDto = null;
             if (artiste == null) {
                 artiste = createArtiste(artisteName);
-            }
-            ArtisteDto artisteDto = artistesDto.get().stream()
-                    .filter(artisteToCheck -> artisteToCheck.getName().equals(artisteName)).findFirst().get();
-
-            if (artisteDto == null) {
                 artisteDto = artisteDtoConverter.convertToDto(artiste);
+                integrationDto.get().getArtistes().add(artisteDto);
+            } else {
+                artisteDto = getArtisteDto(artiste);
             }
 
             // Check if the album already exist in database
             String albumName = tag.getFirst(FieldKey.ALBUM);
             Album album = albumManager.findAlbumByNameAndArtisteName(albumName, artisteName);
+            AlbumDto albumDto = null;
             if (album == null) {
                 album = createAlbum(audioFile, artiste);
-            }
-
-            AlbumDto albumDto = artisteDto.getAlbums().stream()
-                    .filter(albumToCheck -> albumToCheck.getName().equals(albumName)).findFirst().get();
-
-            if (albumDto == null) {
                 albumDto = albumDtoConverter.convertToDto(album);
                 artisteDto.getAlbums().add(albumDto);
+            } else {
+                albumDto = getAlbumDto(artisteDto, album);
             }
 
             String title = tag.getFirst(FieldKey.TITLE);
             Music music = musicManager.getMusicByTitle(title);
+
+            long musicSizeInOctet = musicFile.length();
+
+            MusicDto musicDto = null;
             if (music == null) {
-                createMusic(audioFile, album);
+                music = createMusic(audioFile, album);
+                music.setMusicFileSize(musicSizeInOctet);
+                musicDto = musicDtoConveter.convertToDto(music);
+                albumDto.getMusics().add(musicDto);
+            } else {
+                musicDto = getMusicDto(albumDto, music);
             }
-            albumDto.getMusics().add(musicDtoConveter.convertToDto(music));
         } catch (Exception e) {
+            manageErrorFile(musicFile, e.getMessage());
             LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + e.getMessage());
         }
+    }
+
+    private void manageErrorFile(File musicFile, String message) {
+        FileIntegrationErrorDto errorDto = new FileIntegrationErrorDto();
+        errorDto.setFilePath(musicFile.getAbsolutePath().substring(filePath.length() + 1));
+        errorDto.setErrorMessage(message);
+        integrationDto.get().getErrors().add(errorDto);
+    }
+
+    private MusicDto getMusicDto(AlbumDto albumDto, Music music) {
+        Optional<MusicDto> possibleMusic = albumDto.getMusics().stream()
+                .filter(musicToCheck -> musicToCheck.getTitle().equals(music.getTitle())).findFirst();
+        if (possibleMusic.isPresent()) {
+            return possibleMusic.get();
+        } else {
+            MusicDto musicDto = musicDtoConveter.convertToDto(music);
+            albumDto.getMusics().add(musicDto);
+            return musicDto;
+        }
+    }
+
+    private AlbumDto getAlbumDto(ArtisteDto artisteDto, Album album) {
+        Optional<AlbumDto> possibleAlbum = artisteDto.getAlbums().stream()
+                .filter(albumToCheck -> albumToCheck.getName().equals(album.getName())).findFirst();
+        if (possibleAlbum.isPresent()) {
+            return possibleAlbum.get();
+        } else {
+            AlbumDto albumDto = albumDtoConverter.convertToDto(album);
+            artisteDto.getAlbums().add(albumDto);
+            return albumDto;
+        }
+    }
+
+    private ArtisteDto getArtisteDto(Artiste artiste) {
+        Optional<ArtisteDto> possibleArtiste = integrationDto.get().getArtistes().stream()
+                .filter(artisteToCheck -> artisteToCheck.getName().equals(artiste.getName())).findFirst();
+        if (possibleArtiste.isPresent()) {
+            return possibleArtiste.get();
+        } else {
+            ArtisteDto artisteDto = artisteDtoConverter.convertToDto(artiste);
+            integrationDto.get().getArtistes().add(artisteDto);
+            return artisteDto;
+        }
+    }
+
+    private Artiste createArtiste(String artisteName) {
+        Artiste artiste = new Artiste();
+        artiste.setName(artisteName);
+
+        LOGGER.debug("Creation of the artiste : " + artisteName);
+        return artisteManager.create(artiste);
     }
 
     private Album createAlbum(AudioFile audioFile, Artiste artiste) throws IOException {
@@ -158,11 +219,25 @@ public final class MusicExplorerService implements IMusicExplorerService {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-            // coverImage = ImageUtils.scalrResize(coverImage, 150);
+
+            ByteArrayOutputStream baosB = new ByteArrayOutputStream();
+            ImageIO.write(coverImage, "jpg", baosB);
+
+            String baseImage = new String(Base64.getEncoder().encode(baosB.toByteArray()));
+
+            Image scaledInstance = coverImage.getScaledInstance(150, 150, Image.SCALE_DEFAULT);
+            BufferedImage resizedImage = new BufferedImage(150, 150, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedImage.createGraphics();
+            g2d.drawImage(scaledInstance, 0, 0, null);
+            g2d.dispose();
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(coverImage, "jpg", baos);
-            byte[] dataAfter = baos.toByteArray();
-            album.setCover(dataAfter);
+            ImageIO.write(resizedImage, "jpg", baos);
+
+            String imageResized = new String(Base64.getEncoder().encode(baos.toByteArray()));
+
+            album.setCover(imageResized);
+
             // albumDescriptor.setCoverGeneralColor(ImageUtils.getImageHexMainColor(coverImage));
         }
         album.setAlbumDirectory(audioFile.getFile().getParentFile().getAbsolutePath());
@@ -171,33 +246,21 @@ public final class MusicExplorerService implements IMusicExplorerService {
         return albumManager.create(album);
     }
 
-    private Artiste createArtiste(String artisteName) {
-        LOGGER.debug("Creation of the artiste : " + artisteName);
-        Artiste artiste = new Artiste();
-        artiste.setName(artisteName);
-        artisteManager.create(artiste);
-        return artiste;
-    }
-
     private Music createMusic(AudioFile audioFile, Album album) {
         Music music = new Music();
-        try {
-            Tag tag = audioFile.getTag();
-            AudioHeader audioHeader = audioFile.getAudioHeader();
+        Tag tag = audioFile.getTag();
+        AudioHeader audioHeader = audioFile.getAudioHeader();
 
-            music.setMusicFilePath(audioFile.getFile().getAbsolutePath());
-            music.setTrackNumber(Integer.valueOf(tag.getFirst(FieldKey.TRACK)));
-            music.setTitle(tag.getFirst(FieldKey.TITLE));
-            music.setDurationInSeconde(audioHeader.getTrackLength());
-            music.setBitRate(audioHeader.getBitRate());
-            music.setExtension(audioFile.getExt());
+        music.setMusicFilePath(audioFile.getFile().getAbsolutePath());
+        music.setTrackNumber(Integer.valueOf(tag.getFirst(FieldKey.TRACK)));
+        music.setTitle(tag.getFirst(FieldKey.TITLE));
+        music.setDurationInSeconde(audioHeader.getTrackLength());
+        music.setBitRate(audioHeader.getBitRate() + " kbps");
+        music.setExtension(audioFile.getExt());
 
-            music.setAlbum(album);
+        music.setAlbum(album);
 
-            musicManager.create(music);
-        } catch (Exception e) {
-            LOGGER.error("Error while parsing " + audioFile.getFile().getAbsolutePath() + e.getMessage());
-        }
-        return music;
+        LOGGER.debug("Creation of the music : " + music.getTitle());
+        return musicManager.create(music);
     }
 }

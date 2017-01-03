@@ -1,30 +1,169 @@
 @import "lessvars";
-
-.soundlink{
-
+.soundlink {
   md-input-container {
-    margin : 0px;
-
+    margin: 0px;
     input {
-      background-color : white !important;
+      background-color: white !important;
     }
-
   }
-
+  md-progress-circular {
+    path {
+      stroke: @orange-color;
+    }
+  }
+  md-card {
+    &.md-small {
+      display: inline-block;
+      width: 160px;
+      margin-right: 5px;
+      vertical-align: top;
+      margin-bottom: 15px;
+      background-color: white;
+      .md-subhead {
+        padding-top: 0px;
+      }
+      .md-card-image {
+        max-height: 100px;
+        height: 100px;
+        width: auto;
+        margin: auto;
+        cursor: pointer;
+        cursor: hand;
+      }
+      md-card-header {
+        padding: 0 0 0 0;
+        height: 30px;
+        max-height: 30px;
+        padding-top: 3px;
+        md-icon {
+          margin: 0 0 0 0;
+        }
+        md-icon:hover {
+          cursor: pointer;
+          cursor: hand;
+          color: @orange-color;
+        }
+        md-card-header-text {
+          .md-title {
+            padding-top: 5px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    md-card-title {
+      padding: 0 0 0 0;
+      height: 50px;
+      md-card-title-text {
+        &.md-subhead {
+          font-size: 12px;
+          color: black;
+        }
+      }
+    }
+  }
+  md-list {
+    .md-image {
+      margin-top: 0px;
+      max-height: 40px;
+      padding-right: 10px;
+    }
+    .level2 {
+      margin-left: 20px;
+    }
+  }
   md-toolbar {
-    background-color : @indigo;
-    max-height: 50px;
-    min-height: 50px;
-
-    margin-top : 3px;
-    border-radius : 5px;
-
-    &.md-raised{
+    background-color: @blue-color;
+    max-height: 40px;
+    min-height: 40px;
+    margin-top: 3px;
+    &.md-raised {
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     }
     .md-toolbar-tools {
       max-height: 50px;
     }
+    &.page-header {
+      background-color: transparent;
+      color: palevioletred;
+      md-icon {
+        color: black;
+      }
+    }
   }
-
+  md-checkbox {
+    &.md-checked {
+      .md-icon {
+        background-color: @orange-color;
+      }
+    }
+  }
+  md-divider {
+    background-color: @orange-color;
+  }
+  button:hover {
+    &.md-button.md-raised {
+      box-shadow: 0 2px 5px 0 rgba(255, 128, 0, 0.8);
+    }
+    &.md-button {
+      md-icon {
+        color: @orange-color;
+      }
+      span {
+        color: @orange-color;
+      }
+    }
+  }
+  header {
+    md-fab-speed-dial {
+      &.md-fab-top-left {
+        top: 0px;
+        left: 0px;
+      }
+    }
+    .title {
+      margin-left: 100px;
+    }
+  }
+  md-tabs {
+    md-ink-bar {
+      background-color: @orange-color;
+    }
+  }
+  md-nav-bar {
+    .md-nav-item {
+      a {
+        color: @orange-color;
+      }
+    }
+    md-nav-ink-bar {
+      background-color: @orange-color;
+    }
+  }
+  md-progress-linear {
+    .md-container {
+      background-color: @orange-color;
+    }
+  }
+  md-table-container {
+    table {
+      md-button {
+        min-width: 100px;
+      }
+      th {
+        &.tight-column {
+          max-width: 90px;
+          width: 90px;
+          padding : 0 0 0 0 !important;
+        }
+      }
+      td {
+        &.tight-column {
+          max-width: 90px;
+          width: 90px;
+          padding : 0 0 0 0 !important;
+        }
+      }
+    }
+  }
 }

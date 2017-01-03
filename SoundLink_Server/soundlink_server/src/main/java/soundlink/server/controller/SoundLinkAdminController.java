@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import soundlink.dto.IntegrationDto;
 import soundlink.service.business.IMusicExplorerService;
 
 /**
@@ -34,7 +35,7 @@ public class SoundLinkAdminController {
      * @See application.properties
      */
     @RequestMapping(value = "/loadMusics", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void loadMusics() throws Exception {
-        musicExplorerService.loadMusics();
+    public IntegrationDto loadMusics() {
+        return musicExplorerService.loadMusics();
     }
 }

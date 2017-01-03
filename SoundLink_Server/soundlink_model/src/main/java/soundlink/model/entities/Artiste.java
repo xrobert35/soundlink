@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -28,14 +29,15 @@ import org.hibernate.annotations.CascadeType;
 public class Artiste {
 
     @Id
+    @SequenceGenerator(name = "artiste_id_seq", sequenceName = "artiste_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "artiste_id_seq")
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true)
     private String name;
 
-    private byte[] cover;
+    private String cover;
 
     @Cascade({ CascadeType.ALL })
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste")
@@ -44,11 +46,11 @@ public class Artiste {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favortiesArtistes")
     private Set<Users> users = new HashSet<Users>(0);
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,11 +62,11 @@ public class Artiste {
         this.name = name;
     }
 
-    public byte[] getCover() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCover(byte[] cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 

@@ -31,6 +31,14 @@ public abstract class AbstractDtoConverter<E, D> {
         return dtos;
     }
 
+    public List<D> convertToDtoList(List<E> entites) {
+        List<D> dtos = new ArrayList<D>();
+        for (E entity : entites) {
+            dtos.add(convertToDto(entity));
+        }
+        return dtos;
+    }
+
     public D convertToDto(E entity) {
         D dto = BeanUtils.instantiate(clazzDto);
         List<String> excludeList = getExcludeProperties();

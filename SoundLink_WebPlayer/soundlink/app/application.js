@@ -1,45 +1,81 @@
 
 //Module declaration
-angular.module("soundlink", ['ngSanitize', 
-'ui.router', 'ngAria', 'ngAnimate', 'ngMaterial', 'ngCookies', 
-'socketmanager', 'soundlink-data', 'pascalprecht.translate', 
-'angularSoundManager', 'ngResource', 'mod-login']);
+angular.module("soundlink", ['ngSanitize',
+    'ui.router', 'ngAria', 'ngAnimate', 'ngMaterial', 'md.data.table', 'ngCookies',
+    'pascalprecht.translate', 'ngResource', 'angularMoment']);
 
-//Route configuration
-angular.module("soundlink").config(function ($stateProvider, $urlRouterProvider) {
-    //La page par defaut est la page /login
-    $urlRouterProvider.otherwise('/login');
-});
 
-// Web socket with stomp configuration
-angular.module("soundlink").config(function (socketServiceProvider) {
-    var serverUrl = "/SoundLink_Server";
-    socketServiceProvider.serverUrl = serverUrl;
-});
+// angular.module("soundlink").run(function ($rootScope) {
+//     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
+//         $rootScope.currentStateUrl = toState.name;
+//     });
+// });
 
-// translate provider configuration
-angular.module("soundlink").config(function ($translateProvider) {
-    $translateProvider.useUrlLoader("/soundlink_server/message/default");
-    $translateProvider.useStorage('UrlLanguageStorage');
-    $translateProvider.preferredLanguage('fr');
-});
 
-// http configuration
-angular.module('soundlink').config(function($httpProvider) {
-    $httpProvider.defaults.timeout = 60000;
-});
+angular.module("soundlink").run(main);
 
-// translate provider configuration
-angular.module("soundlink").config(function (loginServiceProvider) {
-    loginServiceProvider.successState = 'soundlink.albums';
-});
+main.$inject = ['$state', '$rootScope'];
 
-angular.module("soundlink").run(function ($rootScope) {
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
-        $rootScope.currentStateUrl = toState.name;
+function main($state, $rootScope) {
+
+    // $state.preventDefault();
+    var startResolve = false;
+    var statePrevent;
+    var statePreventParams;
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name != 'start' && !startResolve) {
+            statePrevent = toState;
+            statePreventParams = toParams;
+            event.preventDefault();
+        }
     });
-});
 
-angular.module("soundlink").constant("config", {
-    serveurUrl : "/soundlink_server/"
-});
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name == 'start') {
+            startResolve = true;
+            $state.go(statePrevent,statePreventParams);
+        }
+    });
+
+    $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+        if (toState.name == 'start') {
+            startResolve = true;
+            $state.go("login");
+        }
+    });
+
+    $state.go("start");
+}
+
+(function () {
+        var root = angular.element(document.getElementsByTagName('html'));
+
+        var watchers = [];
+
+        var f = function (element) {
+            angular.forEach(['$scope', '$isolateScope'], function (scopeProperty) {
+                if (element.data() && element.data().hasOwnProperty(scopeProperty)) {
+                    angular.forEach(element.data()[scopeProperty].$$watchers, function (watcher) {
+                        watchers.push(watcher);
+                    });
+                }
+            });
+
+            angular.forEach(element.children(), function (childElement) {
+                f(angular.element(childElement));
+            });
+        };
+
+        f(root);
+
+        // Remove duplicate watchers
+        var watchersWithoutDuplicates = [];
+        angular.forEach(watchers, function (item) {
+            if (watchersWithoutDuplicates.indexOf(item) < 0) {
+                watchersWithoutDuplicates.push(item);
+            }
+        });
+
+        console.log(watchersWithoutDuplicates.length);
+    })();

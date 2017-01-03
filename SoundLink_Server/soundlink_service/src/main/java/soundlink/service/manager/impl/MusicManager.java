@@ -2,8 +2,7 @@ package soundlink.service.manager.impl;
 
 import java.io.File;
 import java.security.InvalidParameterException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,8 @@ public class MusicManager implements IMusicManager {
     private AlbumRepository albumRepository;
 
     @Override
-    public Set<Music> getMusicsFromAlbum(Long albumId) {
-        Album existingAlbum = albumRepository.findOne(albumId);
-        if (existingAlbum != null) {
-            return existingAlbum.getMusics();
-        } else {
-            LOGGER.debug("Cannot get musics from a non exisint album " + albumId);
-            return new HashSet<Music>();
-        }
+    public List<Music> getMusicsFromAlbum(Integer albumId) {
+        return musicRepository.getMusicsFromAlbum(albumId);
     }
 
     @Override
@@ -67,7 +60,7 @@ public class MusicManager implements IMusicManager {
     }
 
     @Override
-    public File getMusicFile(Long musicId) {
+    public File getMusicFile(Integer musicId) {
         Music music = musicRepository.findOne(musicId);
         return new File(music.getMusicFilePath());
     }

@@ -1,21 +1,51 @@
 <header layout="row">
-    <md-button class="md-raised" ng-click="$ctrl.showMenu()">
-        <md-icon>menu</md-icon>
-    </md-button>
     <md-toolbar class="md-raised">
         <div class="md-toolbar-tools">
-            <span class="margin-left-10 font-orange">SoundLink</span>
+            <span class="title font-orange">SoundLink</span>
             <span flex></span>
-            <md-menu md-offset="0 -5">
-                <md-button ng-click="$ctrl.openMenu($mdOpenMenu, ev)">
-                    <md-icon>menu</md-icon>
-                </md-button>
-                <md-menu-content width="4">
-                    <md-menu-item ng-repeat="item in $ctrl.getMenuItems()">
-                        <md-button ng-click="item.action()"><span md-menu-align-target></span> {{item.libelle}} </md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
+            <span>
+                <img ng-src="data:image/JPEG;base64,{{$ctrl.userInformation.picture}}" class="headerProfilePicture">
+            </span>
+            <span class="margin-left-15">
+                {{$ctrl.userInformation.login}}
+            </span>
+            <md-button ng-click="$ctrl.logout()">
+                <md-icon>power_settings_new</md-icon>
+                <md-tooltip>
+                    Logout
+                </md-tooltip>
+            </md-button>
         </div>
     </md-toolbar>
+
+    <!--left menu-->
+    <md-fab-speed-dial md-open="menuOpen" md-direction="down" class="md-scale md-fab-top-left">
+        <md-fab-trigger>
+            <md-button>
+                <md-icon>menu</md-icon>
+            </md-button>
+        </md-fab-trigger>
+        <md-fab-actions>
+            <a ui-sref="soundlink.artistes">
+                <md-button class="md-raised" ng-class="{currentUrl : $ctrl.isCurrentUrl('soundlink.artistes')}">
+                    <md-icon> library_music </md-icon>
+                </md-button>
+            </a>
+            <a ui-sref="soundlink.albums">
+                <md-button class="md-raised" ng-class="{currentUrl : $ctrl.isCurrentUrl('soundlink.albums')}">
+                    <md-icon> queue_music </md-icon>
+                </md-button>
+            </a>
+            <a ui-sref="soundlink.integration">
+                <md-button class="md-raised">
+                    <md-icon> file_download </md-icon>
+                </md-button>
+            </a>
+            <a ui-sref="soundlink.userprofile">
+                <md-button class="md-raised">
+                    <md-icon> settings </md-icon>
+                </md-button>
+            </a>
+        </md-fab-actions>
+    </md-fab-speed-dial>
 </header>

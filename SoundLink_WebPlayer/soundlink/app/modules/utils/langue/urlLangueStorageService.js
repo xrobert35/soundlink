@@ -1,4 +1,4 @@
-angular.module("soundlink-data").factory('UrlLanguageStorage', ['$location', urlLanguageStore]);
+angular.module("soundlink").factory('UrlLanguageStorage', ['$location', urlLanguageStore]);
 
 function urlLanguageStore($location) {
     return {

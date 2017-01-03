@@ -1,3 +1,12 @@
-<div class="artistesPage">
-    Artiste
-</div>
+<md-toolbar class="page-header">
+    <div class="md-toolbar-tools">
+        <span>Artistes</span>
+        <span flex></span>
+        <md-button ng-click="$ctrl.getArtistes()">
+            <md-icon>cached</md-icon>
+            <md-tooltip>
+                Reload
+            </md-tooltip>
+        </md-button>
+    </div>
+</md-toolbar>

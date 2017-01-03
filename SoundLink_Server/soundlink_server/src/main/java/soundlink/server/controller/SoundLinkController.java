@@ -1,12 +1,14 @@
 package soundlink.server.controller;
 
 import java.security.InvalidParameterException;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,10 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import soundlink.dto.AlbumDto;
 import soundlink.dto.MusicDto;
+import soundlink.dto.UsersDto;
+import soundlink.model.entities.Users;
 import soundlink.service.converter.AlbumDtoConverter;
 import soundlink.service.converter.MusicDtoConverter;
+import soundlink.service.converter.UsersDtoConverter;
 import soundlink.service.manager.IAlbumManager;
 import soundlink.service.manager.IMusicManager;
+import soundlink.service.manager.IUsersManager;
 import soundlink.service.manager.impl.FileManager;
 
 @RestController
@@ -34,10 +40,34 @@ public class SoundLinkController {
     private IMusicManager musicManager;
 
     @Autowired
+    private IUsersManager usersManager;
+
+    @Autowired
     private AlbumDtoConverter albumDtoConverter;
 
     @Autowired
     private MusicDtoConverter musicDtoConverter;
+
+    @Autowired
+    private UsersDtoConverter usersDtoConveter;
+
+    /**
+     * Entry point to get user information
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/userInformation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public UsersDto getUserInformation() {
+        Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return usersDtoConveter.convertToDto(user);
+    }
+
+    @RequestMapping(value = "/saveUserInformation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public UsersDto saveUserInformation(@RequestBody UsersDto usersDto) {
+        Users user = usersManager.updateUser(SecurityContextHolder.getContext().getAuthentication().getName(),
+                usersDto);
+        return usersDtoConveter.convertToDto(user);
+    }
 
     /**
      * Entry point to get all albums
@@ -45,8 +75,8 @@ public class SoundLinkController {
      * @return a Set with all albums informations
      */
     @RequestMapping(value = "/albums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Set<AlbumDto> getAlbums() {
-        Set<AlbumDto> allAlbums = albumDtoConverter.convertToDtoSet(albumManager.getAllAlbums());
+    public List<AlbumDto> getAlbums() {
+        List<AlbumDto> allAlbums = albumDtoConverter.convertToDtoList(albumManager.getAllAlbums());
         return allAlbums;
     }
 
@@ -57,11 +87,11 @@ public class SoundLinkController {
      * @return a set with all musics informations
      */
     @RequestMapping(value = "/albumMusics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Set<MusicDto> getAlbumMusics(@RequestParam Long albumId) {
+    public List<MusicDto> getAlbumMusics(@RequestParam Integer albumId) {
         if (albumId == null) {
             throw new InvalidParameterException("Album id cannot be null");
         }
-        Set<MusicDto> musicsFromAlbum = musicDtoConverter.convertToDtoSet(musicManager.getMusicsFromAlbum(albumId));
+        List<MusicDto> musicsFromAlbum = musicDtoConverter.convertToDtoList(musicManager.getMusicsFromAlbum(albumId));
         return musicsFromAlbum;
     }
 
@@ -72,7 +102,7 @@ public class SoundLinkController {
      * @return the byte content of a music file
      */
     @RequestMapping(value = "/music/{musicId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public FileSystemResource getMusicStream(@PathVariable Long musicId) {
+    public FileSystemResource getMusicStream(@PathVariable Integer musicId) {
         return new FileSystemResource(musicManager.getMusicFile(musicId));
     }
 

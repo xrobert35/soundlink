@@ -1,0 +1,46 @@
+<md-content class="sub-content">
+  <div layout="row" layout-align="none start">
+    <div layout="column" layout-align="none center" flex>
+      <h3>{{$ctrl.album.name }}</h3>
+      <img ng-src="data:image/JPEG;base64,{{$ctrl.album.cover}}" class="albumCover">
+    </div>
+    <div layout="row" layout-align="center" flex="60">
+      <md-table-container flex>
+        <table>
+          <thead>
+            <tr>
+              <th class="tight-column"></th>
+              <th class="tight-column"></th>
+              <th>Title</th>
+              <th class="tight-column" md-numeric>N°</th>
+              <th class="tight-column" md-numeric>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="music in $ctrl.musics">
+              <td class="tight-column" >
+                <md-button class="no-margin" play-music="music">
+                  <md-icon>play_circle_filled</md-icon>
+                </md-button>
+              </td>
+              <td class="tight-column" >
+                <md-button class="no-margin" add-music="music">
+                  <md-icon> add_circle </md-icon>
+                </md-button>
+              </td>
+              <td>{{::music.title}}</td>
+              <td class="tight-column" >{{::music.trackNumber}}</td>
+              <td class="tight-column" >{{::music.durationInSeconde | minute}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+    </div>
+    <div layout="row" layout-align="end" flex>
+      <md-button remove-detail-item>
+        <md-icon>close</md-icon>
+      </md-button>
+    </div>
+  </div>
+  <md-divider class="margin-bottom-10 margin-top-20"></md-divider>
+</md-content>

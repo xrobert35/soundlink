@@ -1,0 +1,49 @@
+<md-toolbar class="page-header">
+  <div class="md-toolbar-tools">
+    <span>User profil</span>
+  </div>
+</md-toolbar>
+<div layout="row" class="margin-top-20">
+  <div layout="column" flex="30">
+    <div layout="row" layout-align="center center">
+      <img ng-src="data:image/JPEG;base64,{{$ctrl.userInformation.picture}}" class="profilePicture">
+    </div>
+    <div layout="row" layout-align="end">
+      <md-button class="md-raised" ng-click="$ctrl.clickUpload()">
+        <md-icon>file_upload</md-icon>
+      </md-button>
+      <input type="file" id="upload-picture" ng-hide="true" file-change="$ctrl.uploadPicture" accept="image/*">
+    </div>
+  </div>
+  <div layout="column" flex>
+    <md-input-container>
+      <label>Login</label>
+      <input type="text" ng-model="$ctrl.userInformation.login" disabled />
+    </md-input-container>
+    <md-input-container disabled>
+      <label>Email</label>
+      <input type="text" ng-model="$ctrl.userInformation.email" />
+    </md-input-container>
+  </div>
+</div>
+
+<md-divider></md-divider>
+
+<div layout="row" layout-align="center" class="margin-top-20">
+  <md-input-container flex>
+    <label>Current password</label>
+    <input type="text" ng-model="$ctrl.userInformation.currentPassword" />
+  </md-input-container>
+  <md-input-container flex>
+    <label>New password</label>
+    <input type="text" ng-model="$ctrl.userInformation.newPassword" />
+  </md-input-container>
+  <md-input-container flex>
+    <label>Confirm password</label>
+    <input type="text" ng-model="$ctrl.userInformation.confirmPassword" />
+  </md-input-container>
+</div>
+
+<div layout="row" layout-align="end">
+  <md-button class="md-raised" ng-click="$ctrl.saveUserInformation()">Save</md-button>
+</div>

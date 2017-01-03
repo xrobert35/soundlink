@@ -1,7 +1,7 @@
 package soundlink.service.manager;
 
 import java.io.File;
-import java.util.Set;
+import java.util.List;
 
 import soundlink.model.entities.Music;
 
@@ -13,7 +13,7 @@ public interface IMusicManager {
      * @param album
      * @return
      */
-    Set<Music> getMusicsFromAlbum(Long albumId);
+    List<Music> getMusicsFromAlbum(Integer albumId);
 
     /**
      * Add a music
@@ -37,7 +37,7 @@ public interface IMusicManager {
      * @param musicId
      * @return
      */
-    File getMusicFile(Long musicId);
+    File getMusicFile(Integer musicId);
 
     /**
      * This method is used to get music from is title

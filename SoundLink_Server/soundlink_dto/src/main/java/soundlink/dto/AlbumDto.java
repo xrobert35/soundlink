@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class AlbumDto {
 
-    private Long id;
+    private Integer id;
 
     private String artisteName;
 
@@ -24,17 +24,17 @@ public class AlbumDto {
 
     private String coverGeneralColor;
 
-    private byte[] cover;
+    private String cover;
 
     private File albumDirectory;
 
     private List<MusicDto> musics = new ArrayList<>(0);
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -86,11 +86,11 @@ public class AlbumDto {
         this.extension = extension;
     }
 
-    public byte[] getCover() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCover(byte[] cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 

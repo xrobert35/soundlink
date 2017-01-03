@@ -8,6 +8,8 @@ var less = require('gulp-less');
 var LessAutoprefix = require('less-plugin-autoprefix');
 var autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
 var path = require('path');
+var browserify = require('gulp-browserify');
+var shell = require('gulp-shell');
 
 var vendorOutputStream;
 
@@ -31,15 +33,17 @@ gulp.task('process-third-js', function () {
 		'bower_components/angular-aria/angular-aria.js',
 		'bower_components/angular-animate/angular-animate.js',
 		'bower_components/angular-material/angular-material.js',
+		'bower_components/angular-material-data-table/dist/md-data-table.js',
 		'bower_components/angular-cookies/angular-cookies.js',
 		'bower_components/angular-translate/angular-translate.js',
 		'bower_components/angular-translate-loader-url/angular-translate-loader-url.js',
 		'bower_components/angular-ui-router/release/angular-ui-router.js',
-		'bower_components/angular-soundmanager2/dist/angular-soundmanager2.js',
 		'bower_components/angular-sanitize/angular-sanitize.js',
 		'bower_components/ui-router/release/angular-ui-router.js',
 		'bower_components/sockjs/sockjs.js',
-		'bower_components/stomp-websocket/lib/stomp.js'
+		'bower_components/stomp-websocket/lib/stomp.js',
+		'bower_components/moment/moment.js',
+		'bower_components/angular-moment/angular-moment.js'
 	];
 
 	vendorOutputStream = gulp.src(src)
@@ -106,7 +110,8 @@ gulp.task('process-css', function () {
 	var src = [
 		appName + '/app/assets/less/**/*.less',
 		'bower_components/material-design-icons/iconfont/material-icons.css',
-		'bower_components/angular-material/angular-material.css'
+		'bower_components/angular-material/angular-material.css',
+		'bower_components/angular-material-data-table/dist/md-data-table.css'
 	];
 
 	return gulp.src(src)
@@ -138,12 +143,53 @@ function notifyLiveReload(event) {
   });
 }
 
+gulp.task('process-audio', function () {
+	var src = ['audioPlayer/player/**/*.js'];
+
+	return gulp.src(src)
+		.pipe(p.iife({
+			prependSemicolon: false,
+			useStrict: false
+		}))
+		.pipe(p.angularInjector())
+		.pipe(p.angularFilesort())
+
+		// Avoid in production
+		.pipe(gulpif(!envProd(), p.concatSourcemap('audioPlayer.js', {
+			sourcesContent: true
+		})))
+
+		// Production environment
+		.pipe(gulpif(envProd(), p.concat('audioPlayer.js')))
+		.pipe(gulpif(envProd(), p.stripDebug()))
+		.pipe(gulpif(envProd(),
+			p.sizereport({
+				gzip: true,
+				total: false,
+				minifier: function (contents, filepath) {
+					return uglify.minify(contents, {
+						fromString: true
+					}).code;
+				}
+			})
+		))
+		.pipe(gulpif(envProd(), p.uglify()))
+		.pipe(gulp.dest('audioPlayer/build'));
+});
+
+
+gulp.task("browseraudio", ['process-audio'], shell.task([
+  'browserify audioPlayer/audioPlayer.js -o soundlink/public/js/audioPlayer.js',
+	'xcopy audioPlayer\\build\\audioPlayer.js.map soundlink\\public\\js /y' 
+]));
+
 /**
  * Watch changes.
  */
 gulp.task('watch', ['process'], function () {
 	gulp.watch(appName + "/app/**/*.js", ['process-js']);
 	gulp.watch(appName + "/app/assets/less/*.less", ['process-css']);
+	gulp.watch('audioPlayer/**/*.js', ['browseraudio']);
 	gulp.watch('public/**/*.html', notifyLiveReload);
 	gulp.watch('public/css/*.css', notifyLiveReload);
 	gulp.watch('public/js/*.js', notifyLiveReload);
@@ -152,5 +198,6 @@ gulp.task('watch', ['process'], function () {
 gulp.task('process', [
 	'process-js',
 	'process-third-js',
-	'process-css'
+	'process-css',
+	'browseraudio'
 ]);

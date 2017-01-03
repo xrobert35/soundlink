@@ -1,67 +1,15 @@
 @import "lessvars";
-
-.albumsPage {
-    min-height : 800px;
-    overflow-y : auto;
-    margin-left : 10px;
-    margin-right: 10px;
+.albumList {
     text-align: center;
-}
-
-.albumsPage .albumList .albumCover {
-    width : 100px;
-    height: 100px;
-}
-
-.albumsPage .albumList .albumCover:hover {
-    width : 110px;
-    height: 110px;
-    cursor: pointer;
-    cursor: hand;
-}
-
-.albumsPage .albumList {
-    padding-top : 10px;
-    padding-bottom : 5px;
-    overflow: auto;
-}
-
-.albumsPage .album {
-    display : inline-block;
-    width : 150px;
-    height: 190px;
-    margin-right : 5px;
-    vertical-align : top;
-    margin-bottom : 15px;
-}
-
-.albumsPage .album span {
-    display : block;
-    text-align : center;
-}
-
-.albumsPage .albumList .album .albumName {
-    font-size : 14px;
-    font-weight : bold;
-}
-
-.albumsPage .albumList .album .albumName:hover {
-    font-size : 16px;
-    font-weight : bold;
-    cursor: pointer;
-    cursor: hand;
-}
-
-.albumsPage .albumList .album .artisteName {
-    color: #7D7D7D;
-    font-size : 13px;
-    cursor: pointer;
-    cursor: hand;
-}
-
-.albumsPage .albumList .album .artisteName:hover {
-    color: #1C1C1C;
-    font-size : 14px;
-    cursor: pointer;
-    cursor: hand;
+    md-table-container {
+        table {
+            tbody {
+                tr {
+                    &.md-row {
+                        height: 35px !important;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -2,6 +2,8 @@ package soundlink.service.manager;
 
 import java.util.Set;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import soundlink.model.entities.Artiste;
 
 /**
@@ -10,36 +12,37 @@ import soundlink.model.entities.Artiste;
  * @author xrobert
  *
  */
+@Transactional
 public interface IArtisteManager {
 
-	/**
-	 * Get all artistes from database
-	 *
-	 * @return
-	 */
-	Set<Artiste> getAllArtistes();
+    /**
+     * Get all artistes from database
+     *
+     * @return
+     */
+    Set<Artiste> getAllArtistes();
 
-	/**
-	 * Add a new artiste
-	 *
-	 * @param album
-	 * @return
-	 */
-	Artiste create(Artiste artiste);
+    /**
+     * Add a new artiste
+     *
+     * @param album
+     * @return
+     */
+    Artiste create(Artiste artiste);
 
-	/**
-	 * Delete an artiste
-	 *
-	 * @param album
-	 * @return
-	 */
-	boolean deleteArtiste(Artiste artiste);
+    /**
+     * Delete an artiste
+     *
+     * @param album
+     * @return
+     */
+    boolean deleteArtiste(Artiste artiste);
 
-	/**
-	 * Get an artise by his name
-	 *
-	 * @param artisteName
-	 */
-	Artiste getArtisteByName(String artisteName);
+    /**
+     * Get an artise by his name
+     *
+     * @param artisteName
+     */
+    Artiste getArtisteByName(String artisteName);
 
 }

@@ -1,0 +1,9 @@
+delete from music_playlists;
+delete from user_fav_playlists;
+delete from user_fav_albums;
+delete from user_fav_artistes;
+delete from playlist;
+delete from music;
+delete from album;
+delete from artiste;
+delete from users;

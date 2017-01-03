@@ -1,0 +1,21 @@
+<md-toolbar class="page-header">
+  <div class="md-toolbar-tools">
+    <span>Integration</span>
+  </div>
+</md-toolbar>
+
+
+<div ng-if="!$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
+  <md-button class="md-raised" ng-click="$ctrl.loadMusics()"> Start integration </md-button>
+</div>
+<div ng-if="$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
+  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+
+
+<md-nav-bar ng-if="$ctrl.integrationdatas != null">
+  <md-nav-item md-nav-sref="soundlink.integration.artistes">Artistes</md-nav-item>
+  <md-nav-item md-nav-sref="soundlink.integration.errors">Errors</md-nav-item>
+</md-nav-bar>
+<div ui-view>
+</div>

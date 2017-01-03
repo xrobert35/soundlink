@@ -1,15 +1,24 @@
+'use strict';
+
 angular.module("soundlink").config(albumConfig);
 
 albumConfig.$inject = ['$stateProvider'];
 
 function albumConfig($stateProvider) {
 
-    var viewFolder = "app/modules/soundlink_ihm/pages";
-
-    $stateProvider.state('soundlink.albums', {
-        url: 'albums',
-        controller: "albumsController",
-        controllerAs: "vm",
-        templateUrl: viewFolder + '/albums/albums.html'
+  initAlbums.$inject = ['soundlinkResource'];
+  function initAlbums(soundlinkResource) {
+    return soundlinkResource.getAlbums().then(function (albums) {
+      return albums;
     });
+  }
+
+  $stateProvider.state('soundlink.albums', {
+    url: 'albums',
+    resolve: {
+      albums: initAlbums
+    },
+    template: '<albums-page albums="$resolve.albums"></albums-page>'
+  });
+
 }
