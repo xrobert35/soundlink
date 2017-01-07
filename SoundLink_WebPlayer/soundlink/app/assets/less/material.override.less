@@ -38,11 +38,6 @@
         md-icon {
           margin: 0 0 0 0;
         }
-        md-icon:hover {
-          cursor: pointer;
-          cursor: hand;
-          color: @orange-color;
-        }
         md-card-header-text {
           .md-title {
             padding-top: 5px;
@@ -101,6 +96,13 @@
   md-divider {
     background-color: @orange-color;
   }
+  md-icon:hover {
+    &.button {
+      cursor: pointer;
+      cursor: hand;
+      color: @orange-color;
+    }
+  }
   button:hover {
     &.md-button.md-raised {
       box-shadow: 0 2px 5px 0 rgba(255, 128, 0, 0.8);
@@ -154,14 +156,33 @@
         &.tight-column {
           max-width: 90px;
           width: 90px;
-          padding : 0 0 0 0 !important;
+          padding: 0 0 0 0 !important;
         }
       }
       td {
         &.tight-column {
           max-width: 90px;
           width: 90px;
-          padding : 0 0 0 0 !important;
+          padding: 0 0 0 0 !important;
+        }
+      }
+    }
+  }
+  md-slider-container {
+    md-slider {
+      .md-slider-wrapper {
+        .md-slider-content {
+          .md-track-container {
+            .md-track-fill {
+              background-color: blue;
+            }
+          }
+          .md-thumb-container {
+            .md-thumb::after {
+              background-color: blue;
+              border-color : blue;
+            }
+          }
         }
       }
     }

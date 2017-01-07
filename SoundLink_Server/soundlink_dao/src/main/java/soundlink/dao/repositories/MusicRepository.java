@@ -19,7 +19,10 @@ public interface MusicRepository extends JpaRepository<Music, Integer> {
     @Query("SELECT music FROM Music music WHERE music.title = :title ")
     Music findMusicByTitle(@Param("title") String title);
 
-    @Query("SELECT music FROM Music music WHERE music.album.id = :albumId ORDER BY music.trackNumber")
+    @Query("SELECT music FROM Music music " 
+    + "INNER JOIN FETCH music.album album "
+    + "INNER JOIN FETCH album.artiste artiste " 
+    + "WHERE music.album.id = :albumId ORDER BY music.trackNumber")
     List<Music> getMusicsFromAlbum(@Param("albumId") Integer albumId);
 
 }

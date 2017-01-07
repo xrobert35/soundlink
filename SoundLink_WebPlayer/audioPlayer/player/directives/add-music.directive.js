@@ -2,9 +2,9 @@
 
 angular.module("soundlink").directive('addMusic', addMusicDirective);
 
-addMusicDirective.$inject = ['audioPlayer'];
+addMusicDirective.$inject = ['audioPlayer', 'eventManager'];
 
-function addMusicDirective(audioPlayer) {
+function addMusicDirective(audioPlayer, eventManager) {
   return {
     restrict: "A",
     scope: {
@@ -13,6 +13,7 @@ function addMusicDirective(audioPlayer) {
     link: function (scope, element, attrs) {
       element.bind('click', function (event) {
         audioPlayer.add(scope.song);
+        eventManager.fireEvent("playlistOpen");
       });
     }
   };

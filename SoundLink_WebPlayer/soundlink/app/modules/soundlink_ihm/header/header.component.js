@@ -10,7 +10,7 @@ headerController.$inject = ['$scope', 'loginService', 'eventManager', '$state', 
 function headerController($scope, loginService, eventManager, $state, userStorage) {
     var vm = this;
 
-    vm.userInformation = userStorage.getUserInformation();
+    vm.getUserInformation = userStorage.getUserInformation;
 
     $scope.$watch('menuOpen', function (isOpen) {
         eventManager.fireEvent("menuOpen", isOpen);

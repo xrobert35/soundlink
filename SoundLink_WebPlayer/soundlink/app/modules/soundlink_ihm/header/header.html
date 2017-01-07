@@ -4,10 +4,10 @@
             <span class="title font-orange">SoundLink</span>
             <span flex></span>
             <span>
-                <img ng-src="data:image/JPEG;base64,{{$ctrl.userInformation.picture}}" class="headerProfilePicture">
+                <img ng-src="data:image/JPEG;base64,{{$ctrl.getUserInformation().picture}}" class="headerProfilePicture">
             </span>
             <span class="margin-left-15">
-                {{$ctrl.userInformation.login}}
+                {{$ctrl.getUserInformation().login}}
             </span>
             <md-button ng-click="$ctrl.logout()">
                 <md-icon>power_settings_new</md-icon>
@@ -27,12 +27,12 @@
         </md-fab-trigger>
         <md-fab-actions>
             <a ui-sref="soundlink.artistes">
-                <md-button class="md-raised" ng-class="{currentUrl : $ctrl.isCurrentUrl('soundlink.artistes')}">
+                <md-button class="md-raised">
                     <md-icon> library_music </md-icon>
                 </md-button>
             </a>
             <a ui-sref="soundlink.albums">
-                <md-button class="md-raised" ng-class="{currentUrl : $ctrl.isCurrentUrl('soundlink.albums')}">
+                <md-button class="md-raised">
                     <md-icon> queue_music </md-icon>
                 </md-button>
             </a>

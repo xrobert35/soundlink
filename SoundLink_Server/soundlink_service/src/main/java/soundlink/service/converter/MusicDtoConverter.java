@@ -3,6 +3,8 @@ package soundlink.service.converter;
 import org.springframework.stereotype.Component;
 
 import soundlink.dto.MusicDto;
+import soundlink.model.entities.Album;
+import soundlink.model.entities.Artiste;
 import soundlink.model.entities.Music;
 
 /**
@@ -16,6 +18,12 @@ public class MusicDtoConverter extends AbstractDtoConverter<Music, MusicDto> {
 
     @Override
     protected void subConvertToDto(Music entity, MusicDto dto) {
+        if (entity != null) {
+            Album album = entity.getAlbum();
+            dto.setAlbumName(album.getName());
+            Artiste artiste = album.getArtiste();
+            dto.setArtistName(artiste.getName());
+        }
     }
 
     @Override

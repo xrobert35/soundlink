@@ -2,14 +2,14 @@
 
 angular.module('soundlink').component('artistesIntegration', {
     templateUrl: 'app/modules/soundlink_ihm/pages/integration/components/artistesIntegration.html',
-    controller: artistesIntegrationController
+    controller: artistesIntegrationController,
+    bindings : { artistes : '<' }
 });
 
-artistesIntegrationController.$inject = ['integrationContenu'];
+artistesIntegrationController.$inject = ['$scope'];
 
-function artistesIntegrationController(integrationContenu) {
-
+function artistesIntegrationController($scope) {
     var vm = this;
 
-    vm.artistes = integrationContenu.getIntegrationDatas().artistes;
+     var artiste = vm.artistes;
 }

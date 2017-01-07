@@ -2,6 +2,7 @@
 
 var AV = require('av');
 require('flac.js');
+//require('mp3.js');
 
 angular.module('soundlink').service("audioPlayer", audioPlayer);
 
@@ -10,56 +11,57 @@ audioPlayer.$inject = ['audioStatus', '$q'];
 function audioPlayer(audioStatus, $q) {
 
   var audioPlayer = this;
-
   var player;
-  var playlist = [];
-  var currentSong;
-  var duration;
-  
-  audioPlayer.getCurrentSong = function () {
-    return currentSong;
-  };
 
-  audioPlayer.isPlaying = function () {
-    return player != null && player.playing;
-  };
-
-  audioPlayer.getPlaylist = function () {
-    return playlist;
+  audioPlayer.setVolume = function (volume) {
+    audioStatus.setVolume(volume);
+    if (player != null) {
+      player.volume = volume;
+    }
   };
 
   audioPlayer.add = function (song) {
-    playlist.push(song);
+    if (audioStatus.getPlaylist().indexOf(song) == -1) {
+      audioStatus.getPlaylist().push(song);
+    }
   };
 
   audioPlayer.play = function (song) {
+    var currentSong = audioStatus.getCurrentSong();
     if (song != null && (currentSong == null || song.id != currentSong.id)) {
       if (player != null) {
         player.stop();
       }
-      player = AV.Player.fromURL(song.url);
-      currentSong = song;
-      managePlayerEvent();
-      player.play();
+      playSong(song);
     } else if (player != null && currentSong != null) {
       player.play();
-    } else if (playlist.length > 0) {
-      currentSong = playlist[0];
-      player = AV.Player.fromURL(currentSong.url);
-      managePlayerEvent();
-      player.play();
+      audioStatus.setPlaying(true);
+    } else if (audioStatus.getPlaylist().length > 0) {
+      playSong(audioStatus.getPlaylist()[0]);
     }
   };
+
+  function playSong(song) {
+    $q.when(song).then(function () {
+      audioStatus.setCurrentSong(song);
+      audioStatus.setPlaying(true);
+    });
+    player = AV.Player.fromURL(song.url);
+    managePlayerEvent();
+    player.play();
+  }
 
   audioPlayer.pause = function () {
     if (player != null) {
       player.pause();
+      audioStatus.setPlaying(false);
     }
   };
 
   audioPlayer.continue = function () {
     if (player != null) {
       player.play();
+      audioStatus.setPlaying(true);
     }
   };
 
@@ -76,33 +78,46 @@ function audioPlayer(audioStatus, $q) {
   };
 
   audioPlayer.next = function () {
+    var currentSong = audioStatus.getCurrentSong();
+    var playlist = audioStatus.getPlaylist();
     if (currentSong != null) {
       var nextSongIndex = playlist.indexOf(currentSong) + 1;
       if (playlist.length > nextSongIndex) {
-        var song = playlist[playlist.indexOf(currentSong) + 1];
+        var song = playlist[nextSongIndex];
         audioPlayer.play(song);
       }
     }
   };
 
   function managePlayerEvent() {
+    player.volume = audioStatus.getVolume();
     player.on('ready', function () {
-      // fireEvent('ready');
+
     });
+
     player.on('end', function () {
-      // fireEvent('end');
       audioPlayer.next();
     });
+
+    player.on('error', function (err) {
+      console.log(err);
+    });
+
     player.on('progress', function (progress) {
-      $q.when(progress).then(function(){
-        audioStatus.setProgress((progress/duration) * 100);
+      $q.when(progress).then(function () {
+        audioStatus.setProgress((progress / audioStatus.getDuration()) * 100);
       });
     });
     player.on('duration', function (pDuration) {
-      duration = pDuration;
+      $q.when(pDuration).then(function () {
+        audioStatus.setDuration(pDuration);
+      });
     });
+
     player.on('buffer', function (percent) {
-      // fireEvent('buffer', percent);
+      $q.when(percent).then(function () {
+        audioStatus.setLoadingPercent(percent);
+      });
     });
   }
 }

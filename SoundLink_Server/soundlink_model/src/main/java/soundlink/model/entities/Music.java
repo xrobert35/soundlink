@@ -35,7 +35,7 @@ public class Music {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "album_id")
+    @JoinColumn(name = "album_id", nullable = false)
     private Album album;
 
     private Integer trackNumber = null;

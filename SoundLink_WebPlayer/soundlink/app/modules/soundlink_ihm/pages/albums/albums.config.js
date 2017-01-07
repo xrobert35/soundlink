@@ -7,6 +7,7 @@ albumConfig.$inject = ['$stateProvider'];
 function albumConfig($stateProvider) {
 
   initAlbums.$inject = ['soundlinkResource'];
+  
   function initAlbums(soundlinkResource) {
     return soundlinkResource.getAlbums().then(function (albums) {
       return albums;

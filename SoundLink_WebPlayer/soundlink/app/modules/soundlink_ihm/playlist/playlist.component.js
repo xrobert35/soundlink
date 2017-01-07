@@ -5,15 +5,21 @@ angular.module('soundlink').component('soundlinkPlaylist', {
     controller: playlistController
 });
 
-playlistController.$inject = ['eventManager', 'audioPlayer'];
+playlistController.$inject = ['eventManager', 'audioStatus'];
 
-function playlistController(eventManager, audioPlayer) {
+function playlistController(eventManager, audioStatus) {
     var vm = this;
 
     vm.showPlaylist = false;
-    vm.getPlaylist = audioPlayer.getPlaylist;
+    vm.getPlaylist = audioStatus.getPlaylist;
 
     eventManager.subscribeToEvent("playlistOpen", function () {
-        vm.showPlaylist =  !vm.showPlaylist;
+        vm.showPlaylist = true;
     });
+
+    eventManager.subscribeToEvent("tooglePlaylistOpen", function () {
+        vm.showPlaylist = !vm.showPlaylist;
+    });
+
+
 }

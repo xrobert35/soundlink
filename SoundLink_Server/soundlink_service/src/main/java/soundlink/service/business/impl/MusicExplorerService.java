@@ -224,9 +224,10 @@ public final class MusicExplorerService implements IMusicExplorerService {
             ImageIO.write(coverImage, "jpg", baosB);
 
             String baseImage = new String(Base64.getEncoder().encode(baosB.toByteArray()));
+            int length = baseImage.length();
 
-            Image scaledInstance = coverImage.getScaledInstance(150, 150, Image.SCALE_DEFAULT);
-            BufferedImage resizedImage = new BufferedImage(150, 150, BufferedImage.TYPE_INT_ARGB);
+            Image scaledInstance = coverImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
+            BufferedImage resizedImage = new BufferedImage(200, 200, coverImage.getType());
             Graphics2D g2d = resizedImage.createGraphics();
             g2d.drawImage(scaledInstance, 0, 0, null);
             g2d.dispose();
@@ -235,7 +236,7 @@ public final class MusicExplorerService implements IMusicExplorerService {
             ImageIO.write(resizedImage, "jpg", baos);
 
             String imageResized = new String(Base64.getEncoder().encode(baos.toByteArray()));
-
+            int length2 = imageResized.length();
             album.setCover(imageResized);
 
             // albumDescriptor.setCoverGeneralColor(ImageUtils.getImageHexMainColor(coverImage));

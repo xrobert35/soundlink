@@ -1,5 +1,7 @@
 package soundlink.dto;
 
+import java.util.Objects;
+
 /**
  * Music dto
  *
@@ -12,7 +14,11 @@ public class MusicDto {
 
     private String title;
 
+    private Long artisteId;
+
     private String artistName;
+
+    private Long albumId;
 
     private String albumName;
 
@@ -102,81 +108,34 @@ public class MusicDto {
         this.musicFileSize = musicFileSize;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((albumName == null) ? 0 : albumName.hashCode());
-        result = prime * result + ((artistName == null) ? 0 : artistName.hashCode());
-        result = prime * result + ((bitRate == null) ? 0 : bitRate.hashCode());
-        result = prime * result + ((durationInSeconde == null) ? 0 : durationInSeconde.hashCode());
-        result = prime * result + ((musicFilePath == null) ? 0 : musicFilePath.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((trackNumber == null) ? 0 : trackNumber.hashCode());
-        return result;
+    public Long getArtisteId() {
+        return artisteId;
+    }
+
+    public void setArtisteId(Long artisteId) {
+        this.artisteId = artisteId;
+    }
+
+    public Long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Long albumId) {
+        this.albumId = albumId;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(final Object other) {
+        if (!(other instanceof MusicDto)) {
             return false;
         }
-        if (!(obj instanceof MusicDto)) {
-            return false;
-        }
-        MusicDto other = (MusicDto) obj;
-        if (albumName == null) {
-            if (other.albumName != null) {
-                return false;
-            }
-        } else if (!albumName.equals(other.albumName)) {
-            return false;
-        }
-        if (artistName == null) {
-            if (other.artistName != null) {
-                return false;
-            }
-        } else if (!artistName.equals(other.artistName)) {
-            return false;
-        }
-        if (bitRate == null) {
-            if (other.bitRate != null) {
-                return false;
-            }
-        } else if (!bitRate.equals(other.bitRate)) {
-            return false;
-        }
-        if (durationInSeconde == null) {
-            if (other.durationInSeconde != null) {
-                return false;
-            }
-        } else if (!durationInSeconde.equals(other.durationInSeconde)) {
-            return false;
-        }
-        if (musicFilePath == null) {
-            if (other.musicFilePath != null) {
-                return false;
-            }
-        } else if (!musicFilePath.equals(other.musicFilePath)) {
-            return false;
-        }
-        if (title == null) {
-            if (other.title != null) {
-                return false;
-            }
-        } else if (!title.equals(other.title)) {
-            return false;
-        }
-        if (trackNumber == null) {
-            if (other.trackNumber != null) {
-                return false;
-            }
-        } else if (!trackNumber.equals(other.trackNumber)) {
-            return false;
-        }
-        return true;
+        MusicDto castOther = (MusicDto) other;
+        return Objects.equals(id, castOther.id);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }

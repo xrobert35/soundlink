@@ -1,8 +1,8 @@
 <md-content class="sub-content">
   <div layout="row" layout-align="none start">
     <div layout="column" layout-align="none center" flex>
-      <h3>{{$ctrl.album.name }}</h3>
-      <img ng-src="data:image/JPEG;base64,{{$ctrl.album.cover}}" class="albumCover">
+      <h3>{{::$ctrl.album.name }}</h3>
+      <img ng-src="data:image/JPEG;base64,{{::$ctrl.album.cover}}" class="albumCover">
     </div>
     <div layout="row" layout-align="center" flex="60">
       <md-table-container flex>
@@ -12,19 +12,19 @@
               <th class="tight-column"></th>
               <th class="tight-column"></th>
               <th>Title</th>
-              <th class="tight-column" md-numeric>N°</th>
-              <th class="tight-column" md-numeric>Duration</th>
+              <th class="tight-column">N°</th>
+              <th class="tight-column">Duration</th>
             </tr>
           </thead>
-          <tbody>
-            <tr ng-repeat="music in $ctrl.musics">
+          <tbody >
+            <tr ng-repeat="music in $ctrl.albumSongs">
               <td class="tight-column" >
-                <md-button class="no-margin" play-music="music">
+                <md-button class="no-margin" play-music="::music">
                   <md-icon>play_circle_filled</md-icon>
                 </md-button>
               </td>
               <td class="tight-column" >
-                <md-button class="no-margin" add-music="music">
+                <md-button class="no-margin" add-music="::music">
                   <md-icon> add_circle </md-icon>
                 </md-button>
               </td>

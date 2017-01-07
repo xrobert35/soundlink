@@ -1,49 +1,50 @@
 <md-content class="md-padding">
   <md-list>
-    <md-list-item ng-repeat-start="artiste in $ctrl.artistes" ng-click="artiste.open = !artiste.open" class="noright">
+    <md-list-item ng-repeat-start="artiste in ::$ctrl.artistes" ng-click="artiste.open = !artiste.open" class="noright">
       <md-checkbox class="md-secondary" ng-model="artiste.selected" ng-change="$ctrl.selectArtisteChange(artiste)"></md-checkbox>
-      <p>{{ artiste.name }}</p>
+      <p>{{ ::artiste.name }}</p>
     </md-list-item>
     <md-divider></md-divider>
-    <div ng-repeat-end ng-show="artiste.open">
-      <md-list-item ng-repeat-start="album in artiste.albums" class="md-2-line level2" ng-click="album.open = !album.open">
+    <div ng-repeat-end ng-if="artiste.open">
+
+      <md-list-item ng-repeat-start="album in ::artiste.albums" class="md-2-line level2" ng-click="album.open = !album.open">
         <img ng-src="data:image/JPEG;base64,{{::album.cover}}" class="md-image"></img>
         <div class="md-list-item-text" layout="column">
-          <h3>{{ album.name }}</h3>
-          <p>{{ album.bitRate }} - {{ album.extension}}</p>
+          <h3>{{ ::album.name }}</h3>
+          <p>{{ ::album.bitRate }} - {{ ::album.extension}}</p>
         </div>
         <md-checkbox class="md-secondary" ng-model="album.selected" ng-change="$ctrl.selectAlbumChange(artiste)"></md-checkbox>
       </md-list-item>
+
       <md-divider class="level2"></md-divider>
-      <div ng-repeat-end ng-show="album.open">
-        <md-table-container ng-repeat-end>
-          <table md-table md-row-select multiple md-progress="promise">
-            <thead md-head>
-              <tr md-row>
-                <th md-column>Title</th>
-                <th md-column md-numeric>N°</th>
-                <th md-column md-numeric>Duration</th>
-                <th md-column md-numeric>Byte Rate</th>
-                <th md-column>File</th>
-                <th md-column>Size</th>
+      <div ng-repeat-end layout="row" ng-if="album.open" flex>
+        <md-table-container ng-repeat-end flex>
+          <table flex>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>N°</th>
+                <th>Duration</th>
+                <th>Byte Rate</th>
+                <th>File</th>
+                <th>Size</th>
               </tr>
             </thead>
-            <tbody md-body>
-              <tr md-row md-select="music" md-select-id="music" md-auto-select ng-repeat="music in album.musics">
-                <td md-cell>{{music.title}}</td>
-                <td md-cell>{{music.trackNumber}}</td>
-                <td md-cell>{{music.durationInSeconde | minute}}</td>
-                <td md-cell>{{music.bitRate}}</td>
-                <td md-cell>
+            <tbody>
+              <tr ng-repeat="music in ::album.musics">
+                <td>{{::music.title}}</td>
+                <td>{{::music.trackNumber}}</td>
+                <td>{{::music.durationInSeconde}}</td>
+                <td>{{::music.bitRate}}</td>
+                <td>
                   <md-icon>attach_file
-                    <md-tooltip>{{music.musicFilePath}}</md-tooltip>
+                    <md-tooltip>{{::music.musicFilePath}}</md-tooltip>
                   </md-icon>
                 </td>
-                <td md-cell> {{music.musicFileSize}} </td>
+                <td> {{::music.musicFileSize}} </td>
               </tr>
             </tbody>
           </table>
-        </md-table-container>
       </div>
     </div>
   </md-list>

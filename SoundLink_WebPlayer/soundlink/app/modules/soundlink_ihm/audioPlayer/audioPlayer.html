@@ -3,10 +3,15 @@
 
     <div layout="column">
         <div>
-            <md-progress-linear md-mode="determinate" value="{{$ctrl.getProgress()}}"></md-progress-linear>
+            <md-progress-linear md-mode="buffer" 
+            value="{{$ctrl.getProgress()}}"
+            md-buffer-value="{{$ctrl.getLoadingPercent()}}"></md-progress-linear>
         </div>
         <div layout="row" layout-align="center">
-            <div flex></div>
+            <div flex>
+                <p>{{$ctrl.getCurrentSong().title}}</p>
+                <p>{{$ctrl.getLoadingPercent()}}</p>
+            </div>
             <md-button previous-music class="no-margin">
                 <md-icon>skip_previous</md-icon>
             </md-button>
@@ -19,7 +24,7 @@
             <md-button next-music class="no-margin">
                 <md-icon>skip_next</md-icon>
             </md-button>
-            <md-button repeat-music class="no-margin" ng-class="{'selected' : repeat}">
+            <md-button repeat-music class="no-margin">
                 <md-icon>repeat</md-icon>
             </md-button>
             <!--<md-button class="no-margin">
@@ -27,7 +32,7 @@
             </md-button>-->
             <md-slider-container class="margin-left-20">
                 <md-icon>volume_up</md-icon>
-                <md-slider flex min="0" max="255" ng-model="color.red" aria-label="red" id="red-slider"></md-slider>
+                <md-slider flex min="0" max="100" ng-model="$ctrl.volume" ng-change="$ctrl.volumeChange()"></md-slider>
             </md-slider-container>
             <div layout="row" layout-align="end" flex>
                 <md-button ng-click="$ctrl.openPlaylist()">

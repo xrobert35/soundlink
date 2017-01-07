@@ -2,15 +2,16 @@
 
 angular.module('soundlink').component('errorsIntegration', {
   templateUrl: 'app/modules/soundlink_ihm/pages/integration/components/errorsIntegration.html',
-  controller: errorsIntegrationController
+  controller: errorsIntegrationController,
+    bindings : {
+        errors : '<'
+    }
 });
 
-errorsIntegrationController.$inject = ['integrationContenu'];
+errorsIntegrationController.$inject = [];
 
-function errorsIntegrationController(integrationContenu) {
-
+function errorsIntegrationController() {
   var vm = this;
 
-  vm.errors = integrationContenu.getIntegrationDatas().errors;
-
+ 
 }
