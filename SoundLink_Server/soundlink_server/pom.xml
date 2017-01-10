@@ -112,6 +112,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>soundlink_server</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
