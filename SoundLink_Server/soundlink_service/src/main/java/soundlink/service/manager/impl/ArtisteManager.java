@@ -3,7 +3,8 @@ package soundlink.service.manager.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,34 +21,34 @@ import soundlink.service.manager.IArtisteManager;
 @Service
 public class ArtisteManager implements IArtisteManager {
 
-	private static final Logger LOGGER = Logger.getLogger(AlbumManager.class);
+    private static final Logger LOGGER = LogManager.getLogger(AlbumManager.class);
 
-	@Autowired
-	private ArtisteRepository artisteRepository;
+    @Autowired
+    private ArtisteRepository artisteRepository;
 
-	@Override
-	public Set<Artiste> getAllArtistes() {
-		return new HashSet<Artiste>(artisteRepository.findAll());
-	}
+    @Override
+    public Set<Artiste> getAllArtistes() {
+        return new HashSet<Artiste>(artisteRepository.findAll());
+    }
 
-	@Override
-	public Artiste create(Artiste artiste) {
-		return artisteRepository.save(artiste);
-	}
+    @Override
+    public Artiste create(Artiste artiste) {
+        return artisteRepository.save(artiste);
+    }
 
-	@Override
-	public boolean deleteArtiste(Artiste artiste) {
-		if (artisteRepository.exists(artiste.getId())) {
-			artisteRepository.delete(artiste.getId());
-			return true;
-		} else {
-			LOGGER.info("Cannot delete a none existing album with id " + artiste.getId());
-			return false;
-		}
-	}
+    @Override
+    public boolean deleteArtiste(Artiste artiste) {
+        if (artisteRepository.exists(artiste.getId())) {
+            artisteRepository.delete(artiste.getId());
+            return true;
+        } else {
+            LOGGER.info("Cannot delete a none existing album with id " + artiste.getId());
+            return false;
+        }
+    }
 
-	@Override
-	public Artiste getArtisteByName(String artisteName) {
-		return artisteRepository.findByName(artisteName);
-	}
+    @Override
+    public Artiste getArtisteByName(String artisteName) {
+        return artisteRepository.findByName(artisteName);
+    }
 }

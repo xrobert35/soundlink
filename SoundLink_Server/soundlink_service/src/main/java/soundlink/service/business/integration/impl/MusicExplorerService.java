@@ -1,4 +1,4 @@
-package soundlink.service.business.impl;
+package soundlink.service.business.integration.impl;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,7 +11,8 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
@@ -30,7 +31,7 @@ import soundlink.dto.MusicDto;
 import soundlink.model.entities.Album;
 import soundlink.model.entities.Artiste;
 import soundlink.model.entities.Music;
-import soundlink.service.business.IMusicExplorerService;
+import soundlink.service.business.integration.IMusicExplorerService;
 import soundlink.service.converter.AlbumDtoConverter;
 import soundlink.service.converter.ArtisteDtoConverter;
 import soundlink.service.converter.MusicDtoConverter;
@@ -42,9 +43,11 @@ import soundlink.service.manager.IMusicManager;
 @Service
 public final class MusicExplorerService implements IMusicExplorerService {
 
-    private static final Logger LOGGER = Logger.getLogger(MusicExplorerService.class);
+    private static final Logger LOGGER = LogManager.getLogger(MusicExplorerService.class);
 
-    @Value("${file.upload.path}")
+    @Value("#{environment['SOUNDLINK_HOME']}")
+    private String soundlinkFolder;
+
     private String filePath;
 
     @Autowired
@@ -78,11 +81,13 @@ public final class MusicExplorerService implements IMusicExplorerService {
 
     @Override
     public IntegrationDto loadMusics() {
+        filePath = soundlinkFolder + "/integration";
+
         File mainDirectory = new File(filePath);
         if (mainDirectory.isDirectory()) {
             exploreDirectory(mainDirectory);
         } else {
-            throw new IllegalArgumentException("Root path must be a valide directory !");
+            throw new IllegalArgumentException("Root path must be a valide directory :" + filePath);
         }
         return integrationDto.get();
     }
@@ -219,13 +224,6 @@ public final class MusicExplorerService implements IMusicExplorerService {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-
-            ByteArrayOutputStream baosB = new ByteArrayOutputStream();
-            ImageIO.write(coverImage, "jpg", baosB);
-
-            String baseImage = new String(Base64.getEncoder().encode(baosB.toByteArray()));
-            int length = baseImage.length();
-
             Image scaledInstance = coverImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
             BufferedImage resizedImage = new BufferedImage(200, 200, coverImage.getType());
             Graphics2D g2d = resizedImage.createGraphics();
@@ -236,7 +234,6 @@ public final class MusicExplorerService implements IMusicExplorerService {
             ImageIO.write(resizedImage, "jpg", baos);
 
             String imageResized = new String(Base64.getEncoder().encode(baos.toByteArray()));
-            int length2 = imageResized.length();
             album.setCover(imageResized);
 
             // albumDescriptor.setCoverGeneralColor(ImageUtils.getImageHexMainColor(coverImage));

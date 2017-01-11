@@ -144,25 +144,34 @@
   }
   md-progress-linear {
     .md-container {
-      background-color: @orange-color;
+      .md-bar {
+        &.md-bar1 {
+          background-color: @orange-color;
+        }
+        &.md-bar2 {
+          background-color: @blue-color;
+        }
+      }
     }
   }
   md-table-container {
     table {
-      md-button {
-        min-width: 100px;
+      width: 100%;
+      .md-button {
+        min-width: 60px;
       }
       th {
         &.tight-column {
-          max-width: 90px;
-          width: 90px;
+          max-width: 60px;
+          width: 60px;
           padding: 0 0 0 0 !important;
         }
       }
       td {
+        height: 20px;
         &.tight-column {
-          max-width: 90px;
-          width: 90px;
+          max-width: 60px;
+          width: 60px;
           padding: 0 0 0 0 !important;
         }
       }
@@ -180,7 +189,7 @@
           .md-thumb-container {
             .md-thumb::after {
               background-color: blue;
-              border-color : blue;
+              border-color: blue;
             }
           }
         }

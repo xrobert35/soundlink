@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import soundlink.dto.IntegrationDto;
-import soundlink.service.business.IMusicExplorerService;
+import soundlink.service.business.integration.IMusicExplorerService;
 
 /**
  * Admin controller This controller will take care of all admin action

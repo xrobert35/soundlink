@@ -1,4 +1,4 @@
-package soundlink.service.business;
+package soundlink.service.business.integration;
 
 import soundlink.dto.IntegrationDto;
 

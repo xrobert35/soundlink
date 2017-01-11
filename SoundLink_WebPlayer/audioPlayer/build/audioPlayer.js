@@ -257,8 +257,6 @@ function audioStatus() {
 'use strict';
 
 var AV = require('av');
-require('flac.js');
-//require('mp3.js');
 
 angular.module('soundlink').service("audioPlayer", audioPlayer);
 

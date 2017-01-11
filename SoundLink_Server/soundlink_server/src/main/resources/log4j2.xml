@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60">
+	<Properties>
+		<Property name="log-file-path">${env:SOUNDLINK_HOME}/log
+		</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console-Appender" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+				>
+			</PatternLayout>
+		</Console>
+		<File name="File-Appender" fileName="${log-file-path}/integration.log">
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+		</File>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.springframework" level="ERROR" additivity="false">
+			<AppenderRef ref="Console-Appender" level="error" />
+		</Logger>
+
+		<Logger name="org.springframework.transaction.interceptor"
+			level="ERROR" additivity="false">
+			<AppenderRef ref="Console-Appender" level="error" />
+		</Logger>
+		<Logger name="org.hibernate" level="ERROR" additivity="false">
+			<AppenderRef ref="Console-Appender" level="error" />
+		</Logger>
+		<Logger name="org.jaudiotagger" level="ERROR" additivity="false">
+			<AppenderRef ref="File-Appender" level="error" />
+		</Logger>
+		<Logger name="soundlink.service.business.integration" level="ERROR"
+			additivity="false">
+			<AppenderRef ref="File-Appender" level="error" />
+		</Logger>
+		<Root level="INFO">
+			<AppenderRef ref="Console-Appender" />
+		</Root>
+	</Loggers>
+</Configuration>

@@ -4,7 +4,8 @@ import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ import soundlink.service.manager.IAlbumManager;
 @Service
 public class AlbumManager implements IAlbumManager {
 
-    private static final Logger LOGGER = Logger.getLogger(AlbumManager.class);
+    private static final Logger LOGGER = LogManager.getLogger(AlbumManager.class);
 
     @Autowired
     private AlbumRepository albumRepository;

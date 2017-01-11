@@ -18,7 +18,7 @@
           </thead>
           <tbody >
             <tr ng-repeat="music in $ctrl.albumSongs">
-              <td class="tight-column" >
+              <td class="tight-column">
                 <md-button class="no-margin" play-music="::music">
                   <md-icon>play_circle_filled</md-icon>
                 </md-button>
@@ -28,7 +28,7 @@
                   <md-icon> add_circle </md-icon>
                 </md-button>
               </td>
-              <td>{{::music.title}}</td>
+              <td flex>{{::music.title}}</td>
               <td class="tight-column" >{{::music.trackNumber}}</td>
               <td class="tight-column" >{{::music.durationInSeconde | minute}}</td>
             </tr>

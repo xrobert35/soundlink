@@ -4,7 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,17 +20,17 @@ import soundlink.service.manager.IFileManager;
 @Service
 public class FileManager implements IFileManager {
 
-    @Value("${file.upload.path}")
-    private String filePath;
+    @Value("#{environment['SOUNDLINK_HOME']}")
+    private String soundlinkFolder;
 
     public static final String separator = "/";
 
-    private static Logger logger = Logger.getLogger(FileManager.class);
+    private static Logger logger = LogManager.getLogger(FileManager.class);
 
     @Override
     public File saveFile(MultipartFile multiPartFile, String path, String filename) {
         if (!multiPartFile.isEmpty()) {
-            File userFolder = new File(filePath + FileManager.separator + path);
+            File userFolder = new File(soundlinkFolder + FileManager.separator + path);
             if (!userFolder.exists()) {
                 userFolder.mkdirs();
             }
@@ -50,6 +51,6 @@ public class FileManager implements IFileManager {
 
     @Override
     public File getFile(String path) {
-        return new File(filePath + FileManager.separator + path);
+        return new File(soundlinkFolder + FileManager.separator + path);
     }
 }

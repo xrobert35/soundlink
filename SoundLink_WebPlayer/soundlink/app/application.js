@@ -20,6 +20,7 @@ function main($state, $rootScope) {
 
     // $state.preventDefault();
     var startResolve = false;
+    var startError = false;
     var statePrevent;
     var statePreventParams;
 
@@ -28,19 +29,25 @@ function main($state, $rootScope) {
             statePrevent = toState;
             statePreventParams = toParams;
             event.preventDefault();
+        } else if (startError && toState.name != 'login') {
+            event.preventDefault();
+            $state.go("login");
         }
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name == 'start') {
             startResolve = true;
-            $state.go(statePrevent,statePreventParams);
+            startError = false;
+            $state.go(statePrevent, statePreventParams);
         }
     });
 
     $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
         if (toState.name == 'start') {
             startResolve = true;
+            startError = true;
+            event.preventDefault();
             $state.go("login");
         }
     });

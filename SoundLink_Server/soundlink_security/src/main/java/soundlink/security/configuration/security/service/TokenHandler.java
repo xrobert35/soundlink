@@ -65,7 +65,6 @@ public class TokenHandler {
 
     private SoundLinkUserDetails fromJSON(final byte[] userBytes) {
         try {
-            String userBy = new String(userBytes);
             return new ObjectMapper().readValue(new ByteArrayInputStream(userBytes), SoundLinkUserDetails.class);
         } catch (IOException e) {
             throw new IllegalStateException(e);
