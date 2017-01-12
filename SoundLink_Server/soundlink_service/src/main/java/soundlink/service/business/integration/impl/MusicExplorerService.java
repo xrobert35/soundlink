@@ -156,7 +156,8 @@ public final class MusicExplorerService implements IMusicExplorerService {
             }
         } catch (Exception e) {
             manageErrorFile(musicFile, e.getMessage());
-            LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + e.getMessage());
+            LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + " " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

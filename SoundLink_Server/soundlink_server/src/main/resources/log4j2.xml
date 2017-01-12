@@ -35,7 +35,7 @@
 		<Logger name="org.hibernate" level="ERROR" additivity="false">
 			<AppenderRef ref="Console-Appender"/>
 		</Logger>
-		<Logger name="org.jaudiotagger" level="ERROR" additivity="false">
+		<Logger name="org.jaudiotagger" level="OFF" additivity="false">
 			<AppenderRef ref="File-Appender" />
 		</Logger>
 		<Logger name="soundlink.service.business.integration" level="ERROR" additivity="false">
