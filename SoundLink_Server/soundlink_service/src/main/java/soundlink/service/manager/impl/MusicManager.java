@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import soundlink.dao.repositories.AlbumRepository;
 import soundlink.dao.repositories.MusicRepository;
-import soundlink.model.entities.Album;
 import soundlink.model.entities.Music;
 import soundlink.service.manager.IMusicManager;
 
@@ -40,12 +39,9 @@ public class MusicManager implements IMusicManager {
     @Override
     public Music create(Music music) {
         if (music.getAlbum() != null) {
-            Album albumMusic = albumRepository.findOne(music.getAlbum().getId());
-            albumMusic.getMusics().add(music);
-            albumRepository.save(albumMusic);
-            return music;
+            return musicRepository.save(music);
         } else {
-            throw new InvalidParameterException("You must specificy the album artiste !");
+            throw new InvalidParameterException("You must specificy the album !");
         }
     }
 

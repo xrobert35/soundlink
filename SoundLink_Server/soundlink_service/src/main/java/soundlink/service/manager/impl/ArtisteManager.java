@@ -33,7 +33,9 @@ public class ArtisteManager implements IArtisteManager {
 
     @Override
     public Artiste create(Artiste artiste) {
-        return artisteRepository.save(artiste);
+        Artiste artisteCreated = artisteRepository.save(artiste);
+        artisteRepository.flush();
+        return artisteCreated;
     }
 
     @Override

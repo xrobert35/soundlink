@@ -46,12 +46,7 @@ public class AlbumManager implements IAlbumManager {
     @Override
     public Album create(Album album) {
         if (album.getArtiste() != null) {
-            Artiste albumArtiste = artisteRepository.findOne(album.getArtiste().getId());
-            if (albumArtiste != null) {
-                albumArtiste.getAlbums().add(album);
-            }
-            artisteRepository.save(albumArtiste);
-            return album;
+            return albumRepository.save(album);
         } else {
             throw new InvalidParameterException("You must specificy the album artiste !");
         }

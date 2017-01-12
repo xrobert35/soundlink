@@ -22,6 +22,7 @@ import org.jaudiotagger.tag.images.Artwork;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import soundlink.dto.AlbumDto;
 import soundlink.dto.ArtisteDto;
@@ -115,7 +116,9 @@ public final class MusicExplorerService implements IMusicExplorerService {
         try {
             AudioFile audioFile = AudioFileIO.read(musicFile);
             Tag tag = audioFile.getTag();
-
+            if (tag == null) {
+                throw new Exception("No tag found !");
+            }
             // Check if the artiste already exist in database
             String artisteName = tag.getFirst(FieldKey.ARTIST);
             Artiste artiste = artisteManager.getArtisteByName(artisteName);
@@ -220,7 +223,9 @@ public final class MusicExplorerService implements IMusicExplorerService {
         album.setName(tag.getFirst(FieldKey.ALBUM));
         album.setBitRate(audioHeader.getBitRate());
         album.setExtension(audioFile.getExt());
+
         album.setArtiste(artiste);
+        artiste.getAlbums().add(album);
 
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
@@ -251,13 +256,22 @@ public final class MusicExplorerService implements IMusicExplorerService {
         AudioHeader audioHeader = audioFile.getAudioHeader();
 
         music.setMusicFilePath(audioFile.getFile().getAbsolutePath());
-        music.setTrackNumber(Integer.valueOf(tag.getFirst(FieldKey.TRACK)));
+
+        String track = tag.getFirst(FieldKey.TRACK);
+        if (!StringUtils.isEmpty(track)) {
+            if (track.contains("/")) {
+                track = track.substring(0, track.indexOf("/"));
+            }
+            music.setTrackNumber(Integer.valueOf(track));
+        }
+
         music.setTitle(tag.getFirst(FieldKey.TITLE));
         music.setDurationInSeconde(audioHeader.getTrackLength());
         music.setBitRate(audioHeader.getBitRate() + " kbps");
         music.setExtension(audioFile.getExt());
 
         music.setAlbum(album);
+        album.getMusics().add(music);
 
         LOGGER.debug("Creation of the music : " + music.getTitle());
         return musicManager.create(music);
