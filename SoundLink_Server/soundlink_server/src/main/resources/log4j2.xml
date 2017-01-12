@@ -25,22 +25,21 @@
 
 	<Loggers>
 		<Logger name="org.springframework" level="ERROR" additivity="false">
-			<AppenderRef ref="Console-Appender" level="error" />
+			<AppenderRef ref="Console-Appender"/>
 		</Logger>
 
 		<Logger name="org.springframework.transaction.interceptor"
 			level="ERROR" additivity="false">
-			<AppenderRef ref="Console-Appender" level="error" />
+			<AppenderRef ref="Console-Appender"/>
 		</Logger>
 		<Logger name="org.hibernate" level="ERROR" additivity="false">
-			<AppenderRef ref="Console-Appender" level="error" />
+			<AppenderRef ref="Console-Appender"/>
 		</Logger>
 		<Logger name="org.jaudiotagger" level="ERROR" additivity="false">
-			<AppenderRef ref="File-Appender" level="error" />
+			<AppenderRef ref="File-Appender" />
 		</Logger>
-		<Logger name="soundlink.service.business.integration" level="ERROR"
-			additivity="false">
-			<AppenderRef ref="File-Appender" level="error" />
+		<Logger name="soundlink.service.business.integration" level="ERROR" additivity="false">
+			<AppenderRef ref="File-Appender"/>
 		</Logger>
 		<Root level="INFO">
 			<AppenderRef ref="Console-Appender" />
