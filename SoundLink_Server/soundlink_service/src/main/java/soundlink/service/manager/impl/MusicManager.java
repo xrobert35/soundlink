@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import soundlink.dao.repositories.AlbumRepository;
 import soundlink.dao.repositories.MusicRepository;
 import soundlink.model.entities.Music;
 import soundlink.service.manager.IMusicManager;
@@ -27,9 +26,6 @@ public class MusicManager implements IMusicManager {
 
     @Autowired
     private MusicRepository musicRepository;
-
-    @Autowired
-    private AlbumRepository albumRepository;
 
     @Override
     public List<Music> getMusicsFromAlbum(Integer albumId) {
@@ -63,8 +59,8 @@ public class MusicManager implements IMusicManager {
     }
 
     @Override
-    public Music getMusicByTitle(String title) {
-        return musicRepository.findMusicByTitle(title);
+    public Music getMusicByTitleAlbumNameArtisteName(String title, String albumName, String artisteName) {
+        return musicRepository.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
     }
 
 }

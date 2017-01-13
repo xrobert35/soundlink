@@ -70,6 +70,7 @@ CREATE TABLE music (
   album_id SERIAL,
   title VARCHAR(255),
   track_number INT,
+  disc_number INT,
   duration_in_seconde INT,
   bit_rate VARCHAR(255),
   extension VARCHAR(255),

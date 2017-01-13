@@ -5,36 +5,36 @@
       <img ng-src="data:image/JPEG;base64,{{::$ctrl.album.cover}}" class="albumCover">
     </div>
     <div layout="row" layout-align="center" flex="60">
-      <md-table-container flex>
+      <div class="music-table" flex>
         <table>
           <thead>
             <tr>
               <th class="tight-column"></th>
               <th class="tight-column"></th>
-              <th>Title</th>
+              <th flex>Title</th>
               <th class="tight-column">N°</th>
-              <th class="tight-column">Duration</th>
+              <th>Duration</th>
             </tr>
           </thead>
-          <tbody >
-            <tr ng-repeat="music in $ctrl.albumSongs">
-              <td class="tight-column">
+          <tbody>
+            <tr ng-repeat="music in $ctrl.albumSongs" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
+              <td class="tight-column center">
                 <md-button class="no-margin" play-music="::music">
                   <md-icon>play_circle_filled</md-icon>
                 </md-button>
               </td>
-              <td class="tight-column" >
+              <td class="tight-column center">
                 <md-button class="no-margin" add-music="::music">
                   <md-icon> add_circle </md-icon>
                 </md-button>
               </td>
               <td flex>{{::music.title}}</td>
-              <td class="tight-column" >{{::music.trackNumber}}</td>
-              <td class="tight-column" >{{::music.durationInSeconde | minute}}</td>
+              <td class="tight-column center">{{::music.trackNumber}}</td>
+              <td class="center">{{::music.durationInSeconde | minute}}</td>
             </tr>
           </tbody>
         </table>
-      </md-table-container>
+      </div>
     </div>
     <div layout="row" layout-align="end" flex>
       <md-button remove-detail-item>

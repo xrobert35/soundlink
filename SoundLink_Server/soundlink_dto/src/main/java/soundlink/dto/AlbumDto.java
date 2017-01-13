@@ -26,6 +26,8 @@ public class AlbumDto {
 
     private String cover;
 
+    private Integer discNumber;
+
     private File albumDirectory;
 
     private List<MusicDto> musics = new ArrayList<>(0);
@@ -100,6 +102,14 @@ public class AlbumDto {
 
     public void setCoverGeneralColor(String coverGeneralColor) {
         this.coverGeneralColor = coverGeneralColor;
+    }
+
+    public Integer getDiscNumber() {
+        return discNumber;
+    }
+
+    public void setDiscNumber(Integer discNumber) {
+        this.discNumber = discNumber;
     }
 
     @Override

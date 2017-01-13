@@ -30,6 +30,7 @@
 		<apache.commons.io.version>2.4</apache.commons.io.version>
 		<apache.commons.collection.version>3.2.2</apache.commons.collection.version>
 		<apache.commons.lang3.version>3.4</apache.commons.lang3.version>
+		<image.scalr.version>4.2</image.scalr.version>
 	</properties>
 
 	<parent>
@@ -45,6 +46,11 @@
 				<groupId>xutils</groupId>
 				<artifactId>xutils</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.imgscalr</groupId>
+				<artifactId>imgscalr-lib</artifactId>
+				<version>${image.scalr.version}</version>
 			</dependency>
 
 			<!-- Project -->

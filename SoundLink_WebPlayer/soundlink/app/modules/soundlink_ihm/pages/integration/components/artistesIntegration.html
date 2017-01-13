@@ -17,9 +17,9 @@
       </md-list-item>
 
       <md-divider class="level2"></md-divider>
-      <div ng-repeat-end layout="row" ng-if="album.open" flex>
-        <md-table-container ng-repeat-end flex>
-          <table flex>
+      <div ng-repeat-end layout="row" ng-if="album.open" class="musicsIntegration" flex>
+        <div ng-repeat-end class="music-table" flex>
+          <table>
             <thead>
               <tr>
                 <th>Title</th>
@@ -31,17 +31,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="music in ::album.musics">
-                <td>{{::music.title}}</td>
-                <td>{{::music.trackNumber}}</td>
-                <td>{{::music.durationInSeconde}}</td>
+              <tr ng-repeat="music in ::album.musics" ng-class-odd="'oddRow'" ng-class-even="'evenRow'">
+                <td flex>{{::music.title}}</td>
+                <td class="tight-column center" >{{::music.trackNumber}}</td>
+                <td>{{::music.durationInSeconde | minute}}</td>
                 <td>{{::music.bitRate}}</td>
-                <td>
+                <td class="tight-column center">
                   <md-icon>attach_file
                     <md-tooltip>{{::music.musicFilePath}}</md-tooltip>
                   </md-icon>
                 </td>
-                <td> {{::music.musicFileSize}} </td>
+                <td class="tight-column center" > {{::music.musicFileSize}} </td>
               </tr>
             </tbody>
           </table>

@@ -1,7 +1,8 @@
 package soundlink.service.business.integration.impl;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -90,6 +91,7 @@ public final class MusicExplorerService implements IMusicExplorerService {
         } else {
             throw new IllegalArgumentException("Root path must be a valide directory :" + filePath);
         }
+
         return integrationDto.get();
     }
 
@@ -144,14 +146,14 @@ public final class MusicExplorerService implements IMusicExplorerService {
             }
 
             String title = tag.getFirst(FieldKey.TITLE);
-            Music music = musicManager.getMusicByTitle(title);
+            Music music = musicManager.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
 
-            long musicSizeInOctet = musicFile.length();
+            long musicFileSizeMo = musicFile.length() / (1024 * 1024);
 
             MusicDto musicDto = null;
             if (music == null) {
                 music = createMusic(audioFile, album);
-                music.setMusicFileSize(musicSizeInOctet);
+                music.setMusicFileSize(musicFileSizeMo);
                 musicDto = musicDtoConveter.convertToDto(music);
                 albumDto.getMusics().add(musicDto);
             } else {
@@ -230,14 +232,10 @@ public final class MusicExplorerService implements IMusicExplorerService {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-            Image scaledInstance = coverImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-            BufferedImage resizedImage = new BufferedImage(200, 200, coverImage.getType());
-            Graphics2D g2d = resizedImage.createGraphics();
-            g2d.drawImage(scaledInstance, 0, 0, null);
-            g2d.dispose();
-
+            int type = coverImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : coverImage.getType();
+            coverImage = resizeImageWithHint(coverImage, type);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(resizedImage, "jpg", baos);
+            ImageIO.write(coverImage, "png", baos);
 
             String imageResized = new String(Base64.getEncoder().encode(baos.toByteArray()));
             album.setCover(imageResized);
@@ -248,6 +246,21 @@ public final class MusicExplorerService implements IMusicExplorerService {
 
         LOGGER.debug("Creation of the album : " + album.getName());
         return albumManager.create(album);
+    }
+
+    private static BufferedImage resizeImageWithHint(BufferedImage originalImage, int type) {
+
+        BufferedImage resizedImage = new BufferedImage(300, 300, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, 300, 300, null);
+        g.dispose();
+        g.setComposite(AlphaComposite.Src);
+
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        return resizedImage;
     }
 
     private Music createMusic(AudioFile audioFile, Album album) {
@@ -263,6 +276,14 @@ public final class MusicExplorerService implements IMusicExplorerService {
                 track = track.substring(0, track.indexOf("/"));
             }
             music.setTrackNumber(Integer.valueOf(track));
+        }
+
+        String disc = tag.getFirst(FieldKey.DISC_NO);
+        if (!StringUtils.isEmpty(disc)) {
+            if (disc.contains("/")) {
+                disc = disc.substring(0, disc.indexOf("/"));
+            }
+            music.setDiscNumber(Integer.valueOf(disc));
         }
 
         music.setTitle(tag.getFirst(FieldKey.TITLE));

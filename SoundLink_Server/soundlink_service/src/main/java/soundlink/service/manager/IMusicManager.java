@@ -44,6 +44,6 @@ public interface IMusicManager {
      * 
      * @param title
      */
-    Music getMusicByTitle(String title);
+    Music getMusicByTitleAlbumNameArtisteName(String title, String albumName, String artisteName);
 
 }

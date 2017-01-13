@@ -1,0 +1,49 @@
+@import "lessvars";
+@table-border : 1px solid @orange-color;
+.music-table {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    .md-button {
+      min-width: 60px;
+      min-height: 30px;
+    }
+    thead {
+      tr {
+        height: 40px;
+        th {
+          font-size: 15px;
+          color : @blue-color;
+          padding: 0px;
+          border-bottom: @table-border;
+          // border-left: @table-border;
+          // border-right: @table-border;
+          &.tight-column {
+            max-width: 60px;
+            width: 60px;
+            padding: 0 0 0 0 !important;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        &.oddRow {
+          background-color: #DDE;
+        }
+      }
+      td {
+        &.center {
+          text-align: center;
+        }
+        height: 20px;
+        padding-left: 15px;
+        &.tight-column {
+          max-width: 60px;
+          width: 60px;
+          padding: 0 0 0 0 !important;
+        }
+      }
+    }
+  }
+}

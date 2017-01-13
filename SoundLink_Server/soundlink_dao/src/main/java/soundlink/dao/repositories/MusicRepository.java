@@ -16,13 +16,19 @@ import soundlink.model.entities.Music;
  */
 public interface MusicRepository extends JpaRepository<Music, Integer> {
 
-    @Query("SELECT music FROM Music music WHERE music.title = :title ")
-    Music findMusicByTitle(@Param("title") String title);
-
     @Query("SELECT music FROM Music music " 
     + "INNER JOIN FETCH music.album album "
     + "INNER JOIN FETCH album.artiste artiste " 
-    + "WHERE music.album.id = :albumId ORDER BY music.trackNumber")
+    + "WHERE music.album.id = :albumId "
+    + "ORDER BY music.discNumber, music.trackNumber ASC")
     List<Music> getMusicsFromAlbum(@Param("albumId") Integer albumId);
+
+    @Query("SELECT music FROM Music music "
+    + "INNER JOIN music.album album "
+    + "INNER JOIN album.artiste artiste "
+    + "WHERE upper(music.title) = upper(:title) "
+    + "AND upper(album.name) = upper(:albumName) "
+    + "AND upper(artiste.name) = upper(:artisteName) ")
+    Music getMusicByTitleAlbumNameArtisteName(@Param("title") String title, @Param("albumName") String albumName, @Param("artisteName") String artisteName);
 
 }

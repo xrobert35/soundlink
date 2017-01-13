@@ -1,6 +1,8 @@
 package soundlink.dao.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import soundlink.model.entities.Artiste;
 
@@ -18,5 +20,6 @@ public interface ArtisteRepository extends JpaRepository<Artiste, Integer> {
      * @param name
      * @return
      */
-    Artiste findByName(String name);
+    @Query("SELECT artiste FROM Artiste artiste where upper(artiste.name) = upper(:artisteName)")
+    Artiste findByName(@Param("artisteName") String artisteName);
 }

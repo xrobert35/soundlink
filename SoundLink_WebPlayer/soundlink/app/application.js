@@ -40,6 +40,9 @@ function main($state, $rootScope) {
             startResolve = true;
             startError = false;
             $state.go(statePrevent, statePreventParams);
+        } else if (toState.name == 'login') {
+            startResolve = true;
+            startError = false;
         }
     });
 

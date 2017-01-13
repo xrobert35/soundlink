@@ -30,7 +30,7 @@ public class MusicDto {
 
     private String musicFilePath;
 
-    private String musicFileSize;
+    private Long musicFileSize;
 
     public Integer getId() {
         return id;
@@ -100,11 +100,11 @@ public class MusicDto {
         this.albumName = albumName;
     }
 
-    public String getMusicFileSize() {
+    public Long getMusicFileSize() {
         return musicFileSize;
     }
 
-    public void setMusicFileSize(String musicFileSize) {
+    public void setMusicFileSize(Long musicFileSize) {
         this.musicFileSize = musicFileSize;
     }
 

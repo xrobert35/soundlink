@@ -50,6 +50,8 @@ public class Music {
 
     private Long musicFileSize;
 
+    private Integer discNumber;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "musics")
     private Set<Playlist> playlist = new HashSet<Playlist>(0);
 
@@ -99,6 +101,14 @@ public class Music {
 
     public void setBitRate(String bitRate) {
         this.bitRate = bitRate;
+    }
+
+    public Integer getDiscNumber() {
+        return discNumber;
+    }
+
+    public void setDiscNumber(Integer discNumber) {
+        this.discNumber = discNumber;
     }
 
     public String getExtension() {
