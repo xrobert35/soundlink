@@ -1,0 +1,24 @@
+@import "lessvars";
+
+.drop-box {
+  width : 250px;
+  height: 150px;
+  border : 2px dashed grey;
+
+  &.drag-ok{
+    border-color : black;
+  }
+  &.drag-err {
+    border-color : red;
+  }
+  
+  &.success {
+    border-color : @orange-color;
+  }
+  
+  &.error {
+    border-color : red;
+  }
+
+}
+

@@ -12,9 +12,11 @@ function headerController($scope, loginService, eventManager, $state, userStorag
 
     vm.getUserInformation = userStorage.getUserInformation;
 
-    $scope.$watch('menuOpen', function (isOpen) {
-        eventManager.fireEvent("menuOpen", isOpen);
-    });
+    vm.menuOpen = true;
+    vm.toggleMenu = function () {
+        vm.menuOpen = !vm.menuOpen;
+        eventManager.fireEvent("menuOpen", vm.menuOpen);
+    };
 
     vm.logout = function () {
         loginService.logout().then(function () {

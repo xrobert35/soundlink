@@ -1,0 +1,24 @@
+  @import "../lessvars";
+  @bar-height : 6px;
+  .soundlink {
+    md-progress-linear {
+      border : 1px inset @blue-bottom;
+      height: @bar-height;
+      .md-container {
+        height: @bar-height;
+        .md-bar {
+          height: @bar-height;
+          background-color: @orange-color;
+          &.md-bar1 {
+            background-color: @orange-color;
+          }
+          &.md-bar2 {
+            background-color: @blue-content;
+          }
+        }
+      }
+    }
+    path {
+      stroke: @orange-color;
+    }
+  }

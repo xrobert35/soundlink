@@ -29,7 +29,9 @@ DROP TABLE IF EXISTS artiste;
 CREATE TABLE artiste (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) UNIQUE,
-  cover text
+  cover text,
+  valide boolean default false,
+  integration_number INT
 );
 
 CREATE INDEX index_artiste_name ON artiste (name);
@@ -37,6 +39,7 @@ CREATE INDEX index_artiste_name ON artiste (name);
 COMMENT ON COLUMN artiste.id is 'Artiste id';
 COMMENT ON COLUMN artiste.name is 'Artiste name';
 COMMENT ON COLUMN artiste.cover is 'Artiste cover image';
+COMMENT ON COLUMN artiste.valide is 'Integration validate ';
 
 -- ALBUM TABLE
 CREATE TABLE album (
@@ -48,6 +51,8 @@ CREATE TABLE album (
   cover_general_color VARCHAR(255),
   cover text,
   album_directory VARCHAR(1000),
+  valide boolean default false,
+  integration_number INT,
   FOREIGN KEY (artiste_id) REFERENCES artiste (id)
 );
 
@@ -61,6 +66,7 @@ COMMENT ON COLUMN album.extension is 'Album extension : flac, mp3';
 COMMENT ON COLUMN album.cover_general_color is 'Cover image color : #6e6e6e';
 COMMENT ON COLUMN album.cover is 'Cover image';
 COMMENT ON COLUMN album.album_directory is 'Album directory path';
+COMMENT ON COLUMN album.valide is 'Integration validate ';
 
 DROP TABLE IF EXISTS music;
 
@@ -68,6 +74,7 @@ DROP TABLE IF EXISTS music;
 CREATE TABLE music (
   id SERIAL PRIMARY KEY,
   album_id SERIAL,
+  artiste_id SERIAL,
   title VARCHAR(255),
   track_number INT,
   disc_number INT,
@@ -76,7 +83,10 @@ CREATE TABLE music (
   extension VARCHAR(255),
   music_file_path VARCHAR(1000),
   music_file_size BIGINT,
-  FOREIGN KEY (album_id) REFERENCES album (id)
+  valide boolean default false,
+  integration_number INT,
+  FOREIGN KEY (album_id) REFERENCES album (id),
+  FOREIGN KEY (artiste_id) REFERENCES artiste (id)
 );
 
 CREATE INDEX index_music_title_album ON music (title, album_id);
@@ -89,6 +99,7 @@ COMMENT ON COLUMN music.duration_in_seconde is 'Music duration in seconde';
 COMMENT ON COLUMN music.bit_rate is 'Music bit rate : bit/s';
 COMMENT ON COLUMN music.extension is 'Music extension : flac, mp3';
 COMMENT ON COLUMN music.music_file_path is 'Music file path';
+COMMENT ON COLUMN music.valide is 'Integration validate ';
 
 -- PLAYLIST TABLE
 CREATE TABLE playlist(
@@ -140,9 +151,11 @@ DROP SEQUENCE IF EXISTS music_id_seq;
 DROP SEQUENCE IF EXISTS album_id_seq;
 DROP SEQUENCE IF EXISTS artiste_id_seq;
 DROP SEQUENCE IF EXISTS playlist_id_seq;
+DROP SEQUENCE IF EXISTS integration_id_seq;
 
 CREATE SEQUENCE users_id_seq;
 CREATE SEQUENCE music_id_seq;
 CREATE SEQUENCE album_id_seq;
 CREATE SEQUENCE artiste_id_seq;
 CREATE SEQUENCE playlist_id_seq;
+CREATE SEQUENCE integration_number_seq;

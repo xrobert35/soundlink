@@ -2,15 +2,11 @@
   "name": "asi_intra",
   "dependencies": {
     "angular-sanitize": "1.5.5",
-    "sockjs": "0.3.4",
-    "stomp-websocket": "2.3.4",
-    "ng-websocket": "0.2.1",
     "angular-websocket": "1.0.13",
     "angular-material-data-table" : "0.10.10",
     "angular": "1.5.9",
     "angular-translate": "2.10.0",
     "angular-translate-loader-url": "2.10.0",
-    "av" : "0.4.9",
     "angular.less": "latest",
     "angular-aria": "1.5.9",
     "angular-animate": "1.5.9",
@@ -21,7 +17,9 @@
     "less": "2.5.1",
     "angular-cookies": "1.5.0",
     "angular-resource": "1.5.5",
-    "angular-ui-router": "0.3.2"
+    "angular-ui-router": "0.3.2",
+    "ng-file-upload" : "12.2.13",
+    "ng-file-upload-shim" : "latest"
   },
   "devDependencies": {
     "angular-mocks": "latest"

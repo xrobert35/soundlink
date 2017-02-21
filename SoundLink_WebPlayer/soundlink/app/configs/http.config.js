@@ -10,4 +10,6 @@ function httpConfig($httpProvider) {
 
   $httpProvider.interceptors.push('csrfRequestInterceptor');
   $httpProvider.interceptors.push('timeoutHttpIntercept');
+
+  $httpProvider.defaults.timeout = 600000;
 }

@@ -80,8 +80,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.exceptionHandling().and().anonymous().and().servletApi().and().headers().cacheControl();
 
-        authorizeRequests = authorizeRequests.antMatchers("/security/login", "/message/**/*", "/soundlink/music/*")
-                .permitAll();
+        authorizeRequests = authorizeRequests.antMatchers("/security/login", "/ws/music", "/message/**/*").permitAll();
         authorizeRequests = authorizeRequests.antMatchers("/admin/**").hasRole("ADMIN");
         authorizeRequests = authorizeRequests.anyRequest().authenticated();
 

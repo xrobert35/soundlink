@@ -5,15 +5,25 @@ angular.module('soundlink').directive("showDetail", showDetail);
 showDetail.$inject = ['$compile', '$anchorScroll', '$location'];
 
 var currentTemplate;
+var currentIdItem;
 
 function showDetail($compile, $anchorScroll, $location) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
       element.bind("click", function ($event) {
+
         removeDetailItem();
 
-        var configInclude = "<album-detail album='$ctrl.selectedAlbum' id='detailItem"+scope.album.id+"'></album-detail>";
+        var idItem = 'detailItem' + scope.album.id;
+        if(currentIdItem != null && currentIdItem == idItem){
+          currentIdItem = null;
+          return;
+        }
+
+        currentIdItem = idItem;
+        
+        var configInclude = "<album-detail album='$ctrl.selectedAlbum' id='"+idItem+"'></album-detail>";
         currentTemplate = $compile(configInclude)(scope);
 
         var templateElement = angular.element(currentTemplate);

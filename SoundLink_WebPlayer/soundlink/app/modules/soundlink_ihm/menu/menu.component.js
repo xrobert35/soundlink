@@ -5,26 +5,14 @@ angular.module('soundlink').component('soundlinkMenu', {
     controller: menuController
 });
 
-menuController.$inject = ['eventManager', '$rootScope', '$state'];
+menuController.$inject = ['eventManager', '$rootScope', '$state', 'socketService'];
 
-function menuController(eventManager, $rootScope, $state) {
+function menuController(eventManager, $rootScope, $state, socketService) {
     var vm = this;
 
-    vm.showMenu = false;
-
-    vm.isCurrentUrl = function isCurrentUrl(url) {
-        return $rootScope.currentStateUrl === url;
-    };
+    vm.showMenu = true;
 
     eventManager.subscribeToEvent("menuOpen", function (isOpen) {
         vm.showMenu = isOpen;
     });
-
-    vm.goToIntegration = function () {
-        $state.go("soundlink.integration");
-    };
-
-    vm.goToUserProfile = function () {
-        $state.go("soundlink.userprofile");
-    };
 }

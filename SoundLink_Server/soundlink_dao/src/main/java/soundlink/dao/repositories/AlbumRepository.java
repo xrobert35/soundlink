@@ -22,7 +22,17 @@ public interface AlbumRepository extends JpaRepository<Album, Integer> {
     + "AND upper(artiste.name) = upper(:artisteName) ")
     Album findAlbumByNameAndArtisteName(@Param("albumName") String albumName, @Param("artisteName") String artistename);
 
-    @Query("SELECT album FROM Album album ORDER BY album.artiste.name, album.name")
+    @Query("SELECT album " 
+    + "FROM Album album "
+//    + "WHERE album.valide = true "
+    + "ORDER BY album.artiste.name, album.name ")
     List<Album> findAllOrderer();
+    
+    @Query("SELECT album " 
+    + "FROM Album album "
+    + "WHERE album.valide = true "
+    + "AND album.name like ':name%' "
+    + "ORDER BY album.artiste.name, album.name ")
+    List<Album> findValideAlbumsStartByNameOrderByName(@Param("name") String name);
 
 }

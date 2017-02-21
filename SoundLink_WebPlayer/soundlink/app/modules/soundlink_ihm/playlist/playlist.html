@@ -1,7 +1,7 @@
-<md-content ng-show="$ctrl.showPlaylist" layout="column" layout-align=" stretch" class="playlist content" flex>
+<md-content ng-show="$ctrl.showPlaylist" layout="column" layout-align=" stretch" flex>
 
   <md-toolbar class="page-header">
-    <div class="md-toolbar-tools" layout="row" layout-align="center">
+    <div class="md-toolbar-tools" layout="row" layout-align="center center">
       <span>Playlist</span>
     </div>
   </md-toolbar>
@@ -10,8 +10,8 @@
     <md-list-item class="md-2-line" ng-repeat="music in $ctrl.getPlaylist()">
       <div layout="row" layout-align="space-between" flex>
         <div class="md-list-item-text" flex>
-          <h3>{{ ::music.artistName }}</h3>
-          <p> {{ ::music.title}}</p>
+          <h3>{{::music.title}}</h3>
+          <p>{{::music.artistName }}</p>
         </div>
         <md-icon class="button">
           menu

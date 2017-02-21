@@ -1,43 +1,38 @@
-<md-content class="audio-player">
-    <sound-manager></sound-manager>
-
-    <div layout="column">
-        <div>
-            <md-progress-linear md-mode="buffer" 
-            value="{{$ctrl.getProgress()}}"
-            md-buffer-value="{{$ctrl.getLoadingPercent()}}"></md-progress-linear>
+<div layout="column">
+    <div class="player-progress">
+        <md-progress-linear md-mode="buffer" value="{{$ctrl.getProgress()}}" md-buffer-value="{{$ctrl.getLoadingPercent()}}"></md-progress-linear>
+    </div>
+    <div class="player-action" layout="row" layout-align="center">
+        <div flex>
+            <p>{{$ctrl.getCurrentSong().title}}</p>
         </div>
-        <div layout="row" layout-align="center">
-            <div flex>
-                <p>{{$ctrl.getCurrentSong().title}}</p>
-            </div>
-            <md-button previous-music class="no-margin">
-                <md-icon>skip_previous</md-icon>
-            </md-button>
-            <md-button play-music ng-if="!$ctrl.isPlaying()" class="no-margin">
-                <md-icon>play_circle_filled</md-icon>
-            </md-button>
-            <md-button pause-music ng-if="$ctrl.isPlaying()" class="no-margin">
-                <md-icon>pause_circle_filled</md-icon>
-            </md-button>
-            <md-button next-music class="no-margin">
-                <md-icon>skip_next</md-icon>
-            </md-button>
-            <md-button repeat-music class="no-margin">
-                <md-icon>repeat</md-icon>
-            </md-button>
-            <!--<md-button class="no-margin">
+        <md-button previous-music class="no-margin">
+            <md-icon>skip_previous</md-icon>
+        </md-button>
+        <md-button play-music ng-if="!$ctrl.isPlaying()" class="no-margin">
+            <md-icon>play_circle_filled</md-icon>
+        </md-button>
+        <md-button pause-music ng-if="$ctrl.isPlaying()" class="no-margin">
+            <md-icon>pause_circle_filled</md-icon>
+        </md-button>
+        <md-button next-music class="no-margin">
+            <md-icon>skip_next</md-icon>
+        </md-button>
+        <md-button repeat-music class="no-margin">
+            <md-icon>repeat</md-icon>
+        </md-button>
+        <!--<md-button class="no-margin">
                 <md-icon>repeat_one</md-icon>
             </md-button>-->
-            <md-slider-container class="margin-left-20">
-                <md-icon>volume_up</md-icon>
-                <md-slider flex min="0" max="100" ng-model="$ctrl.volume" ng-change="$ctrl.volumeChange()"></md-slider>
-            </md-slider-container>
-            <div layout="row" layout-align="end" flex>
-                <md-button ng-click="$ctrl.openPlaylist()">
-                    <md-icon>list</md-icon>
-                </md-button>
-            </div>
+        <md-slider-container class="margin-left-20">
+            <md-icon>volume_up</md-icon>
+            <md-slider flex min="0" max="100" ng-model="$ctrl.volume" ng-change="$ctrl.volumeChange()"></md-slider>
+        </md-slider-container>
+        <div layout="row" layout-align="end" flex>
+            <md-button ng-click="$ctrl.openPlaylist()">
+                <md-tooltip md-direction="top">Playlist</md-tooltip>
+                <md-icon>list</md-icon>
+            </md-button>
         </div>
     </div>
-</md-content>
+</div>

@@ -38,10 +38,11 @@ gulp.task('process-third-js', function () {
 		'bower_components/angular-translate/angular-translate.js',
 		'bower_components/angular-translate-loader-url/angular-translate-loader-url.js',
 		'bower_components/angular-ui-router/release/angular-ui-router.js',
+		'bower_components/angular-websocket/angular-websocket.js',
+		'bower_components/ng-file-upload/ng-file-upload.js',
+		'bower_components/ng-file-upload-shim/ng-file-upload.js',
 		'bower_components/angular-sanitize/angular-sanitize.js',
 		'bower_components/ui-router/release/angular-ui-router.js',
-		'bower_components/sockjs/sockjs.js',
-		'bower_components/stomp-websocket/lib/stomp.js',
 		'bower_components/moment/moment.js',
 		'bower_components/angular-moment/angular-moment.js'
 	];
@@ -188,7 +189,7 @@ gulp.task("browseraudio", ['process-audio'], shell.task([
  */
 gulp.task('watch', ['process'], function () {
 	gulp.watch(appName + "/app/**/*.js", ['process-js']);
-	gulp.watch(appName + "/app/assets/less/*.less", ['process-css']);
+	gulp.watch(appName + "/app/assets/less/**/*.less", ['process-css']);
 	gulp.watch('audioPlayer/**/*.js', ['browseraudio']);
 	gulp.watch('public/**/*.html', notifyLiveReload);
 	gulp.watch('public/css/*.css', notifyLiveReload);

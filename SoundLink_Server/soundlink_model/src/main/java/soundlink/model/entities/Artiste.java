@@ -46,6 +46,10 @@ public class Artiste {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favortiesArtistes")
     private Set<Users> users = new HashSet<Users>(0);
 
+    private boolean valide = false;
+
+    private Integer integrationNumber;
+
     public Integer getId() {
         return id;
     }
@@ -76,6 +80,30 @@ public class Artiste {
 
     public void setAlbums(Set<Album> albums) {
         this.albums = albums;
+    }
+
+    public boolean isValide() {
+        return valide;
+    }
+
+    public void setValide(boolean valide) {
+        this.valide = valide;
+    }
+
+    public Integer getIntegrationNumber() {
+        return integrationNumber;
+    }
+
+    public void setIntegrationNumber(Integer integrationNumber) {
+        this.integrationNumber = integrationNumber;
+    }
+
+    public void setUsers(Set<Users> users) {
+        this.users = users;
+    }
+
+    public Set<Users> getUsers() {
+        return users;
     }
 
     @Override
