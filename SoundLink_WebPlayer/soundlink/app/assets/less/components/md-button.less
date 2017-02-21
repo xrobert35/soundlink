@@ -1,0 +1,24 @@
+@import "../lessvars";
+.soundlink {
+  button {
+    &.md-button.md-raised {
+      background-color: @white-blue;
+    }
+    md-icon {
+      color : white;
+    }
+  }
+  button:hover {
+    &.md-button.md-raised {
+      box-shadow: 0 2px 5px 0 rgba(255, 128, 0, 0.8);
+    }
+    &.md-button {
+      md-icon {
+        color: @orange-color;
+      }
+      span {
+        color: @orange-color;
+      }
+    }
+  }
+}

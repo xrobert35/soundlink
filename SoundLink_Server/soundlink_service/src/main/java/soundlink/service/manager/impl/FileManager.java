@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import soundlink.dto.UploadFileDto;
 import soundlink.service.manager.IFileManager;
 
 /**
@@ -28,25 +29,23 @@ public class FileManager implements IFileManager {
     private static Logger logger = LogManager.getLogger(FileManager.class);
 
     @Override
-    public File saveFile(MultipartFile multiPartFile, String path, String filename) {
+    public UploadFileDto saveFile(MultipartFile multiPartFile, String path, String filename) {
+        UploadFileDto dto = new UploadFileDto();
         if (!multiPartFile.isEmpty()) {
-            File userFolder = new File(soundlinkFolder + FileManager.separator + path);
-            if (!userFolder.exists()) {
-                userFolder.mkdirs();
-            }
-            File userFile = new File(userFolder + FileManager.separator + filename);
             try {
                 byte[] bytes = multiPartFile.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(userFile));
+                BufferedOutputStream stream = new BufferedOutputStream(
+                        new FileOutputStream(new File(path + FileManager.separator + filename)));
                 stream.write(bytes);
                 stream.close();
-                logger.debug("You successfully uploaded file : " + userFile.getAbsolutePath());
-                return userFile;
+                dto.setMessage("You successfully uploaded " + filename);
             } catch (Exception e) {
-                logger.error("You failed to upload " + userFile.getAbsolutePath() + " => " + e.getMessage());
+                dto.setMessage("You failed to upload " + filename + " => " + e.getMessage());
             }
+        } else {
+            dto.setMessage("You failed to upload " + filename + " because the file was empty");
         }
-        return null;
+        return dto;
     }
 
     @Override

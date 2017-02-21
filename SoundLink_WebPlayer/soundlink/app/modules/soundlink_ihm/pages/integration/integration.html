@@ -4,18 +4,56 @@
   </div>
 </md-toolbar>
 
+<div layout="column" class="sub-content">
 
-<div ng-if="!$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
-  <md-button class="md-raised" ng-click="$ctrl.loadMusics()"> Start integration </md-button>
+  <md-toolbar class="sub-header">
+    <div class="md-toolbar-tools">
+      <span>Upload from file</span>
+    </div>
+  </md-toolbar>
+
+  <div ngf-drop="$ctrl.uploadFiles($files)" class="drop-box" ngf-drag-over-class="{pattern: 'application/x-zip-compressed', accept:'drag-ok', reject:'drag-err'}"
+    ng-class="{'success' : $ctrl.uploadSuccess === true, 'error' : $ctrl.uploadSuccess === false}">
+    <div ng-if="!$ctrl.fileToUpload"><span>Drop zip/rar music folder</span></div>
+    <div ng-if="$ctrl.fileToUpload"><span> {{$ctrl.fileToUpload.name}}</span></div>
+    <div layout="row" layout-align="center center" flex>
+      <div class="progress-panel">
+        <label>{{$ctrl.getUploadProgress()+"%"}}</label>
+        <md-progress-circular md-mode="determinate" md-diameter="100" value="{{$ctrl.getUploadProgress()}}">
+        </md-progress-circular>
+      </div>
+      <span ngf-no-file-drop>Unsupported format</span>
+    </div>
 </div>
-<div ng-if="$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
-  <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+<md-divider></md-divider>
+<div layout="column" class="sub-content">
+  <md-toolbar class="sub-header">
+    <div class="md-toolbar-tools">
+      <span>Upload from server directory</span>
+    </div>
+  </md-toolbar>
+
+  <div layout="column" layout-align=" center">
+    
+    <div layout="row" layout-align="center" flex>
+      <span class="font-orange">{{$ctrl.getIntegrationMessage()}}</span>
+    </div>
+
+    <div ng-if="$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
+      <md-progress-linear md-mode="determinate" value="{{$ctrl.getIntegrationProgress()}}"></md-progress-linear>
+    </div>
+  </div>
+
+  <div ng-if="!$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
+    <md-button class="md-raised" ng-click="$ctrl.loadMusics()"> Start integration </md-button>
+  </div>
+
+  <md-nav-bar ng-if="$ctrl.integrationdatas != null">
+    <md-nav-item md-nav-sref="soundlink.integration.artistes">Artistes</md-nav-item>
+    <md-nav-item md-nav-sref="soundlink.integration.errors">Errors</md-nav-item>
+  </md-nav-bar>
 </div>
 
-
-<md-nav-bar ng-if="$ctrl.integrationdatas != null">
-  <md-nav-item md-nav-sref="soundlink.integration.artistes">Artistes</md-nav-item>
-  <md-nav-item md-nav-sref="soundlink.integration.errors">Errors</md-nav-item>
-</md-nav-bar>
 <div ui-view>
 </div>

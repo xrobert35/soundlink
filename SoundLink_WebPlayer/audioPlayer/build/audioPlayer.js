@@ -256,13 +256,11 @@ function audioStatus() {
 (function() {
 'use strict';
 
-var AV = require('av');
-
 angular.module('soundlink').service("audioPlayer", audioPlayer);
 
-audioPlayer.$inject = ['audioStatus', '$q'];
+audioPlayer.$inject = ['audioStatus', '$q', '$cookies', 'tokenStorage', 'config'];
 
-function audioPlayer(audioStatus, $q) {
+function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config) {
 
   var audioPlayer = this;
   var player;
@@ -299,8 +297,12 @@ function audioPlayer(audioStatus, $q) {
     $q.when(song).then(function () {
       audioStatus.setCurrentSong(song);
       audioStatus.setPlaying(true);
+      audioStatus.setProgress(0);
     });
-    player = AV.Player.fromURL(song.url);
+    // player = AV.Player.fromURL(song.url);
+    $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve(), {path : '/soundlink_server' , domain : "10.17.1.87"});
+    player = AV.Player.fromWebSocket(config.wsServeurUrl+ "ws/music", song.id);
+    
     managePlayerEvent();
     player.play();
   }
@@ -346,7 +348,8 @@ function audioPlayer(audioStatus, $q) {
   function managePlayerEvent() {
     player.volume = audioStatus.getVolume();
     player.on('ready', function () {
-
+      console.log("ready broooo !! ");
+      player.play();
     });
 
     player.on('end', function () {

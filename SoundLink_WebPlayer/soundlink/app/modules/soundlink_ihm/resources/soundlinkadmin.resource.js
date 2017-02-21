@@ -6,7 +6,7 @@ soundlinkadminResource.$inject = ['$http', 'config'];
 
 function soundlinkadminResource($http, config) {
 
-  var controllerUrl = config.serveurUrl + '/admin/';
+  var controllerUrl = config.serveurUrl + 'admin/';
 
   function getData(result) {
     return result.data;

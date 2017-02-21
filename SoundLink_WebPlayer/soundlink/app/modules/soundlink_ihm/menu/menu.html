@@ -1,3 +1,27 @@
-<div layout="column" ng-show="$ctrl.showMenu" class="menu" flex>
+<md-content layout="column" ng-show="$ctrl.showMenu" flex>
     <!-- see header.html -->
-</div>
+    <a ui-sref="soundlink.artistes">
+        <md-button class="md-raised">
+            <md-tooltip md-direction="top">Artistes</md-tooltip>
+            <md-icon> library_music </md-icon>
+        </md-button>
+    </a>
+    <a ui-sref="soundlink.albums">
+        <md-button class="md-raised">
+            <md-tooltip md-direction="top">Albums</md-tooltip>
+            <md-icon> queue_music </md-icon>
+        </md-button>
+    </a>
+    <a ui-sref="soundlink.integration">
+        <md-button class="md-raised">
+            <md-tooltip md-direction="top">Integration</md-tooltip>
+            <md-icon> file_download </md-icon>
+        </md-button>
+    </a>
+    <a ui-sref="soundlink.userprofile">
+        <md-button class="md-raised">
+            <md-tooltip md-direction="top">Profile</md-tooltip>
+            <md-icon> portrait </md-icon>
+        </md-button>
+    </a>
+</md-content>

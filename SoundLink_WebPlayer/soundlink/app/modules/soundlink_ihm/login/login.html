@@ -1,21 +1,29 @@
 <form ng-submit="vm.login()" layout="row" layout-align="none center" flex>
-        <div layout="row" layout-align="center center" class="background-white orange-box" flex>
-            <div layout="column" flex="30">
-                <h1 class="font-orange" layout="row" layout-align="center"> SoundLink </h1>
-                <span ng-if="vm.loginMessage" flex>{{vm.loginMessage}}</span>
-                <md-input-container>
-                    <label>Login</label>
-                    <input type="text" ng-model="vm.username" /></span>
-                </md-input-container>
-                <md-input-container>
-                    <label>Password</label>
-                    <input type="password" ng-model="vm.password" />
-                </md-input-container>
-                <div layout="row" layout-align="center">
-                    <md-button class="md-raised" type="submit">
-                        <span>Login</span>
-                    </md-button>
+    <div layout="row" layout-align="center center" flex>
+        <div layout="column" flex="30">
+            <md-toolbar class="big-title-header">
+                <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                    <span>SoundLink</span>
                 </div>
+            </md-toolbar>
+            <md-input-container>
+                <label>Login</label>
+                <input type="text" ng-model="vm.username" /></span>
+            </md-input-container>
+            <md-input-container>
+                <label>Password</label>
+                <input type="password" ng-model="vm.password" />
+            </md-input-container>
+            <div>
+                <span class="font-orange" layout="row" layout-align="center" flex>
+                    {{vm.loginMessage}}
+                </span>
+            </div>
+            <div layout="row" layout-align="center">
+                <md-button class="md-raised" type="submit">
+                    <span>Login</span>
+                </md-button>
             </div>
         </div>
+    </div>
 </form>

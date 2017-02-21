@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import soundlink.dto.UploadFileDto;
+
 public interface IFileManager {
 
     /**
@@ -13,13 +15,14 @@ public interface IFileManager {
      * @param user the user concerned
      * @return the file
      */
-	File saveFile(MultipartFile multiPartFile, String path, String filename);
+    UploadFileDto saveFile(MultipartFile multiPartFile, String path, String filename);
 
-	/**
-	 * This function allow you to get file data from his path
-	 * @param path path to the file
-	 * @return
-	 */
-	File getFile(String path);
+    /**
+     * This function allow you to get file data from his path
+     * 
+     * @param path path to the file
+     * @return
+     */
+    File getFile(String path);
 
 }

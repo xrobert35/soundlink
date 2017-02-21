@@ -2,7 +2,7 @@
 //Module declaration
 angular.module("soundlink", ['ngSanitize',
     'ui.router', 'ngAria', 'ngAnimate', 'ngMaterial', 'md.data.table', 'ngCookies',
-    'pascalprecht.translate', 'ngResource', 'angularMoment']);
+    'pascalprecht.translate', 'ngResource', 'angularMoment', 'ngWebSocket', 'ngFileUpload']);
 
 
 // angular.module("soundlink").run(function ($rootScope) {
@@ -14,11 +14,10 @@ angular.module("soundlink", ['ngSanitize',
 
 angular.module("soundlink").run(main);
 
-main.$inject = ['$state', '$rootScope'];
+main.$inject = ['$state', '$rootScope', 'socketService'];
 
-function main($state, $rootScope) {
+function main($state, $rootScope, socketService) {
 
-    // $state.preventDefault();
     var startResolve = false;
     var startError = false;
     var statePrevent;

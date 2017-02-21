@@ -1,62 +1,13 @@
 @import "lessvars";
+@import "./components/md-toolbar.less";
+@import "./components/md-button.less";
+@import "./components/md-slider.less";
+@import "./components/md-input.less";
+@import "./components/md-progress-linear.less";
+@import "./components/md-card.less";
+@import "./components/md-tooltip.less";
+@import "./components/md-icon.less";
 .soundlink {
-  md-input-container {
-    margin: 0px;
-    input {
-      background-color: white !important;
-    }
-  }
-  md-progress-circular {
-    path {
-      stroke: @orange-color;
-    }
-  }
-  md-card {
-    &.md-small {
-      display: inline-block;
-      width: 180px;
-      margin-right: 5px;
-      vertical-align: top;
-      margin-bottom: 15px;
-      background-color: white;
-      .md-subhead {
-        padding-top: 0px;
-      }
-      .md-card-image {
-        max-height: 110px;
-        height: 110px;
-        width: auto;
-        margin: auto;
-        cursor: pointer;
-        cursor: hand;
-      }
-      md-card-header {
-        padding: 0 0 0 0;
-        height: 30px;
-        max-height: 30px;
-        padding-top: 3px;
-        md-icon {
-          margin: 0 0 0 0;
-        }
-        md-card-header-text {
-          .md-title {
-            padding-top: 5px;
-            font-size: 12px;
-          }
-        }
-      }
-    }
-    md-card-title {
-      padding: 0 0 0 0;
-      height: 50px;
-      md-card-title-text {
-        &.md-subhead {
-          font-size: 12px;
-          color: black;
-        }
-      }
-    }
-  }
   md-list {
     .md-image {
       margin-top: 0px;
@@ -65,25 +16,6 @@
     }
     .level2 {
       margin-left: 20px;
-    }
-  }
-  md-toolbar {
-    background-color: @blue-color;
-    max-height: 40px;
-    min-height: 40px;
-    margin-top: 3px;
-    &.md-raised {
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    }
-    .md-toolbar-tools {
-      max-height: 50px;
-    }
-    &.page-header {
-      background-color: transparent;
-      color: palevioletred;
-      md-icon {
-        color: black;
-      }
     }
   }
   md-checkbox {
@@ -95,26 +27,6 @@
   }
   md-divider {
     background-color: @orange-color;
-  }
-  md-icon:hover {
-    &.button {
-      cursor: pointer;
-      cursor: hand;
-      color: @orange-color;
-    }
-  }
-  button:hover {
-    &.md-button.md-raised {
-      box-shadow: 0 2px 5px 0 rgba(255, 128, 0, 0.8);
-    }
-    &.md-button {
-      md-icon {
-        color: @orange-color;
-      }
-      span {
-        color: @orange-color;
-      }
-    }
   }
   header {
     md-fab-speed-dial {
@@ -142,35 +54,21 @@
       background-color: @orange-color;
     }
   }
-  md-progress-linear {
-    .md-container {
-      .md-bar {
-        &.md-bar1 {
-          background-color: @orange-color;
-        }
-        &.md-bar2 {
-          background-color: @blue-color;
-        }
-      }
-    }
-  }
-  md-slider-container {
-    md-slider {
-      .md-slider-wrapper {
-        .md-slider-content {
-          .md-track-container {
-            .md-track-fill {
-              background-color: blue;
-            }
-          }
-          .md-thumb-container {
-            .md-thumb::after {
-              background-color: blue;
-              border-color: blue;
-            }
-          }
-        }
-      }
+  .progress-panel {
+    position: relative;
+    label {
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      left: 0;
+      right: 0;
+      top: 40%;
+      bottom: 0;
+      vertical-align: middle;
+      text-align: center;
+      font-weight: bold;
     }
   }
 }

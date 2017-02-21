@@ -1,96 +1,25 @@
 @import "lessvars";
-
 @volume-height : 4px;
 @loading-height : 5px;
-
-.player {
-    height: 80px;
-    width : 100%;
-    background-color : @blue-grey-light3;
-    z-index: 1;
-    text-align: center;
+soundlink-audioplayer {
+    .player-progress {
+        background-color: white;
+        &:hover {
+            cursor: pointer;
+            cursor: hand;
+        }
+    }
+    .player-action {
+        background-color: @blue-bottom;
+        button {
+            md-icon {
+                color: @orange-color;
+            }
+        }
+        md-slider-container {
+            md-icon {
+                color: @orange-color;
+            }
+        }
+    }
 }
-
-.player .action {
-    display : block;
-    cursor : default;
-}
-
-.play .action a {
-    text-decoration: none;
-}
-
-.player .action .playing {
-    margin : 0px;
-}
-
-.player .action .volume{
-    width : 100px;
-    height : 25px;
-    position : relative;
-    display: inline-block;
-}
-
-.player .action .volume .volumeBorder{
-    margin-top : 10px;
-    margin-bottom : 10px;
-    width: 100%;
-    height : @volume-height;
-    border : 1px solid #cccccc;
-    position : relative;
-}
-
-.player .action .volume .bar{
-    width : 0%;
-    height : @volume-height;
-    background-color : @black-color;
-}
-
-.player .action .volume .volumeButton{
-    position : absolute;
-    top : -6px;
-    height : 18px;
-    width : 18px;
-    margin-right: 8px;
-}
-
-.player .action .volume .volumeButton svg{
-    height : 15px;
-    width : 15px;
-}
-
-.player .loading {
-    display : inline-block; 
-    height: 25px;
-    width: 500px;
-}
-
-.player .loading .loadingBorder {
-    margin-top : 10px;
-    margin-bottom : 10px;
-    position : relative;
-    height: @loading-height;
-    width: 100%;
-    border: 1px solid #cccccc;
-}
-
-.player .loading .bar {
-    height: 5px;
-    width: 0%;
-    background-color : @black-color;
-}
-
-
-.player .loading .loadingButton{
-    position : absolute;
-    top : -14px;
-    height : 33px;
-    width : 33px;
-    margin-right: 8px;
-}
-
-.player .loading .loadingButton svg{
-    height : 30px;
-    width : 30px;
-}
-

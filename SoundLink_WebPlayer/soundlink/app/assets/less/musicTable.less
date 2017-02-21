@@ -13,11 +13,10 @@
         height: 40px;
         th {
           font-size: 15px;
-          color : @blue-color;
+          color: @orange-color;
+          font-weight: normal;
           padding: 0px;
           border-bottom: @table-border;
-          // border-left: @table-border;
-          // border-right: @table-border;
           &.tight-column {
             max-width: 60px;
             width: 60px;
@@ -28,8 +27,19 @@
     }
     tbody {
       tr {
-        &.oddRow {
-          background-color: #DDE;
+        &:nth-child(even) {
+          background-color: @white-blue
+        }
+        &:nth-child(odd) {
+        }
+        height: 25px;
+        &:hover {
+          background-color: white;
+        }
+        .md-button {
+          md-icon {
+            color: @orange-color;
+          }
         }
       }
       td {

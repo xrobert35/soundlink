@@ -1,6 +1,15 @@
 <header layout="row">
     <md-toolbar class="md-raised">
         <div class="md-toolbar-tools">
+            <md-button ng-click="$ctrl.toggleMenu()">
+                <md-icon>menu</md-icon>
+                <md-tooltip ng-if="!$ctrl.menuOpen">
+                    Open menu
+                </md-tooltip>
+                <md-tooltip ng-if="$ctrl.menuOpen">
+                    Close menu
+                </md-tooltip>
+            </md-button>
             <span class="title font-orange">SoundLink</span>
             <span flex></span>
             <span>
@@ -17,35 +26,4 @@
             </md-button>
         </div>
     </md-toolbar>
-
-    <!--left menu-->
-    <md-fab-speed-dial md-open="menuOpen" md-direction="down" class="md-scale md-fab-top-left">
-        <md-fab-trigger>
-            <md-button>
-                <md-icon>menu</md-icon>
-            </md-button>
-        </md-fab-trigger>
-        <md-fab-actions>
-            <a ui-sref="soundlink.artistes">
-                <md-button class="md-raised">
-                    <md-icon> library_music </md-icon>
-                </md-button>
-            </a>
-            <a ui-sref="soundlink.albums">
-                <md-button class="md-raised">
-                    <md-icon> queue_music </md-icon>
-                </md-button>
-            </a>
-            <a ui-sref="soundlink.integration">
-                <md-button class="md-raised">
-                    <md-icon> file_download </md-icon>
-                </md-button>
-            </a>
-            <a ui-sref="soundlink.userprofile">
-                <md-button class="md-raised">
-                    <md-icon> settings </md-icon>
-                </md-button>
-            </a>
-        </md-fab-actions>
-    </md-fab-speed-dial>
 </header>

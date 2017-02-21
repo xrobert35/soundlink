@@ -35,6 +35,10 @@ public class Music {
     private String title;
 
     @ManyToOne
+    @JoinColumn(name = "artiste_id", nullable = false)
+    private Artiste artiste;
+
+    @ManyToOne
     @JoinColumn(name = "album_id", nullable = false)
     private Album album;
 
@@ -55,6 +59,10 @@ public class Music {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "musics")
     private Set<Playlist> playlist = new HashSet<Playlist>(0);
 
+    private boolean valide = false;
+
+    private Integer integrationNumber;
+
     public Integer getId() {
         return id;
     }
@@ -69,6 +77,14 @@ public class Music {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Artiste getArtiste() {
+        return artiste;
+    }
+
+    public void setArtiste(Artiste artiste) {
+        this.artiste = artiste;
     }
 
     public Album getAlbum() {
@@ -141,6 +157,22 @@ public class Music {
 
     public void setMusicFileSize(Long musicFileSize) {
         this.musicFileSize = musicFileSize;
+    }
+
+    public Integer getIntegrationNumber() {
+        return integrationNumber;
+    }
+
+    public void setIntegrationNumber(Integer integrationNumber) {
+        this.integrationNumber = integrationNumber;
+    }
+
+    public boolean isValide() {
+        return valide;
+    }
+
+    public void setValide(boolean valide) {
+        this.valide = valide;
     }
 
     @Override
