@@ -2,7 +2,6 @@
   @bar-height : 6px;
   .soundlink {
     md-progress-linear {
-      border : 1px inset @blue-bottom;
       height: @bar-height;
       .md-container {
         height: @bar-height;
@@ -11,9 +10,13 @@
           background-color: @orange-color;
           &.md-bar1 {
             background-color: @orange-color;
+            transition : none;
+            transition-duration: 0ms;
           }
           &.md-bar2 {
             background-color: @blue-content;
+            transition : none;
+            transition-duration: 0ms;
           }
         }
       }

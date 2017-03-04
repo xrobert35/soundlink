@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import soundlink.dto.AlbumDto;
+import soundlink.dto.ArtisteDto;
 import soundlink.dto.MusicDto;
 import soundlink.dto.UsersDto;
 import soundlink.model.entities.Users;
 import soundlink.service.converter.AlbumDtoConverter;
+import soundlink.service.converter.ArtisteDtoConverter;
 import soundlink.service.converter.MusicDtoConverter;
 import soundlink.service.converter.UsersDtoConverter;
 import soundlink.service.manager.IAlbumManager;
+import soundlink.service.manager.IArtisteManager;
 import soundlink.service.manager.IMusicManager;
 import soundlink.service.manager.IUsersManager;
 import soundlink.service.manager.impl.FileManager;
@@ -34,6 +37,9 @@ public class SoundLinkController {
     private FileManager fileManager;
 
     @Autowired
+    private IArtisteManager artisteManager;
+
+    @Autowired
     private IAlbumManager albumManager;
 
     @Autowired
@@ -41,6 +47,9 @@ public class SoundLinkController {
 
     @Autowired
     private IUsersManager usersManager;
+
+    @Autowired
+    private ArtisteDtoConverter artisteDtoConverter;
 
     @Autowired
     private AlbumDtoConverter albumDtoConverter;
@@ -72,11 +81,22 @@ public class SoundLinkController {
     /**
      * Entry point to get all albums
      *
-     * @return a Set with all albums informations
+     * @return a List with all albums informations
      */
     @RequestMapping(value = "/albums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<AlbumDto> getAlbums() {
         List<AlbumDto> allAlbums = albumDtoConverter.convertToDtoList(albumManager.getAllAlbums());
+        return allAlbums;
+    }
+
+    /**
+     * Entry point to get all artites
+     *
+     * @return a List with all artites informations
+     */
+    @RequestMapping(value = "/albums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<ArtisteDto> getArtistes() {
+        List<ArtisteDto> allAlbums = artisteDtoConverter.convertToDtoList(artisteManager.getAllArtistes());
         return allAlbums;
     }
 

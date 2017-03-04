@@ -15,9 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 /**
  * Artiste Entity
  *
@@ -39,7 +36,7 @@ public class Artiste {
 
     private String cover;
 
-    @Cascade({ CascadeType.ALL })
+    // @Cascade({ CascadeType.ALL })
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste")
     private Set<Album> albums = new HashSet<Album>(0);
 

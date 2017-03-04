@@ -13,6 +13,7 @@ function audioplayerController(eventManager, audioPlayer, audioStatus) {
     vm.volume = 50;
 
     vm.isPlaying = audioStatus.isPlaying;
+    vm.isRepeating = audioStatus.isRepeating;
     vm.getProgress = audioStatus.getProgress;
     vm.getCurrentSong = audioStatus.getCurrentSong;
     vm.getLoadingPercent = audioStatus.getLoadingPercent;

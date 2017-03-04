@@ -1,6 +1,6 @@
 package soundlink.service.manager;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +20,7 @@ public interface IArtisteManager {
      *
      * @return
      */
-    Set<Artiste> getAllArtistes();
+    List<Artiste> getAllArtistes();
 
     /**
      * Add a new artiste
@@ -44,5 +44,4 @@ public interface IArtisteManager {
      * @param artisteName
      */
     Artiste getArtisteByName(String artisteName);
-
 }

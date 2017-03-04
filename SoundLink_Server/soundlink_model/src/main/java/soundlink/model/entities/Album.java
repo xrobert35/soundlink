@@ -17,9 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 /**
  * Album Entity
  *
@@ -53,7 +50,7 @@ public class Album {
     private String albumDirectory;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
-    @Cascade({ CascadeType.ALL })
+    // @Cascade({ CascadeType.ALL })
     private Set<Music> musics = new HashSet<Music>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favoriteAlbums")

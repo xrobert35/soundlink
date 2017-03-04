@@ -6,7 +6,7 @@ playMusicDirective.$inject = ['audioPlayer'];
 
 function playMusicDirective(audioPlayer) {
   return {
-    restrict: "A",
+    restrict: "EA",
     scope: {
       song: '=playMusic'
     },

@@ -65,7 +65,8 @@ public class AudioWebSocketHandler extends BaseTextWebSocketHandler {
                 new Thread(streamer).start();
                 streamer.play();
             } else if (Boolean.TRUE.equals(pause)) {
-                streamer.pause();
+                streamer.kill();
+                session.close();
             }
         } catch (Exception e) {
             e.printStackTrace();

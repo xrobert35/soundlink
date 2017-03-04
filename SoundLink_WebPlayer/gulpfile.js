@@ -44,7 +44,8 @@ gulp.task('process-third-js', function () {
 		'bower_components/angular-sanitize/angular-sanitize.js',
 		'bower_components/ui-router/release/angular-ui-router.js',
 		'bower_components/moment/moment.js',
-		'bower_components/angular-moment/angular-moment.js'
+		'bower_components/angular-moment/angular-moment.js',
+		'bower_components/angular-bind-html-compile/angular-bind-html-compile.js',
 	];
 
 	vendorOutputStream = gulp.src(src)

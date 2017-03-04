@@ -3,8 +3,11 @@ package soundlink.service.manager;
 import java.io.File;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import soundlink.model.entities.Music;
 
+@Transactional
 public interface IMusicManager {
 
     /**

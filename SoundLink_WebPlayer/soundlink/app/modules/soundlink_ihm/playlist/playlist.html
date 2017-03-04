@@ -1,4 +1,4 @@
-<md-content ng-show="$ctrl.showPlaylist" layout="column" layout-align=" stretch" flex>
+<div ng-show="$ctrl.showPlaylist" layout="column" layout-align=" stretch" flex>
 
   <md-toolbar class="page-header">
     <div class="md-toolbar-tools" layout="row" layout-align="center center">
@@ -9,8 +9,8 @@
   <md-list flex>
     <md-list-item class="md-2-line" ng-repeat="music in $ctrl.getPlaylist()">
       <div layout="row" layout-align="space-between" flex>
-        <div class="md-list-item-text" flex>
-          <h3>{{::music.title}}</h3>
+        <div class="md-list-item-text" play-music="::music" flex>
+          <h3 ng-class="{ 'font-orange' : $ctrl.getCurrentSong().id == music.id}">{{::music.title}}</h3>
           <p>{{::music.artistName }}</p>
         </div>
         <md-icon class="button">
@@ -21,4 +21,4 @@
     </md-list-item>
   </md-list>
 
-</md-content>
+</div>

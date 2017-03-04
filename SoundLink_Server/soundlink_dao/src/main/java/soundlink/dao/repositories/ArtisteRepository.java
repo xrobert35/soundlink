@@ -1,5 +1,7 @@
 package soundlink.dao.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,8 +22,10 @@ public interface ArtisteRepository extends JpaRepository<Artiste, Integer> {
      * @param name
      * @return
      */
-    @Query("SELECT artiste "
-    + "FROM Artiste artiste "
-    + "WHERE upper(artiste.name) = upper(:artisteName)")
+    @Query("SELECT artiste " 
+     + "FROM Artiste artiste " 
+     + "WHERE upper(artiste.name) = upper(:artisteName)")
     Artiste findByName(@Param("artisteName") String artisteName);
+
+    List<Artiste> findByNameStartingWith(String artisteName);
 }

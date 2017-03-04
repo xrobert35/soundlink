@@ -1,8 +1,11 @@
 package soundlink.service.manager;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import soundlink.dto.UsersDto;
 import soundlink.model.entities.Users;
 
+@Transactional
 public interface IUsersManager {
 
     /**

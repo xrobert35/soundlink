@@ -35,7 +35,9 @@ public class MusicManager implements IMusicManager {
     @Override
     public Music create(Music music) {
         if (music.getAlbum() != null) {
-            return musicRepository.save(music);
+            music = musicRepository.save(music);
+            musicRepository.flush();
+            return music;
         } else {
             throw new InvalidParameterException("You must specificy the album !");
         }

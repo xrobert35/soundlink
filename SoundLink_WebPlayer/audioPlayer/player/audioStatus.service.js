@@ -10,18 +10,28 @@ function audioStatus() {
   var duration = 0;
   var volume = 0;
   var currentSong;
-  var isPlaying = false;
+  var playing = false;
+  var repeating = false;
+
   var loadingPercent = 0;
   var playlist = [];
 
   var contenu = {};
 
   contenu.isPlaying = function () {
-    return isPlaying;
+    return playing;
   };
 
-  contenu.setPlaying = function (bPlaying) {
-    isPlaying = bPlaying;
+  contenu.setPlaying = function (pPlaying) {
+    playing = pPlaying;
+  };
+
+  contenu.isRepeating = function (){
+    return repeating;
+  };
+
+  contenu.setRepeating = function (pRepeating){
+    repeating = pRepeating;
   };
 
   contenu.setVolume = function (pVolume){

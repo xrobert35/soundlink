@@ -2,28 +2,29 @@
 
 angular.module('soundlink').directive("showDetail", showDetail);
 
-showDetail.$inject = ['$compile', '$anchorScroll', '$location'];
+showDetail.$inject = ['$compile', '$timeout'];
 
 var currentTemplate;
 var currentIdItem;
 
-function showDetail($compile, $anchorScroll, $location) {
+function showDetail($compile, $timeout) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
       element.bind("click", function ($event) {
 
+
         removeDetailItem();
 
         var idItem = 'detailItem' + scope.album.id;
-        if(currentIdItem != null && currentIdItem == idItem){
+        if (currentIdItem != null && currentIdItem == idItem) {
           currentIdItem = null;
           return;
         }
 
         currentIdItem = idItem;
-        
-        var configInclude = "<album-detail album='$ctrl.selectedAlbum' id='"+idItem+"'></album-detail>";
+
+        var configInclude = "<album-detail album='$ctrl.selectedAlbum' id='" + idItem + "'></album-detail>";
         currentTemplate = $compile(configInclude)(scope);
 
         var templateElement = angular.element(currentTemplate);
@@ -55,8 +56,10 @@ function showDetail($compile, $anchorScroll, $location) {
         insertAfter(templateElement[0], possibleEndElement);
 
         function insertAfter(newNode, referenceNode) {
+          // if (referenceNode.nextSibling.localName != 'album-detail') {
+          //   
+          // }
           referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-          $location.hash('detailItem' + scope.album.id);
         }
       });
     }

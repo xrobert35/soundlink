@@ -1,10 +1,14 @@
 <div layout="column">
-    <div class="player-progress">
+    <div class="player-progress" position-controle>
         <md-progress-linear md-mode="buffer" value="{{$ctrl.getProgress()}}" md-buffer-value="{{$ctrl.getLoadingPercent()}}"></md-progress-linear>
     </div>
     <div class="player-action" layout="row" layout-align="center">
-        <div flex>
-            <p>{{$ctrl.getCurrentSong().title}}</p>
+        <div class="padding-left-20" flex layout="row"  layout-align="start center">
+            <img ng-src="data:image/JPEG;base64,{{::$ctrl.getCurrentSong().album.cover}}" class="smallAlbumCover margin-right-10">
+            <div class="song-panel font-white" ng-if="$ctrl.getCurrentSong()">
+                <p>{{$ctrl.getCurrentSong().artistName + ' - ' + $ctrl.getCurrentSong().title}}</p>
+                <p>{{$ctrl.getCurrentSong().albumName}}</p>
+            </div>
         </div>
         <md-button previous-music class="no-margin">
             <md-icon>skip_previous</md-icon>
@@ -19,7 +23,7 @@
             <md-icon>skip_next</md-icon>
         </md-button>
         <md-button repeat-music class="no-margin">
-            <md-icon>repeat</md-icon>
+            <md-icon ng-class="{ 'font-orange' : $ctrl.isRepeating() }">repeat</md-icon>
         </md-button>
         <!--<md-button class="no-margin">
                 <md-icon>repeat_one</md-icon>

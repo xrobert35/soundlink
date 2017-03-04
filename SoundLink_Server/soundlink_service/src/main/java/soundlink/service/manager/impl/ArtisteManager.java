@@ -1,7 +1,6 @@
 package soundlink.service.manager.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,15 +26,15 @@ public class ArtisteManager implements IArtisteManager {
     private ArtisteRepository artisteRepository;
 
     @Override
-    public Set<Artiste> getAllArtistes() {
-        return new HashSet<Artiste>(artisteRepository.findAll());
+    public List<Artiste> getAllArtistes() {
+        return artisteRepository.findAll();
     }
 
     @Override
     public Artiste create(Artiste artiste) {
-        Artiste artisteCreated = artisteRepository.save(artiste);
+        artiste = artisteRepository.save(artiste);
         artisteRepository.flush();
-        return artisteCreated;
+        return artiste;
     }
 
     @Override

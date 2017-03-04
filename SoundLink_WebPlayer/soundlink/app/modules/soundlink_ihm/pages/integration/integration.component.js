@@ -76,12 +76,12 @@ function integrationController($state, soundlinkadminResource, integrationConten
     }
 
     vm.loadMusics = function loadMusics() {
-        // $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve());
+        $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve(), { path: '/soundlink_server', domain: config.wsDomain });
         var dataStream = $websocket(config.wsServeurUrl + "ws/integration");
         dataStream.send(JSON.stringify({ action: 'start' }));
 
         dataStream.onOpen(function () {
-            // $cookies.remove("X-AUTH-TOKEN");
+            $cookies.remove("X-AUTH-TOKEN");
             vm.isloading = true;
             vm.progress = 0;
         });

@@ -11,6 +11,7 @@ function playlistController(eventManager, audioStatus) {
     var vm = this;
 
     vm.showPlaylist = false;
+    vm.getCurrentSong = audioStatus.getCurrentSong;
     vm.getPlaylist = audioStatus.getPlaylist;
 
     eventManager.subscribeToEvent("playlistOpen", function () {

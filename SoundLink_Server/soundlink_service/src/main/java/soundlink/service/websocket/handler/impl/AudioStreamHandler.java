@@ -8,6 +8,7 @@ import java.io.RandomAccessFile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.BinaryMessage;
+import org.springframework.web.socket.TextMessage;
 
 import soundlink.service.websocket.WebSocketExecutor;
 import soundlink.service.websocket.handler.IAudioStreamHandler;
@@ -43,20 +44,22 @@ public class AudioStreamHandler extends WebSocketExecutor implements IAudioStrea
     public void execute() {
         while (alive) {
             if (playing) {
-                byte[] data = new byte[248000];
+                byte[] data = new byte[512000];
                 try {
                     if (fileReader.read(data) != -1) {
                         BinaryMessage binaryMessage = new BinaryMessage(data);
                         sendMessage(binaryMessage);
                     } else {
                         playing = false;
+                        TextMessage textMessage = new TextMessage("{ \"end\" : true }");
+                        sendMessage(textMessage);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -11,7 +11,7 @@ function loginController($state, loginService) {
         vm.loginMessage = "Connecting...";
         loginService.login(vm.username, vm.password).then(function (message) {
             vm.loginMessage = "Connection success";
-            $state.go('soundlink');
+            $state.go('soundlink.albums');
         }).catch(function (data, status) {
             if (status === -1) {
                 vm.loginMessage = 'Communication problem : contact the administrator';

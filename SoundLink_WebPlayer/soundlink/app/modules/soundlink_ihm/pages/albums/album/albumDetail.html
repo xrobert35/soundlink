@@ -1,4 +1,4 @@
-<md-content class="sub-content">
+<div class="sub-content" ng-cloak>
   <div layout="row" layout-align="none start">
     <div class="music-table" flex>
       <table>
@@ -12,20 +12,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="music in $ctrl.albumSongs">
+          <tr ng-repeat="music in ::$ctrl.albumSongs">
             <td class="tight-column center">
-              <!--<md-button class="no-margin" >-->
-              <md-icon class="button small" play-music="::music">play_circle_filled</md-icon>
-              <!--</md-button>-->
+              <md-icon class="button small" add-play-music="::music">play_circle_filled</md-icon>
             </td>
             <td class="tight-column center">
-              <!--<md-button class="no-margin" >-->
               <md-icon class="button small" add-music="::music"> add_circle </md-icon>
-              <!--</md-button>-->
             </td>
-            <td flex class="font-13">{{::music.title}}</td>
+            <td class="font-13">{{::music.title}}</td>
             <td class="tight-column center font-13">{{::music.trackNumber}}</td>
-            <td class="center font-13">{{::music.durationInSeconde | minute}}</td>
+            <td class="tight-column center font-13">{{::music.durationInSeconde | minute}}</td>
           </tr>
         </tbody>
       </table>
@@ -35,4 +31,4 @@
       <img ng-src="data:image/JPEG;base64,{{::$ctrl.album.cover}}" class="albumCover">
     </div>
   </div>
-</md-content>
+</div>

@@ -1,0 +1,44 @@
+<div ng-if="$ctrl.rechercheDone">
+    <div layout="row" layout-align="space-between">
+        <div layout="row">
+            <span> Resultat de la recherche </span>
+            <span ng-bind="$ctrl.getTotalElements()"></span>
+        </div>
+        <div ng-if="$ctrl.hasResult()" layout="row">
+            <span ng-if="!$ctrl.onFirstPage()" ng-click="$ctrl.previousPage()">P</span>
+            <span ng-repeat="page in $ctrl.getPagesNumber() track by $index" ng-class="{'selected' : $ctrl.isCurrentPage($index + 1)}">{{$index+1}}</span>
+            <span ng-if="!$ctrl.onLastPage()" ng-click="$ctrl.nextPage()">N</span>
+        </div>
+    </div>
+    <table ng-if="$ctrl.hasResult()" ng-class="::$ctrl.ztClass" class="zest-table">
+        <th ng-repeat="column in $ctrl.getColumns()" ng-click="$ctrl.sortColumn(column)" ng-class="::column.ztClass" class="clickable">
+            <div layout="row">
+                <span ng-if="column.asc == true">A</span>
+                <span ng-if="column.asc == false">D</span>
+                <span>{{::column.libelle}}</span>
+            </div>
+        </th>
+        </thead>
+        <tbody>
+            <tr ng-repeat-start="row in $ctrl.getResults()" ng-click="row.xlVisible = !row.xlVisible">
+                <td ng-repeat="column in $ctrl.getColumns()" ng-class="::column.ztClass">
+                    <span ng-if="!column.actions" bind-html-compile="::$ctrl.displayCell(row, column)"></span>
+                    <span ng-repeat="action in ::column.actions" ng-click="$ctrl.executeAction(action, row, column)">
+                        <span bind-html-compile="::action.template"></span>
+                    </span>
+                </td>
+            </tr>
+            <tr ng-repeat-end ng-repeat="xlColumn in $ctrl.getXLColumns()" ng-show="row.xlVisible">
+                <td>
+                    {{::xlColumn.libelle}}
+                </td>
+                <td colspan="{{$ctrl.getColumns().length - 1}}">
+                    <span ng-if="!xlColumn.actions" bind-html-compile="::$ctrl.displayCell(row, xlColumn)"></span>
+                    <span ng-repeat="action in ::xlColumn.actions" ng-click="$ctrl.executeAction(action, row, xlColumn)">
+                        <span bind-html-compile="::action.template"></span>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

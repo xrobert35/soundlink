@@ -24,6 +24,7 @@ function albumDetailController(socketService, soundlinkResource, eventManager, a
         var song = {};
         angular.copy(music, song);
         song.url = "/soundlink_server/soundlink/music/" + music.id;
+        song.album = vm.album;
         vm.albumSongs.push(song);
       });
     });
