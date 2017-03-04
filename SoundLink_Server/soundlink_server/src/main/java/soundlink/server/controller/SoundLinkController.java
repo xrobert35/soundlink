@@ -94,7 +94,7 @@ public class SoundLinkController {
      *
      * @return a List with all artites informations
      */
-    @RequestMapping(value = "/albums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/artistes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<ArtisteDto> getArtistes() {
         List<ArtisteDto> allAlbums = artisteDtoConverter.convertToDtoList(artisteManager.getAllArtistes());
         return allAlbums;
