@@ -108,9 +108,18 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
     }
 
     private void processFile(File musicFile) {
-        musicFileProcessor.processFile(musicFile, integrationNumber);
+        try {
+            musicFileProcessor.processFile(musicFile, integrationNumber);
+        } catch (Exception e) {
+            manageErrorFile(musicFile, e);
+        }
         fileTraited++;
         sendProgressMessage(musicFile.getName(), getPourcent(totalFiles, fileTraited), false);
+    }
+
+    private void manageErrorFile(File musicFile, Exception exception) {
+        LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + " " + exception.getMessage());
+        exception.printStackTrace();
     }
 
     private int getPourcent(int total, int done) {

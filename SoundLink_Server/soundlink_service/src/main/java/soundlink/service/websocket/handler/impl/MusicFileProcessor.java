@@ -1,8 +1,5 @@
 package soundlink.service.websocket.handler.impl;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,6 +11,9 @@ import javax.imageio.ImageIO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Method;
+import org.imgscalr.Scalr.Mode;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
@@ -21,6 +21,7 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.Artwork;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import soundlink.model.entities.Album;
@@ -36,6 +37,9 @@ public class MusicFileProcessor implements IMusicFileProcessor {
 
     protected static final Logger LOGGER = LogManager.getLogger("soundlink_integration");
 
+    @Value("#{environment['SOUNDLINK_HOME']}")
+    private String soundlinkFolder;
+
     @Autowired
     private IArtisteManager artisteManager;
 
@@ -46,52 +50,38 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     private IMusicManager musicManager;
 
     @Override
-    public void processFile(File musicFile, Integer integrationNumber) {
-        try {
-
-            AudioFile audioFile = AudioFileIO.read(musicFile);
-            Tag tag = audioFile.getTag();
-            if (tag == null) {
-                throw new Exception("No tag found !");
-            }
-            // Check if the artiste already exist in database
-            String artisteName = tag.getFirst(FieldKey.ALBUM_ARTIST);
-            if (StringUtils.isBlank(artisteName)) {
-                artisteName = tag.getFirst(FieldKey.ARTIST);
-            }
-            Artiste artiste = artisteManager.getArtisteByName(artisteName);
-            if (artiste == null) {
-                artiste = createArtiste(artisteName, integrationNumber);
-            }
-
-            // Check if the album already exist in database
-            String albumName = tag.getFirst(FieldKey.ALBUM);
-            Album album = albumManager.findAlbumByNameAndArtisteName(albumName, artisteName);
-            if (album == null) {
-                album = createAlbum(audioFile, artiste, integrationNumber);
-            }
-
-            String title = tag.getFirst(FieldKey.TITLE);
-            Music music = musicManager.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
-
-            long musicFileSizeMo = musicFile.length() / (1024 * 1024);
-
-            if (music == null) {
-                music = createMusic(audioFile, album, integrationNumber);
-                music.setMusicFileSize(musicFileSizeMo);
-            }
-        } catch (Exception e) {
-            manageErrorFile(musicFile, e.getMessage());
-            LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + " " + e.getMessage());
-            e.printStackTrace();
+    public void processFile(File musicFile, Integer integrationNumber) throws Exception {
+        AudioFile audioFile = AudioFileIO.read(musicFile);
+        Tag tag = audioFile.getTag();
+        if (tag == null) {
+            throw new Exception("No tag found !");
         }
-    }
+        // Check if the artiste already exist in database
+        String artisteName = tag.getFirst(FieldKey.ALBUM_ARTIST);
+        if (StringUtils.isBlank(artisteName)) {
+            artisteName = tag.getFirst(FieldKey.ARTIST);
+        }
+        Artiste artiste = artisteManager.getArtisteByName(artisteName);
+        if (artiste == null) {
+            artiste = createArtiste(artisteName, integrationNumber);
+        }
 
-    private void manageErrorFile(File musicFile, String message) {
-        // FileIntegrationErrorDto errorDto = new FileIntegrationErrorDto();
-        // errorDto.setFilePath(musicFile.getAbsolutePath().substring(filePath.length()
-        // + 1));
-        // errorDto.setErrorMessage(message);
+        // Check if the album already exist in database
+        String albumName = tag.getFirst(FieldKey.ALBUM);
+        Album album = albumManager.findAlbumByNameAndArtisteName(albumName, artisteName);
+        if (album == null) {
+            album = createAlbum(audioFile, artiste, integrationNumber);
+        }
+
+        String title = tag.getFirst(FieldKey.TITLE);
+        Music music = musicManager.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
+
+        long musicFileSizeMo = musicFile.length() / (1024 * 1024);
+
+        if (music == null) {
+            music = createMusic(audioFile, album, integrationNumber);
+            music.setMusicFileSize(musicFileSizeMo);
+        }
     }
 
     private Artiste createArtiste(String artisteName, Integer integrationNumber) {
@@ -135,18 +125,22 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     }
 
     private BufferedImage resizeImageWithHint(BufferedImage originalImage, int type) {
-
-        BufferedImage resizedImage = new BufferedImage(110, 110, type);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, 110, 110, null);
-        g.dispose();
-        g.setComposite(AlphaComposite.Src);
-
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        return resizedImage;
+        return Scalr.resize(originalImage, Method.QUALITY, Mode.FIT_EXACT, 110, 110);
+        //
+        // BufferedImage resizedImage = new BufferedImage(110, 110, type);
+        // Graphics2D g = resizedImage.createGraphics();
+        // g.drawImage(originalImage, 0, 0, 110, 110, null);
+        // g.dispose();
+        // g.setComposite(AlphaComposite.Src);
+        //
+        // g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        // RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        // g.setRenderingHint(RenderingHints.KEY_RENDERING,
+        // RenderingHints.VALUE_RENDER_QUALITY);
+        // g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        // RenderingHints.VALUE_ANTIALIAS_ON);
+        //
+        // return resizedImage;
     }
 
     private Music createMusic(AudioFile audioFile, Album album, Integer integrationNumber) {
@@ -154,7 +148,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         Tag tag = audioFile.getTag();
         AudioHeader audioHeader = audioFile.getAudioHeader();
 
-        music.setMusicFilePath(audioFile.getFile().getAbsolutePath());
+        music.setMusicFilePath(audioFile.getFile().getAbsolutePath().substring(soundlinkFolder.length()));
         music.setIntegrationNumber(integrationNumber);
 
         String track = tag.getFirst(FieldKey.TRACK);

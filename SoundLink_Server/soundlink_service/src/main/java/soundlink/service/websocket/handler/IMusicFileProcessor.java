@@ -8,6 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IMusicFileProcessor {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    void processFile(File musicFile, Integer integrationNumber);
+    void processFile(File musicFile, Integer integrationNumber) throws Exception;
 
 }
