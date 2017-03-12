@@ -2,7 +2,6 @@ package soundlink.service.manager.impl;
 
 import java.security.InvalidParameterException;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import soundlink.dao.repositories.AlbumRepository;
-import soundlink.dao.repositories.ArtisteRepository;
 import soundlink.model.entities.Album;
-import soundlink.model.entities.Artiste;
 import soundlink.service.manager.IAlbumManager;
 
 /**
@@ -29,18 +26,9 @@ public class AlbumManager implements IAlbumManager {
     @Autowired
     private AlbumRepository albumRepository;
 
-    @Autowired
-    private ArtisteRepository artisteRepository;
-
     @Override
     public List<Album> getAllAlbums() {
         return albumRepository.findAllOrderer();
-    }
-
-    @Override
-    public Set<Album> getAlbumsByArtiste(Artiste artiste) {
-        Artiste artisteFind = artisteRepository.findOne(artiste.getId());
-        return artisteFind.getAlbums();
     }
 
     @Override
@@ -66,5 +54,10 @@ public class AlbumManager implements IAlbumManager {
     @Override
     public Album findAlbumByNameAndArtisteName(String albumName, String artisteName) {
         return albumRepository.findAlbumByNameAndArtisteName(albumName, artisteName);
+    }
+
+    @Override
+    public List<Album> getAlbumFromArtiste(Integer artisteId) {
+        return albumRepository.getAlbumsFromArtiste(artisteId);
     }
 }

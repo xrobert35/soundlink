@@ -57,13 +57,16 @@ public class MusicFileProcessor implements IMusicFileProcessor {
             throw new Exception("No tag found !");
         }
         // Check if the artiste already exist in database
-        String artisteName = tag.getFirst(FieldKey.ALBUM_ARTIST);
+        String artisteName = getArtisteName(tag, FieldKey.ALBUM_ARTIST);
         if (StringUtils.isBlank(artisteName)) {
-            artisteName = tag.getFirst(FieldKey.ARTIST);
+            artisteName = getArtisteName(tag, FieldKey.ARTIST);
         }
         Artiste artiste = artisteManager.getArtisteByName(artisteName);
         if (artiste == null) {
-            artiste = createArtiste(artisteName, integrationNumber);
+            artiste = createArtiste(audioFile, artisteName, integrationNumber);
+        } else if (artiste.getCover() == null) {
+            artiste.setCover(exactCoverFromTag(tag));
+            artisteManager.update(artiste);
         }
 
         // Check if the album already exist in database
@@ -84,10 +87,14 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         }
     }
 
-    private Artiste createArtiste(String artisteName, Integer integrationNumber) {
+    private Artiste createArtiste(AudioFile audioFile, String artisteName, Integer integrationNumber)
+            throws IOException {
         Artiste artiste = new Artiste();
         artiste.setName(artisteName);
         artiste.setIntegrationNumber(integrationNumber);
+
+        Tag tag = audioFile.getTag();
+        artiste.setCover(exactCoverFromTag(tag));
 
         LOGGER.debug("Creation of the artiste : " + artisteName);
         return artisteManager.create(artiste);
@@ -106,6 +113,15 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         album.setArtiste(artiste);
         artiste.getAlbums().add(album);
 
+        album.setCover(exactCoverFromTag(tag));
+
+        album.setAlbumDirectory(audioFile.getFile().getParentFile().getAbsolutePath());
+
+        LOGGER.debug("Creation of the album : " + album.getName());
+        return albumManager.create(album);
+    }
+
+    private String exactCoverFromTag(Tag tag) throws IOException {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
@@ -115,35 +131,16 @@ public class MusicFileProcessor implements IMusicFileProcessor {
             ImageIO.write(coverImage, "png", baos);
 
             String imageResized = new String(Base64.getEncoder().encode(baos.toByteArray()));
-            album.setCover(imageResized);
+            return imageResized;
         }
-
-        album.setAlbumDirectory(audioFile.getFile().getParentFile().getAbsolutePath());
-
-        LOGGER.debug("Creation of the album : " + album.getName());
-        return albumManager.create(album);
+        return null;
     }
 
     private BufferedImage resizeImageWithHint(BufferedImage originalImage, int type) {
         return Scalr.resize(originalImage, Method.QUALITY, Mode.FIT_EXACT, 110, 110);
-        //
-        // BufferedImage resizedImage = new BufferedImage(110, 110, type);
-        // Graphics2D g = resizedImage.createGraphics();
-        // g.drawImage(originalImage, 0, 0, 110, 110, null);
-        // g.dispose();
-        // g.setComposite(AlphaComposite.Src);
-        //
-        // g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-        // RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        // g.setRenderingHint(RenderingHints.KEY_RENDERING,
-        // RenderingHints.VALUE_RENDER_QUALITY);
-        // g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        // RenderingHints.VALUE_ANTIALIAS_ON);
-        //
-        // return resizedImage;
     }
 
-    private Music createMusic(AudioFile audioFile, Album album, Integer integrationNumber) {
+    private Music createMusic(AudioFile audioFile, Album album, Integer integrationNumber) throws IOException {
         Music music = new Music();
         Tag tag = audioFile.getTag();
         AudioHeader audioHeader = audioFile.getAudioHeader();
@@ -169,10 +166,10 @@ public class MusicFileProcessor implements IMusicFileProcessor {
 
         music.setTitle(tag.getFirst(FieldKey.TITLE));
 
-        String artisteName = tag.getFirst(FieldKey.ARTIST);
+        String artisteName = getArtisteName(tag, FieldKey.ARTIST);
         Artiste artiste = artisteManager.getArtisteByName(artisteName);
         if (artiste == null) {
-            artiste = createArtiste(artisteName, integrationNumber);
+            artiste = createArtiste(null, artisteName, integrationNumber);
         }
         music.setArtiste(artiste);
 
@@ -187,4 +184,11 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         return musicManager.create(music);
     }
 
+    private String getArtisteName(Tag tag, FieldKey fieldKey) {
+        String artisteName = tag.getFirst(fieldKey);
+        if (artisteName != null && artisteName.endsWith(";")) {
+            artisteName = artisteName.substring(0, artisteName.length() - 1);
+        }
+        return artisteName;
+    }
 }

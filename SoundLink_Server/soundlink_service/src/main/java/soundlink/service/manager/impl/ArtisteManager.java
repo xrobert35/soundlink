@@ -31,10 +31,19 @@ public class ArtisteManager implements IArtisteManager {
     }
 
     @Override
+    public List<Artiste> getAllArtistesHavingAlbum() {
+        return artisteRepository.findAllHavingAlbum();
+    }
+
+    @Override
     public Artiste create(Artiste artiste) {
-        artiste = artisteRepository.save(artiste);
-        artisteRepository.flush();
+        artiste = artisteRepository.saveAndFlush(artiste);
         return artiste;
+    }
+
+    @Override
+    public void update(Artiste artiste) {
+        artisteRepository.save(artiste);
     }
 
     @Override
@@ -52,4 +61,10 @@ public class ArtisteManager implements IArtisteManager {
     public Artiste getArtisteByName(String artisteName) {
         return artisteRepository.findByName(artisteName);
     }
+
+    @Override
+    public List<Artiste> getArtistesStartWith(String startChain) {
+        return artisteRepository.findByNameStartingWith(startChain);
+    }
+
 }

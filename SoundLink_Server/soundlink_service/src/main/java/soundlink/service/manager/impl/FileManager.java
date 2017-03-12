@@ -4,8 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +23,6 @@ public class FileManager implements IFileManager {
     private String soundlinkFolder;
 
     public static final String separator = "/";
-
-    private static Logger logger = LogManager.getLogger(FileManager.class);
 
     @Override
     public UploadFileDto saveFile(MultipartFile multiPartFile, String path, String filename) {

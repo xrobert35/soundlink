@@ -23,12 +23,26 @@ public interface IArtisteManager {
     List<Artiste> getAllArtistes();
 
     /**
+     * Get all artistes having an album from database
+     * 
+     * @return
+     */
+    List<Artiste> getAllArtistesHavingAlbum();
+
+    /**
      * Add a new artiste
      *
      * @param album
      * @return
      */
     Artiste create(Artiste artiste);
+
+    /**
+     * Update an artiste information
+     * 
+     * @param artiste
+     */
+    void update(Artiste artiste);
 
     /**
      * Delete an artiste
@@ -39,9 +53,18 @@ public interface IArtisteManager {
     boolean deleteArtiste(Artiste artiste);
 
     /**
-     * Get an artise by his name
+     * Get an artiste by his name
      *
      * @param artisteName
      */
     Artiste getArtisteByName(String artisteName);
+
+    /**
+     * Get all artistes starting with the specified chain
+     * 
+     * @param startChain
+     * @return
+     */
+    List<Artiste> getArtistesStartWith(String startChain);
+
 }

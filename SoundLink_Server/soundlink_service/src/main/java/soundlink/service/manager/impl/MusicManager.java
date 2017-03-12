@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import soundlink.dao.repositories.MusicRepository;
@@ -23,6 +24,9 @@ import soundlink.service.manager.IMusicManager;
 public class MusicManager implements IMusicManager {
 
     private static final Logger LOGGER = LogManager.getLogger(AlbumManager.class);
+
+    @Value("#{environment['SOUNDLINK_HOME']}")
+    private String soundlinkFolder;
 
     @Autowired
     private MusicRepository musicRepository;
@@ -57,7 +61,7 @@ public class MusicManager implements IMusicManager {
     @Override
     public File getMusicFile(Integer musicId) {
         Music music = musicRepository.findOne(musicId);
-        return new File(music.getMusicFilePath());
+        return new File(soundlinkFolder + music.getMusicFilePath());
     }
 
     @Override

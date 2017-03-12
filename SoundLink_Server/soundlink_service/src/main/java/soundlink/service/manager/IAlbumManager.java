@@ -1,12 +1,10 @@
 package soundlink.service.manager;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import soundlink.model.entities.Album;
-import soundlink.model.entities.Artiste;
 
 /**
  * Manager used to manage album in database
@@ -25,12 +23,12 @@ public interface IAlbumManager {
     List<Album> getAllAlbums();
 
     /**
-     * Get all albums from an artiste
-     *
-     * @param artiste
+     * Get all albums from artiste
+     * 
+     * @param artisteId
      * @return
      */
-    Set<Album> getAlbumsByArtiste(Artiste artiste);
+    List<Album> getAlbumFromArtiste(Integer artisteId);
 
     /**
      * Add a new album

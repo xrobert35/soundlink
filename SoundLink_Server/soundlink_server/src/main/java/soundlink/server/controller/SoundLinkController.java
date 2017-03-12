@@ -90,13 +90,36 @@ public class SoundLinkController {
     }
 
     /**
+     * Entry point to get all albums
+     *
+     * @return a List with all albums informations
+     */
+    @RequestMapping(value = "/albumsArtiste", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<AlbumDto> getAlbumsArtiste(@RequestParam Integer artisteId) {
+        List<AlbumDto> allAlbums = albumDtoConverter.convertToDtoList(albumManager.getAlbumFromArtiste(artisteId));
+        return allAlbums;
+    }
+
+    /**
      * Entry point to get all artites
      *
      * @return a List with all artites informations
      */
     @RequestMapping(value = "/artistes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<ArtisteDto> getArtistes() {
-        List<ArtisteDto> allAlbums = artisteDtoConverter.convertToDtoList(artisteManager.getAllArtistes());
+        List<ArtisteDto> allAlbums = artisteDtoConverter.convertToDtoList(artisteManager.getAllArtistesHavingAlbum());
+        return allAlbums;
+    }
+
+    /**
+     * Entry point to get all artites
+     *
+     * @return a List with all artites informations
+     */
+    @RequestMapping(value = "/artistesStartWith", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<ArtisteDto> getArtistesStartWith(@RequestParam String startChain) {
+        List<ArtisteDto> allAlbums = artisteDtoConverter
+                .convertToDtoList(artisteManager.getArtistesStartWith(startChain));
         return allAlbums;
     }
 
