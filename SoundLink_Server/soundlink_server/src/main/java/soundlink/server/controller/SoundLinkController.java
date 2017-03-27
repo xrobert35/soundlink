@@ -1,18 +1,15 @@
 package soundlink.server.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -157,17 +154,29 @@ public class SoundLinkController {
     // return new FileSystemResource(musicManager.getMusicFile(musicId));
     // }
 
+    // @RequestMapping(value = "/music/{musicId}", method = RequestMethod.GET)
+    // public ResponseEntity<InputStreamResource> downloadStuff(@PathVariable
+    // Integer musicId) throws IOException {
+    // File file = musicManager.getMusicFile(musicId);
+    //
+    // HttpHeaders respHeaders = new HttpHeaders();
+    // respHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    // respHeaders.setContentLength(file.length());
+    // respHeaders.set("Accept-Ranges", "bytes");
+    // respHeaders.setContentDispositionFormData("attachment",
+    // "fileNameIwant.pdf");
+    //
+    // InputStreamResource isr = new InputStreamResource(new
+    // FileInputStream(file));
+    // return new ResponseEntity<InputStreamResource>(isr, respHeaders,
+    // HttpStatus.OK);
+    // }
+
     @RequestMapping(value = "/music/{musicId}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> downloadStuff(@PathVariable Integer musicId) throws IOException {
-        File file = musicManager.getMusicFile(musicId);
-
-        HttpHeaders respHeaders = new HttpHeaders();
-        respHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        respHeaders.setContentLength(file.length());
-        respHeaders.setContentDispositionFormData("attachment", "fileNameIwant.pdf");
-
-        InputStreamResource isr = new InputStreamResource(new FileInputStream(file));
-        return new ResponseEntity<InputStreamResource>(isr, respHeaders, HttpStatus.OK);
+    public void getEpisodeFile(@PathVariable("musicId") Integer id, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        File file = musicManager.getMusicFile(id);
+        MultipartFileSender.fromPath(file.toPath()).with(request).with(response).serveResource();
     }
 
     /**

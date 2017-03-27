@@ -23,14 +23,17 @@ public interface ArtisteRepository extends JpaRepository<Artiste, Integer> {
      * @return
      */
     @Query("SELECT artiste " 
-     + "FROM Artiste artiste " 
-     + "WHERE upper(unaccent(artiste.name)) = upper(unaccent(:artisteName))")
+     + "FROM Artiste artiste "
+     + "WHERE lower(unaccent(artiste.name)) = lower(unaccent(:artisteName))")
     Artiste findByName(@Param("artisteName") String artisteName);
 
     @Query("SELECT artiste " 
-            + "FROM Artiste artiste " 
-            + "WHERE EXISTS (SELECT 1 FROM Album albumArtiste WHERE albumArtiste.artiste.id = artiste.id)")
+    + "FROM Artiste artiste " 
+    + "WHERE EXISTS (SELECT 1 FROM Album albumArtiste WHERE albumArtiste.artiste.id = artiste.id)")
     List<Artiste> findAllHavingAlbum();
-    
-    List<Artiste> findByNameStartingWith(String artisteName);
+
+    @Query("SELECT artiste " 
+    + "FROM Artiste artiste "
+    + "WHERE lower(unaccent(artiste.name)) like lower(unaccent(:artisteName||'%'))")
+    List<Artiste> findByNameStartingWithIgnoreCase(@Param("artisteName") String artisteName);
 }
