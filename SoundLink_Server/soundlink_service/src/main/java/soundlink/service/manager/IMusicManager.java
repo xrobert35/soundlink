@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import soundlink.model.entities.Music;
 
 @Transactional
-public interface IMusicManager {
+public interface IMusicManager extends ISoundlinkManager<Music, Integer> {
 
     /**
      * Add all musics of an album

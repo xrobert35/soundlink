@@ -5,23 +5,23 @@ package fr.soundlink.bean;
  */
 public class Connexion {
 
-    private String email;
+    private String login;
 
-    private String mdp;
+    private String password;
 
-    public String getEmail() {
-        return email;
-    }
+	public String getLogin() {
+		return login;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-    public String getMdp() {
-        return mdp;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setMdp(String mdp) {
-        this.mdp = mdp;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

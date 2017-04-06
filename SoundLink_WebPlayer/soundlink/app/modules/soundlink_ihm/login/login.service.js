@@ -18,6 +18,7 @@ function loginService($state, loginResource, $cookies, tokenStorage) {
     };
 
     service.logout = function logout() {
+        //TODO STOPER LA LECTURE
         return loginResource.logout().then(function (response) {
             console.debug("logout success");
             delete $cookies[JSESSIONID];

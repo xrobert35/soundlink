@@ -109,8 +109,11 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         album.setBitRate(audioHeader.getBitRate());
         album.setExtension(audioFile.getExt());
         album.setIntegrationNumber(integrationNumber);
-
         album.setArtiste(artiste);
+
+        String albumPath = audioFile.getFile().getParentFile().getAbsolutePath().substring(soundlinkFolder.length());
+        album.setAlbumDirectory(albumPath);
+
         artiste.getAlbums().add(album);
 
         album.setCover(exactCoverFromTag(tag));

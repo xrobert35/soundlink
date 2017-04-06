@@ -37,27 +37,34 @@ public class Album {
     @JoinColumn(name = "artiste_id", nullable = false)
     private Artiste artiste;
 
+    @Column
     private String name;
 
+    @Column(name = "bit_rate")
     private String bitRate;
 
+    @Column
     private String extension;
 
+    @Column(name = "cover_general_color")
     private String coverGeneralColor;
 
+    @Column
     private String cover;
 
+    @Column(name = "album_directory")
     private String albumDirectory;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
-    // @Cascade({ CascadeType.ALL })
     private Set<Music> musics = new HashSet<Music>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favoriteAlbums")
     private Set<Users> users = new HashSet<Users>(0);
 
+    @Column
     private boolean valide = false;
 
+    @Column(name = "integration_number")
     private Integer integrationNumber;
 
     public Integer getId() {

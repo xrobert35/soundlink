@@ -41,11 +41,13 @@ public class Users {
 
     @Column(unique = true)
     private String login;
-
+    @Column
     private String picture;
 
+    @Column
     private String password;
 
+    @Column
     private String email;
 
     @Enumerated(EnumType.STRING)

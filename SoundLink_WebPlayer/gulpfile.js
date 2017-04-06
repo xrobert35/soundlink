@@ -145,45 +145,45 @@ function notifyLiveReload(event) {
   });
 }
 
-gulp.task('process-audio', function () {
-	var src = ['audioPlayer/player/**/*.js'];
+// gulp.task('process-audio', function () {
+// 	var src = ['audioPlayer/player/**/*.js'];
 
-	return gulp.src(src)
-		.pipe(p.iife({
-			prependSemicolon: false,
-			useStrict: false
-		}))
-		.pipe(p.angularInjector())
-		.pipe(p.angularFilesort())
+// 	return gulp.src(src)
+// 		.pipe(p.iife({
+// 			prependSemicolon: false,
+// 			useStrict: false
+// 		}))
+// 		.pipe(p.angularInjector())
+// 		.pipe(p.angularFilesort())
 
-		// Avoid in production
-		.pipe(gulpif(!envProd(), p.concatSourcemap('audioPlayer.js', {
-			sourcesContent: true
-		})))
+// 		// Avoid in production
+// 		.pipe(gulpif(!envProd(), p.concatSourcemap('audioPlayer.js', {
+// 			sourcesContent: true
+// 		})))
 
-		// Production environment
-		.pipe(gulpif(envProd(), p.concat('audioPlayer.js')))
-		.pipe(gulpif(envProd(), p.stripDebug()))
-		.pipe(gulpif(envProd(),
-			p.sizereport({
-				gzip: true,
-				total: false,
-				minifier: function (contents, filepath) {
-					return uglify.minify(contents, {
-						fromString: true
-					}).code;
-				}
-			})
-		))
-		.pipe(gulpif(envProd(), p.uglify()))
-		.pipe(gulp.dest('audioPlayer/build'));
-});
+// 		// Production environment
+// 		.pipe(gulpif(envProd(), p.concat('audioPlayer.js')))
+// 		.pipe(gulpif(envProd(), p.stripDebug()))
+// 		.pipe(gulpif(envProd(),
+// 			p.sizereport({
+// 				gzip: true,
+// 				total: false,
+// 				minifier: function (contents, filepath) {
+// 					return uglify.minify(contents, {
+// 						fromString: true
+// 					}).code;
+// 				}
+// 			})
+// 		))
+// 		.pipe(gulpif(envProd(), p.uglify()))
+// 		.pipe(gulp.dest('audioPlayer/build'));
+// });
 
 
-gulp.task("browseraudio", ['process-audio'], shell.task([
-  'browserify audioPlayer/audioPlayer.js -o soundlink/public/js/audioPlayer.js',
-	'xcopy audioPlayer\\build\\audioPlayer.js.map soundlink\\public\\js /y' 
-]));
+// gulp.task("browseraudio", ['process-audio'], shell.task([
+//   'browserify audioPlayer/audioPlayer.js -o soundlink/public/js/audioPlayer.js',
+// 	'xcopy audioPlayer\\build\\audioPlayer.js.map soundlink\\public\\js /y' 
+// ]));
 
 /**
  * Watch changes.
@@ -191,7 +191,7 @@ gulp.task("browseraudio", ['process-audio'], shell.task([
 gulp.task('watch', ['process'], function () {
 	gulp.watch(appName + "/app/**/*.js", ['process-js']);
 	gulp.watch(appName + "/app/assets/less/**/*.less", ['process-css']);
-	gulp.watch('audioPlayer/**/*.js', ['browseraudio']);
+	// gulp.watch('audioPlayer/**/*.js', ['browseraudio']);
 	gulp.watch('public/**/*.html', notifyLiveReload);
 	gulp.watch('public/css/*.css', notifyLiveReload);
 	gulp.watch('public/js/*.js', notifyLiveReload);
@@ -200,6 +200,5 @@ gulp.task('watch', ['process'], function () {
 gulp.task('process', [
 	'process-js',
 	'process-third-js',
-	'process-css',
-	'browseraudio'
+	'process-css'
 ]);

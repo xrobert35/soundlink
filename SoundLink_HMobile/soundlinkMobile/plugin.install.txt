@@ -1,0 +1,10 @@
+# Storage
+npm install @ionic/storage@2.0.0 --save --save-exact
+
+# Native file
+ionic plugin add cordova-plugin-file
+npm install --save @ionic-native/file
+
+# File chooser
+ionic plugin add http://github.com/don/cordova-filechooser.git
+npm install --save @ionic-native/file-chooser

@@ -6,18 +6,10 @@ angular.module('soundlink').component('albumsPage', {
     bindings: { albums: '<' }
 });
 
-albumsController.$inject = ['socketService', 'soundlinkResource', 'eventManager'];
+albumsController.$inject = ['socketService', 'soundlinkResource'];
 
-function albumsController(socketService, soundlinkResource, eventManager) {
+function albumsController(socketService, soundlinkResource) {
     var vm = this;
-
-    vm.albumSongs = [];
-
-    vm.getAlbums = function getAlbums() {
-        soundlinkResource.getAlbums().then(function (albums) {
-            vm.albums = albums;
-        });
-    };
 
     vm.showAlbumMusics = function showAlbumMusics(album) {
         vm.selectedAlbum = album;

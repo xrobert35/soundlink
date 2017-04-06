@@ -13,14 +13,7 @@ import soundlink.model.entities.Artiste;
  *
  */
 @Transactional
-public interface IArtisteManager {
-
-    /**
-     * Get all artistes from database
-     *
-     * @return
-     */
-    List<Artiste> getAllArtistes();
+public interface IArtisteManager extends ISoundlinkManager<Artiste, Integer> {
 
     /**
      * Get all artistes having an album from database
@@ -28,29 +21,6 @@ public interface IArtisteManager {
      * @return
      */
     List<Artiste> getAllArtistesHavingAlbum();
-
-    /**
-     * Add a new artiste
-     *
-     * @param album
-     * @return
-     */
-    Artiste create(Artiste artiste);
-
-    /**
-     * Update an artiste information
-     * 
-     * @param artiste
-     */
-    void update(Artiste artiste);
-
-    /**
-     * Delete an artiste
-     *
-     * @param album
-     * @return
-     */
-    boolean deleteArtiste(Artiste artiste);
 
     /**
      * Get an artiste by his name

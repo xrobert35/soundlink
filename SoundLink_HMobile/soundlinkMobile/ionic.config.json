@@ -1,0 +1,12 @@
+{
+  "name": "soundlinkMobile",
+  "app_id": "",
+  "v2": true,
+  "typescript": true,
+  "proxies": [
+    {
+      "path": "/soundlink_server/",
+      "proxyUrl": "http://localhost:8090/soundlink_server/"
+    }
+  ]
+}

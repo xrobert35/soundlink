@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>New Playlist</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label floating>Name</ion-label>
+    <ion-input type="text" [(ngModel)]="playlist.name"></ion-input>
+  </ion-item>
+  <div class="layout-row center">
+    <ion-icon class="large-icon" (click)="chooseCover()" name="ios-image-outline"></ion-icon>
+  </div>
+
+  <div padding>
+    <button ion-button outline block (click)='createPlaylist()'>Create</button>
+  </div>
+</ion-content>

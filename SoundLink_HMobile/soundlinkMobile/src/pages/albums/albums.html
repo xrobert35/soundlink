@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{artiste.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <div ion-item *ngFor="let album of albums ; trackBy:trackByIndex;" (click)="onAlbumSelected(album)">
+      <ion-toggle checked="false"></ion-toggle>
+      <ion-thumbnail item-left>
+        <img class="listCover" [src]="'data:image/PNG;base64,' + album.cover" />
+      </ion-thumbnail>
+      <ion-label [innerHtml]="album.name">
+      </ion-label>
+    </div>
+  </ion-list>
+</ion-content>

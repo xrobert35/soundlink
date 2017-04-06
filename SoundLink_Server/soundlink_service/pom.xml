@@ -21,10 +21,6 @@
 			<groupId>soundlink</groupId>
 			<artifactId>soundlink_dto</artifactId>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>xutils</groupId> -->
-		<!-- <artifactId>xutils</artifactId> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org</groupId>
 			<artifactId>jaudiotagger</artifactId>

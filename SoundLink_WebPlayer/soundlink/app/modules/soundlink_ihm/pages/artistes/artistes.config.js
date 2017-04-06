@@ -4,12 +4,15 @@ angular.module("soundlink").config(artistesConfig);
 
 artistesConfig.$inject = ['$stateProvider'];
 
-function artistesConfig($stateProvider, $urlRouterProvider) {
+function artistesConfig($stateProvider) {
 
-    initArtistes.$inject = ['soundlinkResource'];
-
-    function initArtistes(soundlinkResource) {
-        return soundlinkResource.getArtistes().then(function (artistes) {
+    initArtistes.$inject = ['soundlinkResource', '$location'];
+    function initArtistes(soundlinkResource, $location) {
+        var startChain = $location.hash();
+        if (startChain == null || startChain == "") {
+            startChain = 'A';
+        }
+        return soundlinkResource.getArtistesStartWith(startChain).then(function (artistes) {
             return artistes;
         });
     }
@@ -17,8 +20,8 @@ function artistesConfig($stateProvider, $urlRouterProvider) {
     $stateProvider.state('soundlink.artistes', {
         url: 'artistes',
         resolve: {
-            albums: initArtistes
+            artistes: initArtistes
         },
-        template: '<artistes-page artistes="$resolve.albums"></artistes-page>'
+        template: '<artistes-page artistes="$resolve.artistes"></artistes-page>'
     });
 }

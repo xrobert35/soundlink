@@ -1,0 +1,44 @@
+page-album-musics {
+  .content {
+    padding-top: 5px;
+
+    .albumHeader {
+      padding: 1px;
+
+      img {
+        width: 110px;
+        height: 110px;
+      }
+    }
+
+    ion-list.list {
+      ion-item.item.item-block {
+        background-color: white;
+        min-height: 3.4rem;
+
+        &:nth-child(even) {
+          background-color: lightgrey;
+        }
+
+        .item-inner {
+          border-bottom: none;
+
+          ion-label.label {
+            margin: 5px 8px 5px 0;
+          }
+        }
+
+        ion-thumbnail {
+          min-width: 40px;
+          min-height: 15px;
+          text-align: center;
+          color: map-get($colors, primary);
+
+          &[item-left] {
+            margin: 0 10px 0 0;
+          }
+        }
+      }
+    }
+  }
+}

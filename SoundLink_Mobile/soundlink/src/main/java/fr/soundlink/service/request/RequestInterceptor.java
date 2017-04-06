@@ -1,10 +1,13 @@
 package fr.soundlink.service.request;
 
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+
+import android.content.Context;
 
 import java.io.IOException;
 
@@ -13,7 +16,6 @@ import java.io.IOException;
  */
 @EBean(scope = EBean.Scope.Singleton)
 public class RequestInterceptor implements ClientHttpRequestInterceptor {
-
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
@@ -27,6 +29,7 @@ public class RequestInterceptor implements ClientHttpRequestInterceptor {
         System.out.println("===========================request begin================================================");
         System.out.println("URI : " + request.getURI());
         System.out.println("Method : " + request.getMethod());
+        System.out.println("Header : " + request.getHeaders().toString());
         System.out.println("Request Body : " + new String(body, "UTF-8"));
         System.out.println("==========================request end================================================");
     }

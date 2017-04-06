@@ -1,0 +1,12 @@
+<ion-content>
+  <div class="layout-column flex">
+    <ion-searchbar (ionInput)="searchArtistes($event) "></ion-searchbar>
+    <ion-scroll scrollY="true " class="scroll-view flex">
+      <ion-list>
+        <button ion-item *ngFor="let artiste of artistes; trackBy:trackByIndex" (click)="onArtisteSelected(artiste)">
+        {{ artiste.name }}
+      </button>
+      </ion-list>
+    </ion-scroll>
+  </div>
+</ion-content>

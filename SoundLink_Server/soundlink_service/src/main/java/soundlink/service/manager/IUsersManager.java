@@ -6,7 +6,7 @@ import soundlink.dto.UsersDto;
 import soundlink.model.entities.Users;
 
 @Transactional
-public interface IUsersManager {
+public interface IUsersManager extends ISoundlinkManager<Users, Integer> {
 
     /**
      * Allow you to get user information by is login

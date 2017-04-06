@@ -2,9 +2,11 @@ package fr.soundlink.service;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.rest.spring.annotations.RestService;
+import org.springframework.http.client.ClientHttpResponse;
 
 import fr.soundlink.bean.Connexion;
 import fr.soundlink.bean.User;
+import fr.soundlink.config.SoundlinkConfig;
 import fr.soundlink.service.async.AsyncCallBack;
 import fr.soundlink.service.async.AsyncRunner;
 
@@ -14,19 +16,19 @@ import fr.soundlink.service.async.AsyncRunner;
 @EBean(scope = EBean.Scope.Singleton)
 public class SoundlinkService {
 	
-	public static final String SERVEUR_URL = "http://192.168.1.86:8080/SoundLink_Server/";
-
+	
     @RestService
     protected SoundlinkRestService soundlinkRestService;
 
     public SoundlinkService(){
     }
 
-    public void login(Connexion connexion, AsyncCallBack<User> callBack){
-        new AsyncRunner<Connexion, User>(callBack){
+    public void login(Connexion connexion, AsyncCallBack<String> callBack){
+        new AsyncRunner<Connexion, String>(callBack){
             @Override
-            protected User run(Connexion connexion) {
-                return soundlinkRestService.login(connexion);
+            protected String run(Connexion connexion) {
+            	ClientHttpResponse response = soundlinkRestService.login(connexion);
+            	return (String)response.getHeaders().get("X-AUTH-TOKEN").get(0);
             }
         }.execute(connexion);
     }

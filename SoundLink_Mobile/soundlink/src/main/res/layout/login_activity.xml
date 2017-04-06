@@ -18,10 +18,10 @@
         android:layout_marginBottom="50dp">
 
         <EditText
-            android:id="@+id/emailField"
+            android:id="@+id/loginField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:ems="10" />
 
         <EditText

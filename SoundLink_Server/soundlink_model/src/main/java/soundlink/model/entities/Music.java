@@ -42,25 +42,34 @@ public class Music {
     @JoinColumn(name = "album_id", nullable = false)
     private Album album;
 
+    @Column(name = "track_number")
     private Integer trackNumber = null;
 
+    @Column(name = "duration_in_seconde")
     private Integer durationInSeconde = null;
 
+    @Column(name = "bit_rate")
     private String bitRate;
 
+    @Column
     private String extension;
 
+    @Column(name = "music_file_path")
     private String musicFilePath;
 
+    @Column(name = "music_file_size")
     private Long musicFileSize;
 
+    @Column(name = "disc_number")
     private Integer discNumber;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "musics")
     private Set<Playlist> playlist = new HashSet<Playlist>(0);
 
+    @Column
     private boolean valide = false;
 
+    @Column(name = "integration_number")
     private Integer integrationNumber;
 
     public Integer getId() {

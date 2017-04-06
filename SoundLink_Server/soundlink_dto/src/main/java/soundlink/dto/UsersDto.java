@@ -8,6 +8,8 @@ package soundlink.dto;
  */
 public class UsersDto {
 
+    private Integer id;
+
     private String login;
 
     private String email;
@@ -21,6 +23,14 @@ public class UsersDto {
     private String newPassword;
 
     private String confirm;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;

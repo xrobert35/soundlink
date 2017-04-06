@@ -50,6 +50,7 @@ CREATE TABLE album (
   extension VARCHAR(255),
   cover_general_color VARCHAR(255),
   cover text,
+  albumDirectory VARCHAR(255),
   album_directory VARCHAR(1000),
   valide boolean default false,
   integration_number INT,
@@ -104,7 +105,11 @@ COMMENT ON COLUMN music.valide is 'Integration validate ';
 -- PLAYLIST TABLE
 CREATE TABLE playlist(
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(255)
+	name VARCHAR(255),
+	creator_id SERIAL NOT NULL,
+	update_date TIMESTAMP NOT NULL,
+	create_date TIMESTAMP NOT NULL,
+	FOREIGN KEY (creator_id) REFERENCES users (id)
 );
 
 COMMENT ON COLUMN playlist.id is 'Playlist id';

@@ -10,6 +10,8 @@ public class User {
     private String email;
 
     private String mdp;
+    
+    private String token;
 
     public String getLogin() {
         return login;
@@ -34,4 +36,12 @@ public class User {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 }

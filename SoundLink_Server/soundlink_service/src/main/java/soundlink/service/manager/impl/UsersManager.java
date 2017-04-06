@@ -1,5 +1,7 @@
 package soundlink.service.manager.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,36 @@ public class UsersManager implements IUsersManager {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Override
+    public Users create(Users user) {
+        return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public Users update(Users user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void delete(Users user) {
+        userRepository.delete(user);
+    }
+
+    @Override
+    public Users findOne(Integer key) {
+        return userRepository.findOne(key);
+    }
+
+    @Override
+    public Users getOne(Integer key) {
+        return userRepository.getOne(key);
+    }
+
+    @Override
+    public List<Users> getAll() {
+        return userRepository.findAll();
+    }
 
     public Users getUserByLogin(String login) {
         return userRepository.findByLogin(login);

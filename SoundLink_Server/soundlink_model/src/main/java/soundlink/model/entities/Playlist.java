@@ -1,5 +1,6 @@
 package soundlink.model.entities;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -37,6 +39,16 @@ public class Playlist {
 
     @Column(unique = true)
     private String name;
+
+    @OneToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Users creator;
+
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
+
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Cascade({ CascadeType.ALL })
@@ -70,6 +82,42 @@ public class Playlist {
         this.musics = musics;
     }
 
+    public Users getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Users creator) {
+        this.creator = creator;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(LocalDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public Set<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<Users> users) {
+        this.users = users;
+    }
+
+    public void setMusics(Set<Music> musics) {
+        this.musics = musics;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (this == other) {
@@ -79,7 +127,8 @@ public class Playlist {
             return false;
         }
         Playlist castOther = (Playlist) other;
-        return Objects.equals(id, castOther.id) || Objects.equals(name, castOther.name);
+        return Objects.equals(id, castOther.id)
+                || (Objects.equals(name, castOther.name) && Objects.equals(creator, castOther.creator));
     }
 
     @Override

@@ -27,7 +27,7 @@ public class AlbumManager implements IAlbumManager {
     private AlbumRepository albumRepository;
 
     @Override
-    public List<Album> getAllAlbums() {
+    public List<Album> getAll() {
         return albumRepository.findAllOrderer();
     }
 
@@ -41,14 +41,23 @@ public class AlbumManager implements IAlbumManager {
     }
 
     @Override
-    public boolean deleteAlbum(Album album) {
-        if (albumRepository.exists(album.getId())) {
-            albumRepository.delete(album.getId());
-            return true;
-        } else {
-            LOGGER.info("Cannot delete a none existing album with id " + album.getId());
-            return false;
-        }
+    public void delete(Album album) {
+        albumRepository.delete(album.getId());
+    }
+
+    @Override
+    public Album update(Album album) {
+        return albumRepository.save(album);
+    }
+
+    @Override
+    public Album findOne(Integer key) {
+        return albumRepository.findOne(key);
+    }
+
+    @Override
+    public Album getOne(Integer key) {
+        return albumRepository.getOne(key);
     }
 
     @Override

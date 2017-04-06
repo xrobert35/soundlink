@@ -32,11 +32,6 @@ public class MusicManager implements IMusicManager {
     private MusicRepository musicRepository;
 
     @Override
-    public List<Music> getMusicsFromAlbum(Integer albumId) {
-        return musicRepository.getMusicsFromAlbum(albumId);
-    }
-
-    @Override
     public Music create(Music music) {
         if (music.getAlbum() != null) {
             music = musicRepository.save(music);
@@ -56,6 +51,36 @@ public class MusicManager implements IMusicManager {
             LOGGER.debug("Cannot find music to delete with id " + music.getId());
             return false;
         }
+    }
+
+    @Override
+    public Music update(Music music) {
+        return musicRepository.save(music);
+    }
+
+    @Override
+    public void delete(Music music) {
+        musicRepository.delete(music);
+    }
+
+    @Override
+    public Music findOne(Integer key) {
+        return musicRepository.findOne(key);
+    }
+
+    @Override
+    public Music getOne(Integer key) {
+        return musicRepository.getOne(key);
+    }
+
+    @Override
+    public List<Music> getAll() {
+        return musicRepository.findAll();
+    }
+
+    @Override
+    public List<Music> getMusicsFromAlbum(Integer albumId) {
+        return musicRepository.getMusicsFromAlbum(albumId);
     }
 
     @Override

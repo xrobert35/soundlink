@@ -2,50 +2,31 @@
 
 angular.module('soundlink').component('artistesPage', {
     templateUrl: 'app/modules/soundlink_ihm/pages/artistes/artistes.html',
-    controller: artistesController
+    controller: artistesController,
+    bindings: { artistes: '<' }
 });
 
-artistesController.$inject = ['soundlinkResource', '$q', '$scope'];
+artistesController.$inject = ['soundlinkResource', '$location'];
 
-function artistesController(soundlinkResource, $q, $scope) {
+function artistesController(soundlinkResource, $location) {
     var vm = this;
 
-    vm.getArtistes = function () {
-        $scope.$broadcast("refresh:table");
+    vm.getPaginations = function () {
+        return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     };
 
-    vm.action = function (row, column){
-        console.log("action");
+    vm.isActive = function(startChain){
+        return $location.hash() == startChain;
     };
 
-    vm.getDatas = function (tri, callback) {
-        return $q.when({
-            pageIndex: 1,
-            totalPages: 3,
-            totalElements: 3,
-            results: [{
-                column1: "Toto1",
-                column2: "Tata1",
-                column3: new Date(),
-                column4: "SUPER TESTTTTTTTTTTTTTTTTT 1 new Date()"
-            },
-            {
-                column1: "Toto2",
-                column2: "Tata2",
-                column3: null,
-                column4: "SUPER TESTTTTTTTTTTTTTTTTT 2 new Date()"
-            },
-            {
-                column1: "Toto3",
-                column2: "Tata3",
-                column3: new Date(),
-                column4: "SUPER TESTTTTTTTTTTTTTTTTT 3 new Date()"
-            },
-            ]
+    vm.getArtistesStartWith = function (startChain) {
+        $location.hash(startChain);
+        soundlinkResource.getArtistesStartWith(startChain).then(function (artistes) {
+            vm.artistes = artistes;
         });
     };
 
-    vm.format = function (row) {
-        return row.column1 + ' - ' + row.column2;
+    vm.selectArtiste = function (artiste) {
+        vm.selectedArtiste = artiste;
     };
 }

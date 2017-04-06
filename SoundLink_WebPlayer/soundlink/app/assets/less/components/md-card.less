@@ -1,6 +1,13 @@
 @import "../lessvars";
 .soundlink {
-   md-card {
+  md-card {
+    cursor: pointer;
+    cursor: hand;
+    border: 2px solid transparent;
+    &:focus, &:active {
+      outline: none;
+      border: 2px solid @orange-color;
+    }
     &.md-small {
       display: inline-block;
       width: 180px;
@@ -10,19 +17,20 @@
       background-color: white;
       .md-subhead {
         padding-top: 0px;
+        max-height: 50px;
+        height: 50px;
+        overflow: hidden;
       }
       .md-card-image {
         max-height: 110px;
         height: 110px;
         width: auto;
         margin: auto;
-        cursor: pointer;
-        cursor: hand;
       }
       md-card-header {
         padding: 0 0 0 0;
-        height: 30px;
-        max-height: 30px;
+        height: 35px;
+        max-height: 35px;
         padding-top: 3px;
         md-icon {
           margin: 0 0 0 0;

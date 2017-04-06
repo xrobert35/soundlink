@@ -26,35 +26,39 @@ public class ArtisteManager implements IArtisteManager {
     private ArtisteRepository artisteRepository;
 
     @Override
-    public List<Artiste> getAllArtistes() {
-        return artisteRepository.findAll();
-    }
-
-    @Override
-    public List<Artiste> getAllArtistesHavingAlbum() {
-        return artisteRepository.findAllHavingAlbum();
-    }
-
-    @Override
     public Artiste create(Artiste artiste) {
         artiste = artisteRepository.saveAndFlush(artiste);
         return artiste;
     }
 
     @Override
-    public void update(Artiste artiste) {
-        artisteRepository.save(artiste);
+    public Artiste update(Artiste artiste) {
+        return artisteRepository.save(artiste);
     }
 
     @Override
-    public boolean deleteArtiste(Artiste artiste) {
-        if (artisteRepository.exists(artiste.getId())) {
-            artisteRepository.delete(artiste.getId());
-            return true;
-        } else {
-            LOGGER.info("Cannot delete a none existing album with id " + artiste.getId());
-            return false;
-        }
+    public void delete(Artiste artiste) {
+        artisteRepository.delete(artiste);
+    }
+
+    @Override
+    public Artiste findOne(Integer key) {
+        return artisteRepository.findOne(key);
+    }
+
+    @Override
+    public Artiste getOne(Integer key) {
+        return artisteRepository.getOne(key);
+    }
+
+    @Override
+    public List<Artiste> getAll() {
+        return artisteRepository.findAll();
+    }
+
+    @Override
+    public List<Artiste> getAllArtistesHavingAlbum() {
+        return artisteRepository.findAllHavingAlbum();
     }
 
     @Override
@@ -66,5 +70,4 @@ public class ArtisteManager implements IArtisteManager {
     public List<Artiste> getArtistesStartWith(String startChain) {
         return artisteRepository.findByNameStartingWithIgnoreCase(startChain);
     }
-
 }

@@ -34,17 +34,19 @@ public class Artiste {
     @Column(unique = true)
     private String name;
 
+    @Column
     private String cover;
 
-    // @Cascade({ CascadeType.ALL })
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste")
     private Set<Album> albums = new HashSet<Album>(0);
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favortiesArtistes")
     private Set<Users> users = new HashSet<Users>(0);
 
+    @Column
     private boolean valide = false;
 
+    @Column(name = "integration_number")
     private Integer integrationNumber;
 
     public Integer getId() {

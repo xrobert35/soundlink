@@ -19,5 +19,5 @@ function csrfRequestInterceptor($q, tokenStorage, $location) {
             }
             return $q.reject(error);
         }
-    }
+    };
 }

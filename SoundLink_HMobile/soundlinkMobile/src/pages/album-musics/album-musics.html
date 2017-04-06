@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{album.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="layout-column content">
+    <div class="layout-column albumHeader">
+      <div class="layout-row center flex">
+        <img [src]="'data:image/PNG;base64,' + album.cover" />
+      </div>
+      <div class="layout-row end vcenter divider">
+        <span>Sync</span>
+        <ion-toggle checked="false"></ion-toggle>
+      </div>
+    </div>
+
+    <ion-list class="flex">
+      <ion-item *ngFor="let music of musics ; trackBy:trackByIndex;" (click)="onMusicSelected(music)">
+        <span>{{ music.title }}</span>
+        <ion-thumbnail item-right>{{ music.trackNumber }}</ion-thumbnail>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
