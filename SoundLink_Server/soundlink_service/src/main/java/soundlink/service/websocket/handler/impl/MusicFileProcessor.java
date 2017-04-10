@@ -77,8 +77,8 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         String title = tag.getFirst(FieldKey.TITLE);
         Music music = musicManager.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
 
-        String cleanArtisteName = artiste.getName().replaceAll("[^a-zA-Z0-9.- ]", "_");
-        String cleanAlbumName = album.getName().replaceAll("[^a-zA-Z0-9.- ]", "_");
+        String cleanArtisteName = artiste.getName().replaceAll("[^a-zA-Z0-9. -]", "_");
+        String cleanAlbumName = album.getName().replaceAll("[^a-zA-Z0-9. -]", "_");
         String musicFilePath = SoundlinkConstant.MUSICS_STORAGE_FOLDER + cleanArtisteName + "/" + cleanAlbumName;
 
         String cleanTitle = null;
@@ -86,7 +86,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
             music = createMusic(audioFile, album, integrationNumber);
             long musicFileSizeMo = musicFile.length() / (1024 * 1024);
             music.setMusicFileSize(musicFileSizeMo);
-            cleanTitle = music.getTitle().replaceAll("[^a-zA-Z0-9.- ]", "_");
+            cleanTitle = music.getTitle().replaceAll("[^a-zA-Z0-9. -]", "_");
             music.setMusicFilePath(musicFilePath + "/" + cleanTitle);
         }
         moveToMusicsFolder(musicFile, musicFilePath, cleanTitle);
