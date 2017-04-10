@@ -77,22 +77,27 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         String title = tag.getFirst(FieldKey.TITLE);
         Music music = musicManager.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
 
+        String cleanArtisteName = artiste.getName().replaceAll("[^a-zA-Z0-9.-]", "_");
+        String cleanAlbumName = album.getName().replaceAll("[^a-zA-Z0-9.-]", "_");
+        String musicFilePath = SoundlinkConstant.MUSICS_STORAGE_FOLDER + cleanArtisteName + "/" + cleanAlbumName;
+
+        String cleanTitle = null;
         if (music == null) {
             music = createMusic(audioFile, album, integrationNumber);
             long musicFileSizeMo = musicFile.length() / (1024 * 1024);
             music.setMusicFileSize(musicFileSizeMo);
+            cleanTitle = music.getTitle().replaceAll("[^a-zA-Z0-9.-]", "_");
+            music.setMusicFilePath(musicFilePath + "/" + cleanTitle);
         }
-
-        moveToMusicsFolder(musicFile, artiste, album, music);
+        moveToMusicsFolder(musicFile, musicFilePath, cleanTitle);
     }
 
-    private void moveToMusicsFolder(File musicFile, Artiste artiste, Album album, Music music) {
-        File newFileFolder = new File(
-                soundlinkFolder + SoundlinkConstant.MUSICS_STORAGE_FOLDER + artiste.getName() + "/" + album.getName());
+    private void moveToMusicsFolder(File musicFile, String newPath, String title) {
+        File newFileFolder = new File(soundlinkFolder + newPath);
         if (!newFileFolder.exists()) {
             newFileFolder.mkdirs();
         }
-        musicFile.renameTo(new File(newFileFolder.getPath() + "/" + music.getTitle()));
+        musicFile.renameTo(new File(newFileFolder.getPath() + "/" + title));
     }
 
     private Artiste createArtiste(AudioFile audioFile, String artisteName, Integer integrationNumber)
@@ -174,7 +179,6 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         Tag tag = audioFile.getTag();
         AudioHeader audioHeader = audioFile.getAudioHeader();
 
-        music.setMusicFilePath(audioFile.getFile().getAbsolutePath().substring(soundlinkFolder.length()));
         music.setIntegrationNumber(integrationNumber);
 
         String track = tag.getFirst(FieldKey.TRACK);
