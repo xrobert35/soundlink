@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import soundlink.dto.socket.IntegrationProgressDto;
+import soundlink.service.constant.SoundlinkConstant;
 import soundlink.service.filter.MusicFileFilter;
 import soundlink.service.manager.IIntegrationManager;
 import soundlink.service.websocket.WebSocketExecutor;
@@ -25,7 +26,7 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
     protected static final Logger LOGGER = LogManager.getLogger("soundlink_integration");
 
     @Value("#{environment['SOUNDLINK_HOME']}")
-    private String soundlinkFolder;
+    private String soundlinkFolderPath;
 
     @Autowired
     private MusicFileFilter musicFileFilter;
@@ -38,7 +39,9 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
 
     private Integer integrationNumber;
 
-    private File integrationFolder;
+    private File musicsInputFolder;
+
+    private File musicsStorageFolder;
 
     private int totalFiles = 0;
 
@@ -46,10 +49,30 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
 
     @PostConstruct
     public void initBean() {
-        integrationFolder = new File(soundlinkFolder);
-        if (!integrationFolder.isDirectory()) {
+        File soundlinkFolder = new File(soundlinkFolderPath);
+        if (!soundlinkFolder.isDirectory()) {
             throw new IllegalArgumentException(
-                    "Root path must be a valide directory : " + integrationFolder.getAbsolutePath());
+                    "Root path must be a valide directory : " + soundlinkFolder.getAbsolutePath());
+        }
+
+        File albumCoverFolder = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER);
+        if (!albumCoverFolder.exists()) {
+            albumCoverFolder.mkdirs();
+        }
+
+        File artistesCoverFolder = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER);
+        if (!artistesCoverFolder.exists()) {
+            artistesCoverFolder.mkdirs();
+        }
+
+        musicsInputFolder = new File(soundlinkFolder + SoundlinkConstant.MUSICS_INPUT_FOLDER);
+        if (!musicsInputFolder.exists()) {
+            musicsInputFolder.mkdirs();
+        }
+
+        musicsStorageFolder = new File(soundlinkFolder + SoundlinkConstant.MUSICS_STORAGE_FOLDER);
+        if (!musicsStorageFolder.exists()) {
+            musicsStorageFolder.mkdirs();
         }
     }
 
@@ -58,11 +81,11 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
         integrationNumber = integrationManager.getNextIntegrationNumber();
 
         fileTraited = 0;
-        totalFiles = countFilesInDirectory(integrationFolder);
+        totalFiles = countFilesInDirectory(musicsInputFolder);
 
         sendProgressMessage("Start integrating " + totalFiles + " musics ", 0, false);
 
-        exploreDirectory(integrationFolder);
+        exploreDirectory(musicsInputFolder);
 
         sendProgressMessage("Integration ended", 100, true);
     }
@@ -113,6 +136,7 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
         } catch (Exception e) {
             manageErrorFile(musicFile, e);
         }
+
         fileTraited++;
         sendProgressMessage(musicFile.getName(), getPourcent(totalFiles, fileTraited), false);
     }

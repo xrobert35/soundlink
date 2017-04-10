@@ -34,9 +34,6 @@ public class Artiste {
     @Column(unique = true)
     private String name;
 
-    @Column
-    private String cover;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste")
     private Set<Album> albums = new HashSet<Album>(0);
 
@@ -63,14 +60,6 @@ public class Artiste {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 
     public Set<Album> getAlbums() {

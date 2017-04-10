@@ -22,9 +22,11 @@ public class MusicDto {
 
     private String albumName;
 
-    private Integer trackNumber = null;
+    private Integer trackNumber;
 
-    private Integer durationInSeconde = null;
+    private Integer discNumber;
+
+    private Integer durationInSeconde;
 
     private String bitRate;
 
@@ -66,6 +68,14 @@ public class MusicDto {
 
     public void setTrackNumber(Integer trackNumber) {
         this.trackNumber = trackNumber;
+    }
+
+    public Integer getDiscNumber() {
+        return discNumber;
+    }
+
+    public void setDiscNumber(Integer discNumber) {
+        this.discNumber = discNumber;
     }
 
     public String getBitRate() {

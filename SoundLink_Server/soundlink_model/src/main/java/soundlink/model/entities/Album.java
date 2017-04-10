@@ -46,11 +46,8 @@ public class Album {
     @Column
     private String extension;
 
-    @Column(name = "cover_general_color")
-    private String coverGeneralColor;
-
-    @Column
-    private String cover;
+    @Column(name = "nb_discs")
+    private Integer nbDiscs;
 
     @Column(name = "album_directory")
     private String albumDirectory;
@@ -105,22 +102,6 @@ public class Album {
 
     public void setExtension(String extension) {
         this.extension = extension;
-    }
-
-    public String getCoverGeneralColor() {
-        return coverGeneralColor;
-    }
-
-    public void setCoverGeneralColor(String coverGeneralColor) {
-        this.coverGeneralColor = coverGeneralColor;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 
     public String getAlbumDirectory() {

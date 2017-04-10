@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class SoundLinkUserDetails implements UserDetails {
 
+    private static final long serialVersionUID = 894977182915587339L;
+
     private String username;
 
     private String password;

@@ -2,11 +2,11 @@ DROP TABLE IF EXISTS music_playlists;
 DROP TABLE IF EXISTS user_fav_artistes;
 DROP TABLE IF EXISTS user_fav_albums;
 DROP TABLE IF EXISTS user_fav_playlists;
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS music;
 DROP TABLE IF EXISTS album;
 DROP TABLE IF EXISTS artiste;
 DROP TABLE IF EXISTS playlist;
+DROP TABLE IF EXISTS users;
 
 -- USERS TABLE
 CREATE TABLE users (
@@ -29,7 +29,6 @@ DROP TABLE IF EXISTS artiste;
 CREATE TABLE artiste (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) UNIQUE,
-  cover text,
   valide boolean default false,
   integration_number INT
 );
@@ -38,7 +37,6 @@ CREATE INDEX index_artiste_name ON artiste (name);
 
 COMMENT ON COLUMN artiste.id is 'Artiste id';
 COMMENT ON COLUMN artiste.name is 'Artiste name';
-COMMENT ON COLUMN artiste.cover is 'Artiste cover image';
 COMMENT ON COLUMN artiste.valide is 'Integration validate ';
 
 -- ALBUM TABLE
@@ -48,8 +46,7 @@ CREATE TABLE album (
   name VARCHAR(255),
   bit_rate VARCHAR(255),
   extension VARCHAR(255),
-  cover_general_color VARCHAR(255),
-  cover text,
+  nb_discs INT,
   albumDirectory VARCHAR(255),
   album_directory VARCHAR(1000),
   valide boolean default false,
@@ -64,8 +61,6 @@ COMMENT ON COLUMN album.artiste_id is 'Album artiste';
 COMMENT ON COLUMN album.name is 'Album name';
 COMMENT ON COLUMN album.bit_rate is 'Album bit rate : bit/s';
 COMMENT ON COLUMN album.extension is 'Album extension : flac, mp3';
-COMMENT ON COLUMN album.cover_general_color is 'Cover image color : #6e6e6e';
-COMMENT ON COLUMN album.cover is 'Cover image';
 COMMENT ON COLUMN album.album_directory is 'Album directory path';
 COMMENT ON COLUMN album.valide is 'Integration validate ';
 

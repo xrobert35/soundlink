@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.MimeTypeUtils;
 
 /**
  * Created by kevin on 10/02/15. See full code here :
@@ -294,6 +293,8 @@ public class MultipartFileSender {
                 // End with multipart boundary.
                 sos.println();
                 sos.println("--" + MULTIPART_BOUNDARY + "--");
+
+                sos.close();
             }
         }
 
