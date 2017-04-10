@@ -30,6 +30,7 @@ public abstract class WebSocketExecutor implements Runnable {
                 closeSessions();
             }
         } catch (Exception e) {
+            closeSessions();
             e.printStackTrace();
         }
     }
@@ -81,6 +82,12 @@ public abstract class WebSocketExecutor implements Runnable {
             try {
                 session.sendMessage(message);
             } catch (IOException e) {
+                try {
+                    session.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                sessions.remove(session);
                 e.printStackTrace();
             }
         });
