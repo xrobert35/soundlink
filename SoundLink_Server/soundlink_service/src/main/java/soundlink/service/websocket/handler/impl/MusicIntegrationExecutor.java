@@ -98,9 +98,9 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
         sendMessage(dto);
     }
 
-    public static int countFilesInDirectory(File directory) {
+    public int countFilesInDirectory(File directory) {
         int count = 0;
-        for (File file : directory.listFiles()) {
+        for (File file : directory.listFiles(musicFileFilter)) {
             if (file.isFile()) {
                 count++;
             }
