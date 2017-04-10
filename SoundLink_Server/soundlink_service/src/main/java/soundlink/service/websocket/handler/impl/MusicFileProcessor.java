@@ -97,7 +97,10 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         if (!newFileFolder.exists()) {
             newFileFolder.mkdirs();
         }
-        musicFile.renameTo(new File(newFileFolder.getPath() + "/" + title));
+
+        String extensions = musicFile.getAbsolutePath().substring(musicFile.getAbsolutePath().lastIndexOf('.'))
+                .toLowerCase();
+        musicFile.renameTo(new File(newFileFolder.getPath() + "/" + title + extensions));
     }
 
     private Artiste createArtiste(AudioFile audioFile, String artisteName, Integer integrationNumber)

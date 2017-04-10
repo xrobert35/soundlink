@@ -119,7 +119,7 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
      */
     private void exploreDirectory(File directory) {
         LOGGER.debug("Explore directory : " + directory.getAbsolutePath());
-        File[] listFiles = directory.listFiles();
+        File[] listFiles = directory.listFiles(musicFileFilter);
         for (File file : listFiles) {
             if (!file.isDirectory()) {
                 LOGGER.debug(">>> analyse file : " + file.getAbsolutePath());
