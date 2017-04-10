@@ -146,15 +146,19 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     }
 
     private void saveAlbumCover(Album album, Tag tag) throws IOException {
-        File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
-        byte[] exactCoverFromTag = exactCoverFromTag(tag);
-        FileUtils.writeByteArrayToFile(artisteCover, exactCoverFromTag);
+        byte[] coverFromTag = exactCoverFromTag(tag);
+        if (coverFromTag != null) {
+            File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
+            FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
+        }
     };
 
     private void saveArtisteCover(Artiste artiste, Tag tag) throws IOException {
-        File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + artiste.getId());
-        byte[] exactCoverFromTag = exactCoverFromTag(tag);
-        FileUtils.writeByteArrayToFile(artisteCover, exactCoverFromTag);
+        byte[] coverFromTag = exactCoverFromTag(tag);
+        if (coverFromTag != null) {
+            File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + artiste.getId());
+            FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
+        }
     };
 
     private byte[] exactCoverFromTag(Tag tag) throws IOException {
