@@ -136,7 +136,9 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
             }
         }
         // delete input directory
-        directory.delete();
+        if (!directory.equals(musicsInputFolder)) {
+            directory.delete();
+        }
     }
 
     private void processFile(File musicFile) {
