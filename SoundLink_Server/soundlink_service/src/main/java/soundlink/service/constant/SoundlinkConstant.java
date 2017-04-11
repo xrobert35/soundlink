@@ -7,5 +7,6 @@ public class SoundlinkConstant {
     public static final String ARTISTES_COVERS_FOLDER = "/covers/artistes/";
 
     public static final String MUSICS_INPUT_FOLDER = "/integration/";
+    public static final String MUSICS_ERROR_FOLDER = "/errors/";
     public static final String MUSICS_STORAGE_FOLDER = "/musics/";
 }

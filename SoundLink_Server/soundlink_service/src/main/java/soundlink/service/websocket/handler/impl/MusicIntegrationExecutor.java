@@ -43,6 +43,8 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
 
     private File musicsStorageFolder;
 
+    private File musicsErrorFolder;
+
     private int totalFiles = 0;
 
     private int fileTraited = 0;
@@ -73,6 +75,11 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
         musicsStorageFolder = new File(soundlinkFolder + SoundlinkConstant.MUSICS_STORAGE_FOLDER);
         if (!musicsStorageFolder.exists()) {
             musicsStorageFolder.mkdirs();
+        }
+
+        musicsErrorFolder = new File(soundlinkFolder + SoundlinkConstant.MUSICS_ERROR_FOLDER);
+        if (!musicsErrorFolder.exists()) {
+            musicsErrorFolder.mkdirs();
         }
     }
 
@@ -143,7 +150,7 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
 
     private void manageErrorFile(File musicFile, Exception exception) {
         LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + " " + exception.getMessage());
-        exception.printStackTrace();
+        musicFile.renameTo(new File(musicsErrorFolder.getPath() + musicFile.getName()));
     }
 
     private int getPourcent(int total, int done) {
