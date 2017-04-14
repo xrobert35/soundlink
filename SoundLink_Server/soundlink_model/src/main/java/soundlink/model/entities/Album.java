@@ -1,5 +1,6 @@
 package soundlink.model.entities;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -37,13 +38,13 @@ public class Album {
     @JoinColumn(name = "artiste_id", nullable = false)
     private Artiste artiste;
 
-    @Column
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "bit_rate")
     private String bitRate;
 
-    @Column
+    @Column(name = "extension")
     private String extension;
 
     @Column(name = "nb_discs")
@@ -52,13 +53,16 @@ public class Album {
     @Column(name = "album_directory")
     private String albumDirectory;
 
+    @Column(name = "release_date")
+    private LocalDateTime releaseDate;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
     private Set<Music> musics = new HashSet<Music>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favoriteAlbums")
-    private Set<Users> users = new HashSet<Users>(0);
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "album")
+    private Set<UsersAlbums> users = new HashSet<UsersAlbums>(0);
 
-    @Column
+    @Column(name = "valide")
     private boolean valide = false;
 
     @Column(name = "integration_number")
@@ -136,11 +140,27 @@ public class Album {
         this.valide = valide;
     }
 
-    public Set<Users> getUsers() {
+    public Integer getNbDiscs() {
+        return nbDiscs;
+    }
+
+    public void setNbDiscs(Integer nbDiscs) {
+        this.nbDiscs = nbDiscs;
+    }
+
+    public LocalDateTime getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDateTime releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Set<UsersAlbums> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<Users> users) {
+    public void setUsers(Set<UsersAlbums> users) {
         this.users = users;
     }
 
@@ -153,13 +173,15 @@ public class Album {
             return false;
         }
         Album castOther = (Album) other;
-        return Objects.equals(id, castOther.id)
-                || Objects.equals(artiste, castOther.artiste) && Objects.equals(name, castOther.name)
-                        && Objects.equals(bitRate, castOther.bitRate) && Objects.equals(extension, castOther.extension);
+        if (id != null) {
+            return Objects.equals(id, castOther.id);
+        }
+        return Objects.equals(name, castOther.name) && Objects.equals(bitRate, castOther.bitRate)
+                && Objects.equals(extension, castOther.extension) && Objects.equals(artiste, castOther.artiste);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, artiste, name, bitRate, extension);
+        return Objects.hash(id, name, bitRate, extension);
     }
 }

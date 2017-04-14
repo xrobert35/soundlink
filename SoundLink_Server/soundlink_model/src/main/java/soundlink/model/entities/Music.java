@@ -32,6 +32,7 @@ public class Music {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
     @ManyToOne
@@ -51,7 +52,7 @@ public class Music {
     @Column(name = "bit_rate")
     private String bitRate;
 
-    @Column
+    @Column(name = "extension")
     private String extension;
 
     @Column(name = "music_file_path")
@@ -63,10 +64,10 @@ public class Music {
     @Column(name = "disc_number")
     private Integer discNumber;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "musics")
-    private Set<Playlist> playlist = new HashSet<Playlist>(0);
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "music")
+    private Set<MusicsPlaylists> playlist = new HashSet<MusicsPlaylists>(0);
 
-    @Column
+    @Column(name = "valide")
     private boolean valide = false;
 
     @Column(name = "integration_number")
@@ -144,11 +145,11 @@ public class Music {
         this.extension = extension;
     }
 
-    public Set<Playlist> getPlaylist() {
+    public Set<MusicsPlaylists> getPlaylist() {
         return playlist;
     }
 
-    public void setPlaylist(Set<Playlist> playlist) {
+    public void setPlaylist(Set<MusicsPlaylists> playlist) {
         this.playlist = playlist;
     }
 
@@ -193,8 +194,11 @@ public class Music {
             return false;
         }
         Music castOther = (Music) other;
-        return Objects.equals(id, castOther.id) || Objects.equals(title, castOther.title)
-                && Objects.equals(album, castOther.album) && Objects.equals(trackNumber, castOther.trackNumber)
+        if (id != null) {
+            return Objects.equals(id, castOther.id);
+        }
+        return Objects.equals(title, castOther.title) && Objects.equals(album, castOther.album)
+                && Objects.equals(trackNumber, castOther.trackNumber)
                 && Objects.equals(durationInSeconde, castOther.durationInSeconde)
                 && Objects.equals(bitRate, castOther.bitRate) && Objects.equals(extension, castOther.extension);
     }

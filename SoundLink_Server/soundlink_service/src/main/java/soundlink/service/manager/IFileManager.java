@@ -25,4 +25,12 @@ public interface IFileManager {
      */
     File getFile(String path);
 
+    /**
+     * Unzip a file
+     * 
+     * @param path
+     * @param fileName
+     */
+    boolean unzip(String path, String fileName, boolean delete);
+
 }

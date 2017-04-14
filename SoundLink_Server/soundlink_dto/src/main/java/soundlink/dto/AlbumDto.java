@@ -22,10 +22,6 @@ public class AlbumDto {
 
     private String extension;
 
-    private String coverGeneralColor;
-
-    private String cover;
-
     private Integer discNumber;
 
     private File albumDirectory;
@@ -86,22 +82,6 @@ public class AlbumDto {
 
     public void setExtension(String extension) {
         this.extension = extension;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public String getCoverGeneralColor() {
-        return coverGeneralColor;
-    }
-
-    public void setCoverGeneralColor(String coverGeneralColor) {
-        this.coverGeneralColor = coverGeneralColor;
     }
 
     public Integer getDiscNumber() {

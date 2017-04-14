@@ -21,7 +21,7 @@ import soundlink.service.converter.MusicDtoConverter;
 import soundlink.service.manager.IMusicManager;
 
 @RestController
-@RequestMapping("/soundlink")
+@RequestMapping("/soundlink/musics")
 public class MusicsController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class MusicsController {
      * @param albumId id of the album
      * @return a set with all musics informations
      */
-    @RequestMapping(value = "/albumMusics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/fromAlbum", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MusicDto> getAlbumMusics(@RequestParam Integer albumId) {
         if (albumId == null) {
             throw new InvalidParameterException("Album id cannot be null");
@@ -46,7 +46,7 @@ public class MusicsController {
     }
 
     @RequestMapping(value = "/music/{musicId}", method = RequestMethod.GET)
-    public void getEpisodeFile(@PathVariable("musicId") Integer id, HttpServletRequest request,
+    public void getMusicPart(@PathVariable("musicId") Integer id, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         File file = musicManager.getMusicFile(id);
         MultipartFileSender.fromPath(file.toPath()).with(request).with(response).serveResource();

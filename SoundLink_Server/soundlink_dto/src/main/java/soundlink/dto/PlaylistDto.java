@@ -12,7 +12,7 @@ public class PlaylistDto {
 
     private String cover;
 
-    private Integer creatorId;
+    private String creatorLogin;
 
     public String getName() {
         return name;
@@ -30,11 +30,11 @@ public class PlaylistDto {
         this.cover = cover;
     }
 
-    public Integer getCreatorId() {
-        return creatorId;
+    public String getCreatorId() {
+        return creatorLogin;
     }
 
-    public void setCreatorId(Integer creatorId) {
-        this.creatorId = creatorId;
+    public void setCreatorId(String creatorLogin) {
+        this.creatorLogin = creatorLogin;
     }
 }

@@ -65,4 +65,14 @@ public class UsersManager implements IUsersManager {
         return userRepository.save(user);
     }
 
+    @Override
+    public Users getUserWithFavoriteArtistesFetchByLogin(String login) {
+        return userRepository.getUserWithFavoriteArtistesFetchByLogin(login);
+    }
+
+    @Override
+    public Users getUserWithFavoriteAlbumsFetchByLogin(String login) {
+        return userRepository.getUserWithFavoriteAlbumsFetchByLogin(login);
+    }
+
 }

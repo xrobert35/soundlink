@@ -32,4 +32,12 @@ public interface IAlbumManager extends ISoundlinkManager<Album, Integer> {
      */
     Album findAlbumByNameAndArtisteName(String albumName, String artisteName);
 
+    /**
+     * Get all albums from user
+     * 
+     * @param user id
+     * @return
+     */
+    List<Album> getAlbumsByUserId(Integer userId);
+
 }

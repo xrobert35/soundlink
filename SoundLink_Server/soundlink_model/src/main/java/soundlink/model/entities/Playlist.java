@@ -12,8 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -37,7 +36,7 @@ public class Playlist {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(unique = true)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @OneToOne
@@ -47,16 +46,15 @@ public class Playlist {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
-    @JoinTable(name = "music_playlists", schema = "public", inverseJoinColumns = @JoinColumn(name = "music_id", referencedColumnName = "id", columnDefinition = "long"), joinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id", columnDefinition = "long"))
-    private Set<Music> musics = new HashSet<Music>(0);
+    private Set<MusicsPlaylists> musics = new HashSet<MusicsPlaylists>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "playlists")
-    private Set<Users> users = new HashSet<Users>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist")
+    private Set<UsersPlaylists> users = new HashSet<UsersPlaylists>(0);
 
     public Integer getId() {
         return id;
@@ -72,14 +70,6 @@ public class Playlist {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Music> getMusics() {
-        return musics;
-    }
-
-    public void setMusic(Set<Music> musics) {
-        this.musics = musics;
     }
 
     public Users getCreator() {
@@ -106,16 +96,20 @@ public class Playlist {
         this.createDate = createDate;
     }
 
-    public Set<Users> getUsers() {
+    public Set<MusicsPlaylists> getMusics() {
+        return musics;
+    }
+
+    public void setMusics(Set<MusicsPlaylists> musics) {
+        this.musics = musics;
+    }
+
+    public Set<UsersPlaylists> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<Users> users) {
+    public void setUsers(Set<UsersPlaylists> users) {
         this.users = users;
-    }
-
-    public void setMusics(Set<Music> musics) {
-        this.musics = musics;
     }
 
     @Override
@@ -127,8 +121,10 @@ public class Playlist {
             return false;
         }
         Playlist castOther = (Playlist) other;
-        return Objects.equals(id, castOther.id)
-                || (Objects.equals(name, castOther.name) && Objects.equals(creator, castOther.creator));
+        if (id != null) {
+            return Objects.equals(id, castOther.id);
+        }
+        return (Objects.equals(name, castOther.name) && Objects.equals(creator, castOther.creator));
     }
 
     @Override

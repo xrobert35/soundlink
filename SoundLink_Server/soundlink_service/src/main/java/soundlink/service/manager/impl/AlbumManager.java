@@ -65,4 +65,9 @@ public class AlbumManager implements IAlbumManager {
     public List<Album> getAlbumFromArtiste(Integer artisteId) {
         return albumRepository.getAlbumsFromArtiste(artisteId);
     }
+
+    @Override
+    public List<Album> getAlbumsByUserId(Integer userId) {
+        return albumRepository.getAlbumsByUserId(userId);
+    }
 }

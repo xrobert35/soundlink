@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import soundlink.dto.PlaylistActionDto;
 import soundlink.dto.PlaylistDto;
+import soundlink.model.entities.Music;
+import soundlink.model.entities.MusicsPlaylists;
 import soundlink.model.entities.Playlist;
 import soundlink.model.entities.Users;
+import soundlink.model.entities.UsersPlaylists;
 import soundlink.service.converter.PlaylistDtoConverter;
 import soundlink.service.manager.IMusicManager;
 import soundlink.service.manager.IPlaylistManager;
 import soundlink.service.manager.IUsersManager;
 
 @RestController
-@RequestMapping("/soundlink")
+@RequestMapping("/soundlink/playlist")
 public class PlaylistsController {
 
     @Autowired
@@ -37,42 +40,64 @@ public class PlaylistsController {
     @Autowired
     private IUsersManager usersManager;
 
-    @RequestMapping(value = "/playlist/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public PlaylistDto createPlayList(@RequestBody PlaylistDto playlistDto) {
         Playlist playlist = playlistDtoConverter.convertToEntity(playlistDto);
         Users creator = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        playlist.setCreator(creator);
-
-        creator.getPlaylists().add(playlist);
-
         playlist.setCreateDate(LocalDateTime.now());
         playlist.setUpdateDate(LocalDateTime.now());
+        playlist.setCreator(creator);
+
+        UsersPlaylists usersPlaylists = new UsersPlaylists();
+        usersPlaylists.setRelationDate(LocalDateTime.now());
+        usersPlaylists.setPlaylist(playlist);
+        usersPlaylists.setUser(creator);
+
+        creator.getPlaylists().add(usersPlaylists);
 
         playlist = playlistManager.create(playlist);
 
         return playlistDtoConverter.convertToDto(playlist);
     }
 
-    @RequestMapping(value = "/playlist/addMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/addMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void addMusic(@RequestBody PlaylistActionDto playlistAction) {
         Playlist playlist = playlistManager.findOne(playlistAction.getPlaylistId());
-        playlist.getMusics().add(musicManager.findOne(playlistAction.getMusicId()));
+
+        MusicsPlaylists musicsPlaylists = new MusicsPlaylists();
+        musicsPlaylists.setRelationDate(LocalDateTime.now());
+        musicsPlaylists.setPlaylist(playlist);
+
+        Music music = musicManager.findOne(playlistAction.getMusicId());
+        musicsPlaylists.setMusic(music);
+
+        playlist.getMusics().add(musicsPlaylists);
+
         playlist.setUpdateDate(LocalDateTime.now());
         playlistManager.update(playlist);
     }
 
-    @RequestMapping(value = "/playlist/removeMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/removeMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void removeMusic(@RequestBody PlaylistActionDto playlistAction) {
         Playlist playlist = playlistManager.findOne(playlistAction.getPlaylistId());
-        playlist.getMusics().remove(musicManager.findOne(playlistAction.getMusicId()));
+        playlist.getMusics().removeIf(musicPlaylist -> {
+            return musicPlaylist.getMusic().getId().equals(playlistAction.getMusicId());
+        });
         playlist.setUpdateDate(LocalDateTime.now());
         playlistManager.update(playlist);
     }
 
-    @RequestMapping(value = "/playlist/playlistsByUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<PlaylistDto> getUserPlaylists(@RequestParam Integer userId) {
+    @RequestMapping(value = "/playlistsByUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<PlaylistDto> getPlaylistByUserId(@RequestParam Integer userId) {
         List<Playlist> playlists = playlistManager.getPlaylistsByUserId(userId);
+        return playlistDtoConverter.convertToDtoList(playlists);
+    }
+
+    @RequestMapping(value = "/userPlaylists", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<PlaylistDto> getUserPlaylists() {
+        Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        List<Playlist> playlists = playlistManager.getPlaylistsByUserId(user.getId());
         return playlistDtoConverter.convertToDtoList(playlists);
     }
 }

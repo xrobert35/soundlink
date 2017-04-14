@@ -63,7 +63,12 @@ public class ArtisteManager implements IArtisteManager {
     }
 
     @Override
-    public List<Artiste> getArtistesStartWith(String startChain) {
-        return artisteRepository.findByNameStartingWithIgnoreCase(startChain);
+    public List<Artiste> getArtistesStartWith(String startChain, Integer userId) {
+        return artisteRepository.findByNameStartingWithIgnoreCase(startChain, userId);
+    }
+
+    @Override
+    public List<Artiste> getArtistesByUserId(Integer userId) {
+        return artisteRepository.getArtistesByUserId(userId);
     }
 }

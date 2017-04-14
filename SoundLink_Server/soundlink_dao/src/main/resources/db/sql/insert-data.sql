@@ -4,3 +4,4 @@ insert into users values(2,'greg','$2a$10$7gbd2wzR1DCF5Iv0ffcUB.hPZw.sjIFfFcfV/5
 insert into users values(3,'elo','$2a$10$gM.wOH0/8285g9lLzQCFNOwtntUVCeoHKCl0zQsGzpnk4UChKs/ym',null,'ROLE_ADMIN');
 insert into users values(4,'yoh','$2a$10$AFrZ/.WOJrOtzxNHwumySeQoGbSub5bEeM0nLQp6iC6MZG069OqSG',null,'ROLE_ADMIN');
 insert into users values(5,'laurent','$2a$10$LAIX2/7jZxKLq3M/z4WEXebg1eMOAS3gIzEYowQ4Uw/vUYhD/rMrC',null,'ROLE_ADMIN');
+insert into users values(6,'leo','$2a$10$Sg8j/.W6AosOfNzpLU8omujW.JgKb6mLtPG53mIF7fCI.21jU/pPy',null,'ROLE_ADMIN');

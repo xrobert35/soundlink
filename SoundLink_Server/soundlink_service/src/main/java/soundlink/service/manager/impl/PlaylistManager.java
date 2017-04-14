@@ -47,6 +47,6 @@ public class PlaylistManager implements IPlaylistManager {
 
     @Override
     public List<Playlist> getPlaylistsByUserId(Integer userId) {
-        return playlistRepository.findAllByUserId(userId);
+        return playlistRepository.getPlaylistsFromUserId(userId);
     }
 }

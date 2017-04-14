@@ -30,8 +30,8 @@ public interface AlbumRepository extends JpaRepository<Album, Integer> {
     
     @Query("SELECT album " 
     + "FROM Album album "
-    + "WHERE album.valide = true "
-    + "AND album.name like ':name%' "
+//  + "WHERE album.valide = true "
+    + "WHERE album.name like ':name%' "
     + "ORDER BY album.artiste.name, album.name ")
     List<Album> findValideAlbumsStartByNameOrderByName(@Param("name") String name);
 
@@ -42,5 +42,14 @@ public interface AlbumRepository extends JpaRepository<Album, Integer> {
     + "WHERE artiste.id = :artisteId "
     + "ORDER BY album.name ")
     List<Album> getAlbumsFromArtiste(@Param("artisteId") Integer artisteId);
+
+    @Query("SELECT album " 
+    + "FROM Album album "
+    + "INNER JOIN album.users usersArtistes "
+    + "INNER JOIN usersArtistes.user user "
+    + "WHERE user.id = :userId "
+//    + "WHERE album.valide = true "
+    + "ORDER BY album.name ")
+    List<Album> getAlbumsByUserId(@Param("userId") Integer userId);
 
 }

@@ -9,8 +9,6 @@ public class ArtisteDto {
 
     private String name;
 
-    private String cover;
-
     private List<AlbumDto> albums = new ArrayList<>();
 
     public Integer getId() {
@@ -27,14 +25,6 @@ public class ArtisteDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 
     public List<AlbumDto> getAlbums() {

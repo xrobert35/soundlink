@@ -15,10 +15,10 @@ import soundlink.model.entities.Artiste;
 public class ArtisteDtoConverter extends AbstractDtoConverter<Artiste, ArtisteDto> {
 
     @Override
-    protected void subConvertToDto(Artiste entity, ArtisteDto dto) {
+    protected void subConvertToDto(Artiste artiste, ArtisteDto dto) {
     }
 
     @Override
-    protected void subConvertToEntity(ArtisteDto dto, Artiste entity) {
+    protected void subConvertToEntity(ArtisteDto dto, Artiste artiste) {
     }
 }

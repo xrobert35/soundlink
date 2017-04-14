@@ -25,4 +25,19 @@ public interface IUsersManager extends ISoundlinkManager<Users, Integer> {
      */
     Users updateUser(String name, UsersDto usersDto);
 
+    /**
+     * Get user with favorite artistes fetched
+     * 
+     * @return
+     */
+    Users getUserWithFavoriteArtistesFetchByLogin(String login);
+
+    /**
+     * Get user with favorite albums fetched
+     * 
+     * @param login
+     * @return
+     */
+    Users getUserWithFavoriteAlbumsFetchByLogin(String login);
+
 }

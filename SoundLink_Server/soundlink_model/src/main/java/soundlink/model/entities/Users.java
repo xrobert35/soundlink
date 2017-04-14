@@ -12,9 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -39,34 +37,33 @@ public class Users {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(unique = true)
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
-    @Column
+
+    @Column(name = "picture")
     private String picture;
 
-    @Column
+    @Column(name = "password")
     private String password;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
-    @JoinTable(name = "user_fav_artistes", schema = "public", inverseJoinColumns = @JoinColumn(name = "artiste_id", referencedColumnName = "id", columnDefinition = "long"), joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "long"))
-    private Set<Artiste> favortiesArtistes = new HashSet<Artiste>(0);
+    private Set<UsersArtistes> favoritesArtistes = new HashSet<UsersArtistes>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "album", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
-    @JoinTable(name = "user_fav_albums", schema = "public", inverseJoinColumns = @JoinColumn(name = "album_id", referencedColumnName = "id", columnDefinition = "long"), joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "long"))
-    private Set<Artiste> favoriteAlbums = new HashSet<Artiste>(0);
+    private Set<UsersAlbums> favoritesAlbums = new HashSet<UsersAlbums>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
-    @JoinTable(name = "user_fav_playlists", schema = "public", inverseJoinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id", columnDefinition = "long"), joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "long"))
-    private Set<Playlist> playlists = new HashSet<Playlist>(0);
+    private Set<UsersPlaylists> playlists = new HashSet<UsersPlaylists>(0);
 
     public Integer getId() {
         return id;
@@ -76,27 +73,27 @@ public class Users {
         this.id = id;
     }
 
-    public Set<Artiste> getFavortiesArtistes() {
-        return favortiesArtistes;
+    public Set<UsersArtistes> getFavoritesArtistes() {
+        return favoritesArtistes;
     }
 
-    public void setFavortiesArtistes(Set<Artiste> favortiesArtistes) {
-        this.favortiesArtistes = favortiesArtistes;
+    public void setFavoritesArtistes(Set<UsersArtistes> favoritesArtistes) {
+        this.favoritesArtistes = favoritesArtistes;
     }
 
-    public Set<Artiste> getFavoriteAlbums() {
-        return favoriteAlbums;
+    public Set<UsersAlbums> getFavoritesAlbums() {
+        return favoritesAlbums;
     }
 
-    public void setFavoriteAlbums(Set<Artiste> favoriteAlbums) {
-        this.favoriteAlbums = favoriteAlbums;
+    public void setFavoritesAlbums(Set<UsersAlbums> favoritesAlbums) {
+        this.favoritesAlbums = favoritesAlbums;
     }
 
-    public Set<Playlist> getPlaylists() {
+    public Set<UsersPlaylists> getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(Set<Playlist> playlists) {
+    public void setPlaylists(Set<UsersPlaylists> playlists) {
         this.playlists = playlists;
     }
 
@@ -149,9 +146,11 @@ public class Users {
             return false;
         }
         Users castOther = (Users) other;
-        return Objects.equals(id, castOther.id) && Objects.equals(login, castOther.login)
-                && Objects.equals(password, castOther.password) && Objects.equals(email, castOther.email)
-                && Objects.equals(role, castOther.role);
+        if (id != null) {
+            return Objects.equals(id, castOther.id);
+        }
+        return Objects.equals(login, castOther.login) && Objects.equals(password, castOther.password)
+                && Objects.equals(email, castOther.email) && Objects.equals(role, castOther.role);
     }
 
     @Override

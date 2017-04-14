@@ -33,8 +33,17 @@ public interface IArtisteManager extends ISoundlinkManager<Artiste, Integer> {
      * Get all artistes starting with the specified chain
      * 
      * @param startChain
+     * @param userId
      * @return
      */
-    List<Artiste> getArtistesStartWith(String startChain);
+    List<Artiste> getArtistesStartWith(String startChain, Integer userId);
+
+    /**
+     * Get all artistes from user
+     * 
+     * @param user id
+     * @return
+     */
+    List<Artiste> getArtistesByUserId(Integer userId);
 
 }

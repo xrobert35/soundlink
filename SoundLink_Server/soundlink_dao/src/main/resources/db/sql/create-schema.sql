@@ -8,6 +8,17 @@ DROP TABLE IF EXISTS artiste;
 DROP TABLE IF EXISTS playlist;
 DROP TABLE IF EXISTS users;
 
+DROP SEQUENCE IF EXISTS users_id_seq;
+DROP SEQUENCE IF EXISTS music_id_seq;
+DROP SEQUENCE IF EXISTS album_id_seq;
+DROP SEQUENCE IF EXISTS artiste_id_seq;
+DROP SEQUENCE IF EXISTS playlist_id_seq;
+DROP SEQUENCE IF EXISTS integration_number_seq;
+DROP SEQUENCE IF EXISTS musics_playlists_id_seq;
+DROP SEQUENCE IF EXISTS user_albums_id_seq;
+DROP SEQUENCE IF EXISTS user_artistes_id_seq;
+DROP SEQUENCE IF EXISTS user_playlists_id_seq;
+
 -- USERS TABLE
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -46,6 +57,7 @@ CREATE TABLE album (
   name VARCHAR(255),
   bit_rate VARCHAR(255),
   extension VARCHAR(255),
+  release_date TIMESTAMP, 
   nb_discs INT,
   albumDirectory VARCHAR(255),
   album_directory VARCHAR(1000),
@@ -112,8 +124,10 @@ COMMENT ON COLUMN playlist.name is 'Playlist name';
 
 -- USERS FAVORITE ARTISTE TABLE
 CREATE TABLE music_playlists (
+	id SERIAL PRIMARY KEY,
 	playlist_id SERIAL,
 	music_id SERIAL,
+	relation_date TIMESTAMP NOT NULL,
 	UNIQUE(playlist_id, music_id),
 	FOREIGN KEY (playlist_id) REFERENCES playlist (id),
 	FOREIGN KEY (music_id) REFERENCES music (id)
@@ -121,8 +135,10 @@ CREATE TABLE music_playlists (
 
 -- USERS FAVORITE ARTISTE TABLE
 CREATE TABLE user_fav_artistes (
+	id SERIAL PRIMARY KEY,
 	user_id SERIAL,
 	artiste_id SERIAL,
+	relation_date TIMESTAMP NOT NULL,
 	UNIQUE(user_id, artiste_id),
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (artiste_id) REFERENCES artiste (id)
@@ -130,8 +146,10 @@ CREATE TABLE user_fav_artistes (
 
 -- USERS FAVORITE ALBUM TABLE
 CREATE TABLE user_fav_albums (
+	id SERIAL PRIMARY KEY,
 	user_id SERIAL,
 	album_id SERIAL,
+	relation_date TIMESTAMP NOT NULL,
 	UNIQUE(user_id, album_id),
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (album_id) REFERENCES album (id)
@@ -139,19 +157,14 @@ CREATE TABLE user_fav_albums (
 
 -- USERS PLAYLIST TABLE
 CREATE TABLE user_fav_playlists (
+	id SERIAL PRIMARY KEY,
 	user_id SERIAL,
 	playlist_id SERIAL,
+	relation_date TIMESTAMP NOT NULL,
 	UNIQUE(user_id, playlist_id),
 	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (playlist_id) REFERENCES playlist (id)
 );
-
-DROP SEQUENCE IF EXISTS users_id_seq;
-DROP SEQUENCE IF EXISTS music_id_seq;
-DROP SEQUENCE IF EXISTS album_id_seq;
-DROP SEQUENCE IF EXISTS artiste_id_seq;
-DROP SEQUENCE IF EXISTS playlist_id_seq;
-DROP SEQUENCE IF EXISTS integration_id_seq;
 
 CREATE SEQUENCE users_id_seq;
 CREATE SEQUENCE music_id_seq;
@@ -159,3 +172,7 @@ CREATE SEQUENCE album_id_seq;
 CREATE SEQUENCE artiste_id_seq;
 CREATE SEQUENCE playlist_id_seq;
 CREATE SEQUENCE integration_number_seq;
+CREATE SEQUENCE musics_playlists_id_seq;
+CREATE SEQUENCE user_albums_id_seq;
+CREATE SEQUENCE user_artistes_id_seq;
+CREATE SEQUENCE user_playlists_id_seq;

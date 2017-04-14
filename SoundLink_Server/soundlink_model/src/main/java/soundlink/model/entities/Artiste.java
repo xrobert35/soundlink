@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -31,14 +30,14 @@ public class Artiste {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste")
     private Set<Album> albums = new HashSet<Album>(0);
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favortiesArtistes")
-    private Set<Users> users = new HashSet<Users>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste")
+    private Set<UsersArtistes> users = new HashSet<UsersArtistes>(0);
 
     @Column
     private boolean valide = false;
@@ -86,12 +85,12 @@ public class Artiste {
         this.integrationNumber = integrationNumber;
     }
 
-    public void setUsers(Set<Users> users) {
-        this.users = users;
+    public Set<UsersArtistes> getUsers() {
+        return users;
     }
 
-    public Set<Users> getUsers() {
-        return users;
+    public void setUsers(Set<UsersArtistes> users) {
+        this.users = users;
     }
 
     @Override
@@ -103,7 +102,10 @@ public class Artiste {
             return false;
         }
         Artiste castOther = (Artiste) other;
-        return Objects.equals(id, castOther.id) || Objects.equals(name, castOther.name);
+        if (id != null) {
+            return Objects.equals(id, castOther.id);
+        }
+        return Objects.equals(name, castOther.name);
     }
 
     @Override

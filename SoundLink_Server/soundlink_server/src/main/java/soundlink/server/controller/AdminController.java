@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import soundlink.dto.UploadFileDto;
+import soundlink.service.constant.SoundlinkConstant;
 import soundlink.service.manager.IFileManager;
 
 /**
@@ -44,8 +45,17 @@ public class AdminController {
         }
 
         LocalDate localDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-        return fileManager.saveFile(file, soundlinkFolder + "/uploadFolder",
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+        UploadFileDto uploadFileDto = fileManager.saveFile(file,
+                soundlinkFolder + SoundlinkConstant.MUSICS_INPUT_FOLDER,
                 localDate.format(formatter) + file.getOriginalFilename());
+
+        boolean unzipped = fileManager.unzip(soundlinkFolder + SoundlinkConstant.MUSICS_INPUT_FOLDER,
+                localDate.format(formatter) + file.getOriginalFilename(), true);
+        if (!unzipped) {
+            uploadFileDto.setMessage("Failed to unzip file");
+        }
+
+        return uploadFileDto;
     }
 }

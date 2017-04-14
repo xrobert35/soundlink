@@ -10,9 +10,11 @@ import soundlink.model.entities.Playlist;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Integer> {
 
-    @Query("SELECT playlist FROM Playlist playlist "
-    + "INNER JOIN playlist.users users "
-    + "WHERE users.id = :userId")
-    List<Playlist> findAllByUserId(@Param("userId") Integer userId);
+    @Query("SELECT playlist "
+    + "FROM Playlist playlist "
+    + "INNER JOIN playlist.users usersArtistes "
+    + "INNER JOIN usersArtistes.user user "
+    + "WHERE user.id = :userId")
+    List<Playlist> getPlaylistsFromUserId(@Param("userId") Integer userId);
 
 }
