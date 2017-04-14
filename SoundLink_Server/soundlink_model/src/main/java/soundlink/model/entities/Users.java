@@ -53,15 +53,15 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "artiste", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
     private Set<UsersArtistes> favoritesArtistes = new HashSet<UsersArtistes>(0);
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "album", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
     private Set<UsersAlbums> favoritesAlbums = new HashSet<UsersAlbums>(0);
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playlist", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     @Cascade({ CascadeType.ALL })
     private Set<UsersPlaylists> playlists = new HashSet<UsersPlaylists>(0);
 
