@@ -1,0 +1,12 @@
+<ion-content>
+  <ion-list>
+    <div ion-item *ngFor="let artiste of artistes ; trackBy:trackByIndex;" (click)="onArtisteSelected(artiste)">
+      <ion-toggle checked="false"></ion-toggle>
+      <ion-thumbnail item-left>
+        <img class="listCover" [src]="getArtisteCoverUrl(artiste)" />
+      </ion-thumbnail>
+      <ion-label [innerHtml]="artiste.name">
+      </ion-label>
+    </div>
+  </ion-list>
+</ion-content>

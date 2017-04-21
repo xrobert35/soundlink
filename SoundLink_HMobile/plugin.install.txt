@@ -1,0 +1,28 @@
+# Storage
+npm install @ionic/storage@2.0.0 --save --save-exact
+
+# Native file
+ionic plugin add cordova-plugin-file
+npm install --save @ionic-native/file
+
+# File chooser
+ionic plugin add http://github.com/don/cordova-filechooser.git
+npm install --save @ionic-native/file-chooser
+
+# File path
+ionic plugin add cordova-plugin-filepath
+npm install --save @ionic-native/file-path
+
+#Diagnostic Ask user permission > sdk 23
+
+ionic plugin remove cordova.plugins.diagnostic
+npm remove --save @ionic-native/diagnostic
+
+ionic plugin add cordova.plugins.diagnostic@3.1.0
+npm install --save @ionic-native/diagnostic@3.1.0
+
+
+
+#http://ionichelper.forlearning.net/ionic-2-building-a-release-android-apk/
+
+#build : ionic build android --release
