@@ -11,12 +11,28 @@ import soundlink.model.entities.Music;
 public interface IMusicManager extends ISoundlinkManager<Music, Integer> {
 
     /**
-     * Add all musics of an album
+     * Get all music with specified id
+     * 
+     * @param musicIds
+     * @return
+     */
+    List<Music> findAllById(List<Integer> musicIds);
+
+    /**
+     * Get all musics of an album
      *
      * @param album
      * @return
      */
     List<Music> getMusicsFromAlbum(Integer albumId);
+
+    /**
+     * Get all musics of a playlist
+     * 
+     * @param playlistId
+     * @return
+     */
+    List<Music> getMusicsFromPlaylist(Integer playlistId);
 
     /**
      * Add a music
@@ -48,5 +64,4 @@ public interface IMusicManager extends ISoundlinkManager<Music, Integer> {
      * @param title
      */
     Music getMusicByTitleAlbumNameArtisteName(String title, String albumName, String artisteName);
-
 }

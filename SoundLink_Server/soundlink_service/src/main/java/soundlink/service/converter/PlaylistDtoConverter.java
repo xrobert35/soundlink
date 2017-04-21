@@ -2,7 +2,7 @@ package soundlink.service.converter;
 
 import org.springframework.stereotype.Component;
 
-import soundlink.dto.PlaylistDto;
+import soundlink.dto.playlist.PlaylistDto;
 import soundlink.model.entities.Playlist;
 
 @Component

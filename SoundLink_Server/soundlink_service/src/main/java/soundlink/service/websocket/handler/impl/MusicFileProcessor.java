@@ -229,6 +229,6 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         if (artisteName != null && artisteName.endsWith(";")) {
             artisteName = artisteName.substring(0, artisteName.length() - 1);
         }
-        return artisteName;
+        return artisteName.trim();
     }
 }

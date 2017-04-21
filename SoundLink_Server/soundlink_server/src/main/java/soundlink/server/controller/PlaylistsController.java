@@ -3,6 +3,9 @@ package soundlink.server.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import soundlink.dto.PlaylistActionDto;
-import soundlink.dto.PlaylistDto;
+import soundlink.dto.playlist.CreatePlaylistDto;
+import soundlink.dto.playlist.PlaylistActionDto;
+import soundlink.dto.playlist.PlaylistDto;
 import soundlink.model.entities.Music;
 import soundlink.model.entities.MusicsPlaylists;
 import soundlink.model.entities.Playlist;
@@ -41,8 +45,10 @@ public class PlaylistsController {
     private IUsersManager usersManager;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PlaylistDto createPlayList(@RequestBody PlaylistDto playlistDto) {
-        Playlist playlist = playlistDtoConverter.convertToEntity(playlistDto);
+    public PlaylistDto createPlayList(@RequestBody @Valid CreatePlaylistDto createPlaylistDto) {
+        Playlist playlist = new Playlist();
+        playlist.setName(createPlaylistDto.getName());
+
         Users creator = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
 
         playlist.setCreateDate(LocalDateTime.now());
@@ -56,13 +62,26 @@ public class PlaylistsController {
 
         creator.getPlaylists().add(usersPlaylists);
 
-        playlist = playlistManager.create(playlist);
+        final Playlist createdPlaylist = playlistManager.create(playlist);
 
-        return playlistDtoConverter.convertToDto(playlist);
+        if (CollectionUtils.isNotEmpty(createPlaylistDto.getMusicsId())) {
+            List<Music> musics = musicManager.findAllById(createPlaylistDto.getMusicsId());
+            musics.forEach(music -> {
+                MusicsPlaylists musicPlaylist = new MusicsPlaylists();
+                musicPlaylist.setMusic(music);
+                musicPlaylist.setPlaylist(createdPlaylist);
+                musicPlaylist.setRelationDate(LocalDateTime.now());
+                playlist.getMusics().add(musicPlaylist);
+            });
+        }
+
+        playlistManager.update(createdPlaylist);
+
+        return playlistDtoConverter.convertToDto(createdPlaylist);
     }
 
     @RequestMapping(value = "/addMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void addMusic(@RequestBody PlaylistActionDto playlistAction) {
+    public void addMusic(@RequestBody @Valid PlaylistActionDto playlistAction) {
         Playlist playlist = playlistManager.findOne(playlistAction.getPlaylistId());
 
         MusicsPlaylists musicsPlaylists = new MusicsPlaylists();
@@ -79,7 +98,7 @@ public class PlaylistsController {
     }
 
     @RequestMapping(value = "/removeMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void removeMusic(@RequestBody PlaylistActionDto playlistAction) {
+    public void removeMusic(@RequestBody @Valid PlaylistActionDto playlistAction) {
         Playlist playlist = playlistManager.findOne(playlistAction.getPlaylistId());
         playlist.getMusics().removeIf(musicPlaylist -> {
             return musicPlaylist.getMusic().getId().equals(playlistAction.getMusicId());

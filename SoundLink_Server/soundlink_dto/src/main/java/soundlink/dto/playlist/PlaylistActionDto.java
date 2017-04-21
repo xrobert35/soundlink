@@ -1,9 +1,13 @@
-package soundlink.dto;
+package soundlink.dto.playlist;
+
+import javax.validation.constraints.NotNull;
 
 public class PlaylistActionDto {
 
+    @NotNull
     private Integer playlistId;
 
+    @NotNull
     private Integer musicId;
 
     public Integer getPlaylistId() {

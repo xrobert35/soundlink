@@ -32,6 +32,11 @@ public class MusicManager implements IMusicManager {
     private MusicRepository musicRepository;
 
     @Override
+    public List<Music> findAllById(List<Integer> musicIds) {
+        return musicRepository.findAllById(musicIds);
+    }
+
+    @Override
     public Music create(Music music) {
         if (music.getAlbum() != null) {
             music = musicRepository.save(music);
@@ -84,6 +89,11 @@ public class MusicManager implements IMusicManager {
     }
 
     @Override
+    public List<Music> getMusicsFromPlaylist(Integer playlistId) {
+        return musicRepository.getMusicsFromPlaylist(playlistId);
+    }
+
+    @Override
     public File getMusicFile(Integer musicId) {
         Music music = musicRepository.findOne(musicId);
         return new File(soundlinkFolder + music.getMusicFilePath());
@@ -93,5 +103,4 @@ public class MusicManager implements IMusicManager {
     public Music getMusicByTitleAlbumNameArtisteName(String title, String albumName, String artisteName) {
         return musicRepository.getMusicByTitleAlbumNameArtisteName(title, albumName, artisteName);
     }
-
 }

@@ -34,7 +34,7 @@ public class MusicsController {
      * Entry point to get all music from an album
      *
      * @param albumId id of the album
-     * @return a set with all musics informations
+     * @return a list with all musics informations
      */
     @RequestMapping(value = "/fromAlbum", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MusicDto> getAlbumMusics(@RequestParam Integer albumId) {
@@ -43,6 +43,22 @@ public class MusicsController {
         }
         List<MusicDto> musicsFromAlbum = musicDtoConverter.convertToDtoList(musicManager.getMusicsFromAlbum(albumId));
         return musicsFromAlbum;
+    }
+
+    /**
+     * Entry point to get all music from an playlist
+     *
+     * @param playlistId id of the playlist
+     * @return a list with all playlists informations
+     */
+    @RequestMapping(value = "/fromPlaylist", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<MusicDto> getPlaylistMusics(@RequestParam Integer playlistId) {
+        if (playlistId == null) {
+            throw new InvalidParameterException("Playlist id cannot be null");
+        }
+        List<MusicDto> musicsFromPlaylist = musicDtoConverter
+                .convertToDtoList(musicManager.getMusicsFromPlaylist(playlistId));
+        return musicsFromPlaylist;
     }
 
     @RequestMapping(value = "/music/{musicId}", method = RequestMethod.GET)

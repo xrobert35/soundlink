@@ -5,6 +5,7 @@ public class SoundlinkConstant {
     // Webserver configuration must be synchronize on those 2 folders
     public static final String ALBUMS_COVERS_FOLDER = "/covers/albums/";
     public static final String ARTISTES_COVERS_FOLDER = "/covers/artistes/";
+    public static final String PLAYLISTS_COVERS_FOLDER = "/covers/playlists/";
 
     public static final String MUSICS_INPUT_FOLDER = "/integration/";
     public static final String MUSICS_ERROR_FOLDER = "/errors/";

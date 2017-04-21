@@ -65,7 +65,7 @@ public class Music {
     private Integer discNumber;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "music")
-    private Set<MusicsPlaylists> playlist = new HashSet<MusicsPlaylists>(0);
+    private Set<MusicsPlaylists> playlistMusic = new HashSet<MusicsPlaylists>(0);
 
     @Column(name = "valide")
     private boolean valide = false;
@@ -145,12 +145,12 @@ public class Music {
         this.extension = extension;
     }
 
-    public Set<MusicsPlaylists> getPlaylist() {
-        return playlist;
+    public Set<MusicsPlaylists> getPlaylistMusic() {
+        return playlistMusic;
     }
 
-    public void setPlaylist(Set<MusicsPlaylists> playlist) {
-        this.playlist = playlist;
+    public void setPlaylistMusic(Set<MusicsPlaylists> playlistMusic) {
+        this.playlistMusic = playlistMusic;
     }
 
     public String getMusicFilePath() {
