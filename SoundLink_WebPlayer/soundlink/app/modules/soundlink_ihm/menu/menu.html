@@ -1,23 +1,36 @@
-<md-content layout="column" ng-show="$ctrl.showMenu" flex>
-    <!-- see header.html -->
-    <a ui-sref="soundlink.artistes">
-        <md-button class="md-raised">
-            <md-icon> library_music </md-icon>
-        </md-button>
+<div layout="column" ng-show="$ctrl.showMenu" flex>
+    <md-toolbar class="page-header">
+        <div class="md-toolbar-tools" layout="row" layout-align="center center">
+            <span>Menu</span>
+        </div>
+    </md-toolbar>
+    <a ui-sref="soundlink.artistes" layout="row" layout-align="start center">
+        <md-icon> search </md-icon>
+        <span> Search </span>
     </a>
-    <a ui-sref="soundlink.albums">
-        <md-button class="md-raised">
-            <md-icon> queue_music </md-icon>
-        </md-button>
+    <a ui-sref="soundlink.myartistes" layout="row" layout-align="start center">
+        <md-icon> star_border </md-icon>
+        <span> My Artistes </span>
     </a>
-    <a ui-sref="soundlink.integration">
-        <md-button class="md-raised">
-            <md-icon> file_download </md-icon>
-        </md-button>
+    <a ui-sref="soundlink.myalbums" layout="row" layout-align="start center">
+        <md-icon> album </md-icon>
+        <span> My Albums </span>
     </a>
-    <a ui-sref="soundlink.userprofile">
-        <md-button class="md-raised">
-            <md-icon> portrait </md-icon>
-        </md-button>
+    <a ui-sref="soundlink.myplaylists" layout="row" layout-align="start center">
+        <md-icon> library_music </md-icon>
+        <span> My Playlist </span>
     </a>
-</md-content>
+    <a ui-sref="soundlink.userprofile" layout="row" layout-align="start center">
+        <md-icon> portrait </md-icon>
+        <span> Profile </span>
+    </a>
+    <a ui-sref="soundlink.integration" layout="row" layout-align="start center">
+        <md-icon> file_download </md-icon>
+        <span> Integration </span>
+    </a>
+    <div layout="row" layout-align="start center">
+        <md-switch ng-model="$ctrl.remoteControl" ng-change="$ctrl.remoteControlChanged()" aria-label="Remote control">
+            Remote control
+        </md-switch>
+    </div>
+</div>

@@ -3,8 +3,8 @@
         <md-progress-linear md-mode="buffer" value="{{$ctrl.getProgress()}}" md-buffer-value="{{$ctrl.getLoadingPercent()}}"></md-progress-linear>
     </div>
     <div class="player-action" layout="row" layout-align="center">
-        <div class="padding-left-20" flex layout="row"  layout-align="start center">
-            <img ng-src="data:image/JPEG;base64,{{::$ctrl.getCurrentSong().album.cover}}" class="smallAlbumCover margin-right-10">
+        <div class="padding-left-20" flex layout="row" layout-align="start center">
+            <img ng-src="/covers/albums/{{$ctrl.getCurrentSong().album.id}}" class="smallAlbumCover margin-right-10">
             <div class="song-panel font-white" ng-if="$ctrl.getCurrentSong()">
                 <p>{{$ctrl.getCurrentSong().artistName + ' - ' + $ctrl.getCurrentSong().title}}</p>
                 <p>{{$ctrl.getCurrentSong().albumName}}</p>
@@ -23,19 +23,20 @@
             <md-icon>skip_next</md-icon>
         </md-button>
         <md-button repeat-music class="no-margin">
-            <md-icon ng-class="{ 'font-orange' : $ctrl.isRepeating() }">repeat</md-icon>
+            <md-icon ng-class="{ 'font-orange' : $ctrl.isRepeating() }" ng-if="!$ctrl.isRepeatingOne()">repeat</md-icon>
+            <md-icon class="font-orange" ng-if="$ctrl.isRepeatingOne()">repeat_one</md-icon>
         </md-button>
-        <!--<md-button class="no-margin">
-                <md-icon>repeat_one</md-icon>
-            </md-button>-->
+        <md-button class="no-margin" mute-music>
+            <md-icon ng-if="!$ctrl.isMuted()">volume_up</md-icon>
+            <md-icon ng-if="$ctrl.isMuted()">volume_off</md-icon>
+        </md-button>
         <md-slider-container class="margin-left-20">
-            <md-icon>volume_up</md-icon>
             <md-slider flex min="0" max="100" ng-model="$ctrl.volume" ng-change="$ctrl.volumeChange()"></md-slider>
         </md-slider-container>
         <div layout="row" layout-align="end" flex>
-            <md-button ng-click="$ctrl.openPlaylist()">
+            <md-button class="no-margin" ng-click="$ctrl.openPlaylist()">
                 <md-tooltip md-direction="top">Playlist</md-tooltip>
-                <md-icon>list</md-icon>
+                <md-icon>queue_music</md-icon>
             </md-button>
         </div>
     </div>

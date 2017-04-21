@@ -33,7 +33,6 @@ gulp.task('process-third-js', function () {
 		'bower_components/angular-aria/angular-aria.js',
 		'bower_components/angular-animate/angular-animate.js',
 		'bower_components/angular-material/angular-material.js',
-		'bower_components/angular-material-data-table/dist/md-data-table.js',
 		'bower_components/angular-cookies/angular-cookies.js',
 		'bower_components/angular-translate/angular-translate.js',
 		'bower_components/angular-translate-loader-url/angular-translate-loader-url.js',
@@ -42,8 +41,8 @@ gulp.task('process-third-js', function () {
 		'bower_components/ng-file-upload/ng-file-upload.js',
 		'bower_components/ng-file-upload-shim/ng-file-upload.js',
 		'bower_components/angular-sanitize/angular-sanitize.js',
-		'bower_components/ui-router/release/angular-ui-router.js',
 		'bower_components/moment/moment.js',
+		'bower_components/lodash/dist/lodash.js',
 		'bower_components/angular-moment/angular-moment.js',
 		'bower_components/angular-bind-html-compile/angular-bind-html-compile.js',
 	];

@@ -1,11 +1,24 @@
 @import "../lessvars";
 .soundlink {
   button {
-    &.md-button.md-raised {
-      background-color: @white-blue;
-    }
-    md-icon {
-      color : white;
+    &.md-button {
+      background-color: transparent;
+      md-icon {
+        color: white;
+      }
+      &.bordered {
+        background-color: white;
+        border: 1px solid @secondary-color;
+        color: @secondary-color;
+        md-icon {
+          color: @secondary-color;
+        }
+      }
+      &.small {
+        min-width: 50px;
+        width: 50px;
+        margin: 2px;
+      }
     }
   }
   button:hover {
@@ -14,10 +27,16 @@
     }
     &.md-button {
       md-icon {
-        color: @orange-color;
+        color: @primary-color;
       }
       span {
-        color: @orange-color;
+        color: @primary-color;
+      }
+      &.bordered {
+        border: 1px solid @primary-color;
+        md-icon {
+          color: @primary-color;
+        }
       }
     }
   }

@@ -2,8 +2,8 @@
 
 angular.module('soundlink').controller('soundlinkController',  soundLinkController);
 
-soundLinkController.$inject = ['socketService',  'eventManager'];
+soundLinkController.$inject = [];
 
-function soundLinkController(socketService, eventManager) {
+function soundLinkController() {
     var controller = this;
 }

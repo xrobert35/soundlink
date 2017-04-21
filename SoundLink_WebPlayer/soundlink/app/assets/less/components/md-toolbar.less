@@ -3,30 +3,51 @@
   md-toolbar {
     max-height: 40px;
     min-height: 40px;
-    &.md-raised {
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    &.underline {
+      border-bottom: 1px solid @primary-color;
     }
     .md-toolbar-tools {
       max-height: 50px;
+      padding-bottom: 1px;
     }
     &.page-header {
       background-color: transparent;
-      color: @orange-color;
+      color: @secondary-color;
+    }
+    &.table-header {
+      background-color: transparent;
+      color: @primary-color;
+      padding-top: 15px;
+      padding-right: 0px;
     }
     &.big-title-header {
       background-color: transparent;
       max-height: 150px;
-      color: @orange-color;
+      color: @primary-color;
       .md-toolbar-tools {
         max-height: 150px;
-        font-size : 4em;
+        font-size: 4em;
         margin-bottom: 40px;
       }
     }
     &.sub-header {
       background-color: transparent;
-      color: @orange-color;
+      color: @primary-color;
       margin-bottom: 10px;
+    }
+    md-input-container {
+      height: 35px;
+      width: 0px;
+      transition: width 0.5s;
+      input {
+        padding: 0px;
+      }
+      &.focused {
+        width: 300px;
+        input.md-input {
+          border-color: darkorange;
+        }
+      }
     }
   }
 }

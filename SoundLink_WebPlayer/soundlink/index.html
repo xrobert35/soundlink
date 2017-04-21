@@ -1,25 +1,19 @@
 <html ng-app="soundlink">
 
 <head>
-    <meta name="viewport" content="width=device-width">
+    <title>Soundlink</title>
+    <link rel="icon" type="image/png" href="soundlink_favicon.png" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
     <link rel="stylesheet" type="text/css" href="public/css/styles.css">
+
 </head>
 
-<body class="contenu soundlink" layout="row" md-no-ink>
-    <section ui-view layout="row" flex />
+<body class="contenu soundlink" layout="row" md-no-ink audio-key-listener>
 
-    <script src="public/aurora/aurora.js"></script>
-    <script src="public/aurora/aurora-websocket.js"></script>
-    <script src="public/aurora/mp3.js"></script>
-    <script src="public/aurora/flac.js"></script>
-    <!--<script src="public/aurora/aac.js"></script>
-    <script src="public/aurora/alac.js"></script>-->
+    <section ui-view layout="row" flex />
 
     <script type="text/javascript" src="public/js/third-party.js"></script>
     <script type="text/javascript" src="public/js/app.js"></script>
-    <!--<script type="text/javascript" src="public/js/audioPlayer.js"></script>-->
-
-
 </body>
 
 </html>

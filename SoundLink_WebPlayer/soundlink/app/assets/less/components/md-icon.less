@@ -1,10 +1,11 @@
 @import "../lessvars";
 .soundlink {
-   md-icon {
-    &.small{
-      font-size : 20px;
+  md-icon {
+    outline: none;
+    &.small {
+      font-size: 20px;
       height: 20px;
-      width : 20px;
+      width: 20px;
       min-height: 20px;
       min-width: 20px;
     }
@@ -12,8 +13,14 @@
       &.button {
         cursor: pointer;
         cursor: hand;
-        color: @orange-color;
+        color: @primary-color;
       }
+    }
+    &.secondary-color {
+      color: @secondary-color;
+    }
+    &.selected {
+      color: darkorange;
     }
   }
 }

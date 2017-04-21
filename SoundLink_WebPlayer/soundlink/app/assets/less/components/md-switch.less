@@ -1,0 +1,15 @@
+@import "../lessvars";
+.soundlink {
+  md-switch {
+    &.md-checked {
+      .md-bar {
+        background-color: @secondary-color;
+      }
+      .md-thumb-container {
+        .md-thumb::before {
+          background-color: @primary-color;
+        }
+      }
+    }
+  }
+}

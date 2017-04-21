@@ -17,6 +17,18 @@
           }
         }
       }
+      &.md-active {
+        .md-slider-wrapper {
+          .md-slider-content {
+            .md-thumb-container {
+              .md-thumb::after {
+                background-color: @primary-color;
+                border-color: @primary-color;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

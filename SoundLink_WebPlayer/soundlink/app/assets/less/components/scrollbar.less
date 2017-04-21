@@ -1,0 +1,30 @@
+@import "../lessvars";
+
+// Work only on chrome
+.soundlink {
+  .scrollable {
+    &.y {
+      overflow-y: auto;
+    }
+    &.x {
+      overflow-x: auto;
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: @secondary-color;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: @primary-color;
+    }
+    &::-webkit-scrollbar-thumb:active {
+      background-color: @primary-color;
+    }
+    &::-webkit-scrollbar-track {
+      border: 4px transparent solid;
+      box-shadow: 0 0 6px gray inset;
+    }
+  }
+}

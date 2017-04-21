@@ -1,0 +1,47 @@
+<div class="artisteAlbumsList sub-content album-item" layout="row" layout-align="start">
+    <div class="albums" layout="column">
+        <md-toolbar class="page-header underline secondary-color">
+            <div class="md-toolbar-tools">
+                <span flex>{{::$ctrl.artiste.name}}</span>
+            </div>
+        </md-toolbar>
+        <div class="albums-list scrollable">
+            <md-card ng-click="$ctrl.selectAlbum(album)" ng-repeat="album in ::$ctrl.albums" class="md-small">
+                <img ng-src="/covers/albums/{{::album.id}}" class="md-card-image">
+                <md-card-title>
+                    <md-card-title-text>
+                        <div class="md-subhead">{{::album.name }}</div>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
+    </div>
+    <div class="music-table" layout="column" flex>
+        <md-toolbar class="table-header underline" layout="row">
+            <div class="header tight center">
+                <md-icon class="button small secondary-color" add-play-musics="$ctrl.albumSongs">play_circle_filled</md-icon>
+            </div>
+            <div class="header tight center"></div>
+            <div class="header" flex>Title</div>
+            <div class="header tight center">N°</div>
+            <div class="header tight center">Duration</div>
+        </md-toolbar>
+        <div class="scrollable y">
+            <table>
+                <tbody>
+                    <tr ng-repeat="music in $ctrl.albumSongs">
+                        <td class="tight-column center">
+                            <md-icon class="button small" add-play-music="::music">play_circle_filled</md-icon>
+                        </td>
+                        <td class="tight-column center">
+                            <md-icon class="button small" add-music="::music"> add_circle </md-icon>
+                        </td>
+                        <td class="font-13">{{::music.title}}</td>
+                        <td class="tight-column center font-13">{{::music.trackNumber}}</td>
+                        <td class="tight-column center font-13">{{::music.durationInSeconde | minute}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

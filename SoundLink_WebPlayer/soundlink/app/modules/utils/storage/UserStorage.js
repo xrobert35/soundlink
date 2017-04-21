@@ -10,5 +10,5 @@ angular.module("soundlink").factory('userStorage', function () {
         clear: function () {
           userInformation = null;
         }
-    }
+    };
 });

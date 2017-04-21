@@ -14,6 +14,8 @@ function audioplayerController(eventManager, audioPlayer, audioStatus) {
 
     vm.isPlaying = audioStatus.isPlaying;
     vm.isRepeating = audioStatus.isRepeating;
+    vm.isRepeatingOne = audioStatus.isRepeatingOne;
+    vm.isMuted = audioStatus.isMuted;
     vm.getProgress = audioStatus.getProgress;
     vm.getCurrentSong = audioStatus.getCurrentSong;
     vm.getLoadingPercent = audioStatus.getLoadingPercent;

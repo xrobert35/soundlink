@@ -6,80 +6,116 @@ audioStatus.$inject = [];
 
 function audioStatus() {
 
-  var progress = 0;
-  var duration = 0;
-  var volume = 0;
-  var currentSong;
-  var playing = false;
-  var repeating = false;
-
-  var loadingPercent = 0;
-  var playlist = [];
+  var status = {
+    progress: 0,
+    duration: 0,
+    volume: 0,
+    currentSong: null,
+    playing: false,
+    muted: false,
+    random: false,
+    repeating: false,
+    repeatingOne: false,
+    loadingPercent: 0,
+    playlist: []
+  };
 
   var contenu = {};
 
   contenu.isPlaying = function () {
-    return playing;
+    return status.playing;
   };
 
   contenu.setPlaying = function (pPlaying) {
-    playing = pPlaying;
+    status.playing = pPlaying;
   };
 
-  contenu.isRepeating = function (){
-    return repeating;
+  contenu.isRepeating = function () {
+    return status.repeating;
   };
 
-  contenu.setRepeating = function (pRepeating){
-    repeating = pRepeating;
+  contenu.setRepeating = function (pRepeating) {
+    status.repeating = pRepeating;
   };
 
-  contenu.setVolume = function (pVolume){
-    volume = pVolume;
+  contenu.isRepeatingOne = function () {
+    return status.repeatingOne;
   };
 
-  contenu.getVolume = function (){
-    return volume;
+  contenu.setRepeatingOne = function (pRepeatingOne) {
+    status.repeatingOne = pRepeatingOne;
+  };
+
+  contenu.setVolume = function (pVolume) {
+    status.volume = pVolume;
+  };
+
+  contenu.getVolume = function () {
+    return status.volume;
+  };
+
+  contenu.setMuted = function (pMuted) {
+    status.muted = pMuted;
+  };
+
+  contenu.isMuted = function () {
+    return status.muted;
+  };
+
+  contenu.setRandom = function (pRandom) {
+    status.random = pRandom;
+  };
+
+  contenu.getRandom = function () {
+    return status.random;
   };
 
   contenu.setDuration = function (pDuration) {
-    duration = pDuration;
+    status.duration = pDuration;
   };
 
   contenu.getDuration = function () {
-    return duration;
+    return status.duration;
   };
 
   contenu.setProgress = function (pProgress) {
-    progress = pProgress;
+    status.progress = pProgress;
   };
 
   contenu.getProgress = function () {
-    return progress;
+    return status.progress;
   };
 
   contenu.setCurrentSong = function (pCurrentSong) {
-    currentSong = pCurrentSong;
+    status.currentSong = pCurrentSong;
   };
 
   contenu.getCurrentSong = function () {
-    return currentSong;
+    return status.currentSong;
   };
 
   contenu.setPlaylist = function (pPlaylist) {
-    playlist = pPlaylist;
+    status.playlist = pPlaylist;
   };
 
   contenu.getPlaylist = function () {
-    return playlist;
+    return status.playlist;
   };
 
   contenu.setLoadingPercent = function (percent) {
-    loadingPercent = percent;
+    status.loadingPercent = percent;
   };
 
   contenu.getLoadingPercent = function () {
-    return loadingPercent;
+    return status.loadingPercent;
+  };
+
+  contenu.getStatus = function () {
+    return status;
+  };
+
+  contenu.setStatus = function (pStatus) {
+    status = pStatus;
   };
 
   return contenu;

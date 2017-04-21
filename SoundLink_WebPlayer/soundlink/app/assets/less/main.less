@@ -4,29 +4,33 @@ html {
 }
 
 body {
-    background: #bdc3c7;
+    background: @thirdly-color;
 }
 
 md-content {
     background-color: inherit;
 }
 
-.main-content{
- overflow-y : auto;
-}
+.main-content {}
 
 .content {
     padding: 5px 5px 5px 5px;
 }
 
+.inline-container {
+    text-align: center;
+    overflow-y: auto;
+    margin-right : 5px;
+}
+
 .sub-content {
     padding: 10px 10px 10px 10px;
     background-color: white;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26) inset;
+    box-shadow: @inset-box-show;
 }
 
 .action-content {
-    background-color: @white-blue;
+    background-color: @thirdly-color;
 }
 
 .profilePicture {
@@ -46,10 +50,10 @@ md-content {
 
 .song-panel {
     h3 {
-        margin : 0px;
+        margin: 0px;
     }
     p {
-        margin : 0px;
-        font-size : 13px;
+        margin: 0px;
+        font-size: 13px;
     }
 }

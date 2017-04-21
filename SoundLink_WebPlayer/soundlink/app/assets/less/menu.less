@@ -1,7 +1,43 @@
 @import "lessvars";
-
-soundlink-menu {
-    md-content {
-        filter: drop-shadow(2px 6px 2px rgba(0, 0, 0, 0.3));
+.soundlink {
+    soundlink-menu {
+        & > div {
+            width: 200px;
+            background-color: @secondary-color;
+            md-toolbar {
+                &.page-header {
+                    background-color: white;
+                    margin-bottom: 7px;
+                    box-shadow: 2px 1px 3px 0px rgba(0, 0, 0, 0.2);
+                    border-bottom: 1px solid @secondary-color;
+                }
+            }
+            > a, > div {
+                padding-left: 10px;
+                margin-bottom: 1px;
+                margin-right: 1px;
+                background-color: white;
+                border-bottom: 1px solid @primary-color;
+                height: 35px;
+            }
+            > a {
+                outline: none;
+                text-decoration: none;
+                
+                color: @secondary-color;
+                &:hover {
+                    color: @primary-color;
+                }
+                md-icon {
+                    color: inherit;
+                    margin: 10px;
+                }
+                span {
+                    &:hover {
+                        color: @primary-color;
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,0 +1,44 @@
+@import "lessvars";
+.soundlink {
+  .artisteAlbumsList {
+    height: 405px;
+    .albums {
+      height: 385px;
+      width : 400px;
+      .albums-list {
+        overflow-y: auto;
+        padding-top : 15px;
+        md-card {
+          &.md-small {
+            img {
+              border-radius: 5px;
+              box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+            }
+            &:focus, &:active {
+              img {
+                box-shadow: 0px 1px 3px 1px @primary-color, 0px 1px 1px 0px @primary-color, 0px 2px 1px -1px @primary-color;
+              }
+            }
+            border: none;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            text-align: center;
+            box-shadow: none;
+            margin: 0px;
+            width: 180px;
+            height: 165px;
+            .md-subhead {
+              max-height: 50px;
+              height: 50px;
+              overflow: hidden;
+            }
+          }
+        }
+      }
+    }
+    .music-table {
+      padding-right: 15px;
+      height: 385px;
+    }
+  }
+}

@@ -1,15 +1,16 @@
 
 //Module declaration
 angular.module("soundlink", ['ngSanitize',
-    'ui.router', 'ngAria', 'ngAnimate', 'ngMaterial', 'md.data.table', 'ngCookies',
+    'ui.router', 'ngAria', 'ngAnimate', 'ngMaterial', 'ngCookies',
     'pascalprecht.translate', 'ngResource', 'angularMoment', 'ngWebSocket', 'ngFileUpload', 'angular-bind-html-compile']);
 
+angular.module("soundlink").constant('lodash', window._);
 
 angular.module("soundlink").run(main);
 
-main.$inject = ['$state', '$rootScope', 'socketService'];
+main.$inject = ['$state', '$rootScope'];
 
-function main($state, $rootScope, socketService) {
+function main($state, $rootScope) {
 
     var startResolve = false;
     var startError = false;
@@ -46,32 +47,5 @@ function main($state, $rootScope, socketService) {
             $state.go("login");
         }
     });
-
     $state.go("start");
-    
 }
-
-
-/**
- * trackDigest.js
- * Simple counter for counting when $digests occur
- * @author Todd Motto
- */
-function trackDigests($rootScope) {
-  function link($scope, $element, $attrs) {
-    var count = 0;
-    function countDigests() {
-      count++;
-      $element[0].innerHTML = '$digests: ' + count;
-    }
-    $rootScope.$watch(countDigests);
-  }
-  return {
-    restrict: 'EA',
-    link: link
-  };
-}
-
-angular
-  .module('soundlink')
-  .directive('trackDigests', trackDigests);

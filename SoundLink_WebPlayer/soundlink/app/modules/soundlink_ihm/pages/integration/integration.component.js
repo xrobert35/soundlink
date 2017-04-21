@@ -5,9 +5,9 @@ angular.module('soundlink').component('integrationPage', {
     controller: integrationController
 });
 
-integrationController.$inject = ['$state', 'soundlinkadminResource', 'integrationContenu', '$websocket', 'config', '$cookies', 'tokenStorage', 'Upload'];
+integrationController.$inject = ['$state', 'soundlinkadminResource', 'integrationContenu',  'config', 'socketManager', 'Upload'];
 
-function integrationController($state, soundlinkadminResource, integrationContenu, $websocket, config, $cookies, tokenStorage, Upload) {
+function integrationController($state, soundlinkadminResource, integrationContenu, config, socketManager, Upload) {
     var vm = this;
 
     vm.isloading = false;
@@ -60,7 +60,6 @@ function integrationController($state, soundlinkadminResource, integrationConten
         }
     }
 
-
     function selectAlbumChange(artiste) {
         artiste.selected = isAllAlbumSelected(artiste.albums);
     }
@@ -76,18 +75,16 @@ function integrationController($state, soundlinkadminResource, integrationConten
     }
 
     vm.loadMusics = function loadMusics() {
-        $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve(), { path: '/soundlink_server', domain: config.wsDomain });
-        var dataStream = $websocket(config.wsServeurUrl + "ws/integration");
+        var dataStream = socketManager.openSocket('integration');
+        vm.isloading = true;
+
         dataStream.send(JSON.stringify({ action: 'start' }));
 
         dataStream.onOpen(function () {
-            $cookies.remove("X-AUTH-TOKEN");
             vm.isloading = true;
             vm.progress = 0;
         });
-
         dataStream.onClose(function () {
-            console.log('close');
             vm.isloading = false;
         });
 

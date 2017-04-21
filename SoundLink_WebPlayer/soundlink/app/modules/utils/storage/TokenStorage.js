@@ -10,5 +10,5 @@ angular.module("soundlink").factory('tokenStorage', function () {
         clear: function () {
             return localStorage.removeItem(storageKey);
         }
-    }
+    };
 });

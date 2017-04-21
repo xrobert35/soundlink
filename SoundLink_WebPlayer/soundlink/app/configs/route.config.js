@@ -10,9 +10,9 @@ function routeConfig($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('soundlink/albums');
   $urlRouterProvider.when('/soundlink','/soundlink/albums');
 
-initResolve.$inject = ['soundlinkResource', 'userStorage'];
-  function initResolve(soundlinkResource, userStorage) {
-    return soundlinkResource.getUserInformation().then(function (userInformation) {
+initResolve.$inject = ['usersResource', 'userStorage'];
+  function initResolve(usersResource, userStorage) {
+    return usersResource.getUserInformation().then(function (userInformation) {
       userStorage.saveUserInformation(userInformation);
     });
   }

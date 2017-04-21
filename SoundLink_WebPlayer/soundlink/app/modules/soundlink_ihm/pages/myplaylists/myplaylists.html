@@ -1,0 +1,17 @@
+<md-toolbar class="navbar">
+  <div class="md-toolbar-tools">
+    <span>My Playlists</span>
+  </div>
+</md-toolbar>
+
+<div class="inline-container scrollable">
+    <md-card ng-click="$ctrl.selectPlaylist(playlist)" ng-repeat="playlist in $ctrl.playlists" class="md-small artiste-item">
+        <md-card-header>
+            <md-card-header-text show-albums-liste>
+                <span class="md-title">{{ ::playlist.name }}</span>
+            </md-card-header-text>
+            <md-icon  class="button" ng-click="$ctrl.deletePlaylist(playlist)">close</md-icon>
+        </md-card-header>
+        <img show-albums-liste ng-src="/covers/playlists/{{::playlist.id}}" class="md-card-image">
+    </md-card>
+</div>

@@ -1,6 +1,20 @@
 @import "lessvars";
-@table-border : 1px solid @orange-color;
+@table-border : 1px solid @primary-color;
 .music-table {
+  .header {
+    padding-left : 15px;
+    font-size: 15px;
+    color: @secondary-color;
+    text-align: left;
+    &.tight {
+      padding: 0 0 0 0 !important;
+      max-width: 50px;
+      width: 50px;
+    }
+    &.center{
+      text-align: center;
+    }
+  }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -10,17 +24,22 @@
     }
     thead {
       tr {
-        height: 40px;
+        height: 39px;
         th {
+          text-align: left;
           font-size: 15px;
-          color: @orange-color;
+          color: @primary-color;
           font-weight: normal;
-          padding: 0px;
+          padding: 0px 0px 0px 15px;
           border-bottom: @table-border;
           &.tight-column {
             max-width: 60px;
             width: 60px;
+            text-align: left;
             padding: 0 0 0 0 !important;
+          }
+          &.center {
+            text-align: center;
           }
         }
       }
@@ -28,7 +47,7 @@
     tbody {
       tr {
         // &:nth-child(even) {
-        //   background-color: @white-blue
+        //   background-color: @thirdly-color-blue
         // }
         // &:nth-child(odd) {
         // }
@@ -38,7 +57,7 @@
         }
         .md-button {
           md-icon {
-            color: @orange-color;
+            color: @primary-color;
           }
         }
       }
@@ -49,8 +68,8 @@
         height: 20px;
         padding-left: 15px;
         &.tight-column {
-          max-width: 60px;
-          width: 60px;
+          max-width: 50px;
+          width: 50px;
           padding: 0 0 0 0 !important;
         }
       }

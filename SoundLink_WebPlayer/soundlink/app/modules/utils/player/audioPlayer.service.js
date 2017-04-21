@@ -2,9 +2,9 @@
 
 angular.module('soundlink').service("audioPlayer", audioPlayer);
 
-audioPlayer.$inject = ['audioStatus', '$q', '$cookies', 'tokenStorage', 'config', '$timeout', "$rootScope"];
+audioPlayer.$inject = ['audioStatus', '$q', '$cookies', 'tokenStorage', 'config', '$timeout', "$rootScope", 'eventManager'];
 
-function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, $rootScope) {
+function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, $rootScope, eventManager) {
 
   var audioPlayer = this;
 
@@ -28,7 +28,16 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
   audioPlayer.add = function (song) {
     if (audioStatus.getPlaylist().indexOf(song) == -1) {
       audioStatus.getPlaylist().push(song);
+      eventManager.fireEvent("musicAdded", song);
       $rootScope.$apply();
+    }
+  };
+
+  audioPlayer.togglePlayPause = function (){
+    if(audioStatus.isPlaying()){
+      audioPlayer.pause();
+    }else{
+      audioPlayer.play();
     }
   };
 
@@ -52,7 +61,7 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
     }
   };
 
-  function stopPlaying(){
+  function stopPlaying() {
     audio.pause();
     audio.src = "";
   }
@@ -64,8 +73,8 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
       audioStatus.setProgress(0);
     });
     // player = AV.Player.fromURL(song.url);
-    $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve(), { path: '/soundlink_server', domain: config.wsDomain });
-    audio = new Audio('/soundlink_server/soundlink/music/' + song.id);
+    $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve());
+    audio = new Audio('/soundlink_server/soundlink/musics/music/' + song.id);
 
     managePlayerEvent();
     audio.play();
@@ -79,11 +88,25 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
   };
 
   audioPlayer.repeat = function () {
-    audioStatus.setRepeating(!audioStatus.isRepeating());
+    if (audioStatus.isRepeating()) {
+      audioStatus.setRepeating(false);
+      audioStatus.setRepeatingOne(true);
+    } else if (audioStatus.isRepeatingOne()) {
+      audioStatus.setRepeatingOne(false);
+    } else {
+      audioStatus.setRepeating(true);
+    }
   };
 
   audioPlayer.random = function () {
+    audioStatus.setRandom(!audioStatus.getRandom());
+  };
 
+  audioPlayer.mute = function () {
+    audioStatus.setMuted(!audioStatus.isMuted());
+    if (audio != null) {
+      audio.muted = audioStatus.isMuted();
+    }
   };
 
   audioPlayer.previous = function () {
@@ -103,7 +126,10 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
     if (currentSong != null) {
       var playlist = audioStatus.getPlaylist();
       var nextSongIndex = playlist.indexOf(currentSong) + 1;
-      if (playlist.length > nextSongIndex) {
+      if(audioStatus.isRepeatingOne()){
+        audioPlayer.setAudioPosition(0);
+        audio.play();
+      }else if (playlist.length > nextSongIndex) {
         audioPlayer.play(playlist[nextSongIndex]);
       } else if (audioStatus.isRepeating()) {
         audioPlayer.play(playlist[0]);
@@ -113,6 +139,7 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
 
   function managePlayerEvent() {
     audio.volume = audioStatus.getVolume();
+    audio.muted = audioStatus.isMuted();
     audio.oncanplay = function () {
       console.log("Ready to play ! ");
     };
@@ -128,26 +155,26 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
       audioStatus.setProgress((audio.currentTime / audioStatus.getDuration()) * 100);
       $rootScope.$apply();
     };
-    audio.ondurationchange  = function () {
+    audio.ondurationchange = function () {
       console.log("Duration change " + audio.duration);
       audioStatus.setDuration(audio.duration);
       $rootScope.$apply();
     };
-    audio.onloadstart = function (){
+    audio.onloadstart = function () {
       console.log("Load start !");
     };
-    audio.onseeked  = function (){
+    audio.onseeked = function () {
       console.log("Seeked finish");
     };
-    audio.onprogress  = function (){
-      for(var bufferIndex = 0; bufferIndex < audio.buffered.length; bufferIndex++){
+    audio.onprogress = function () {
+      for (var bufferIndex = 0; bufferIndex < audio.buffered.length; bufferIndex++) {
         console.log("###############################");
         console.log("Buffer " + bufferIndex);
         console.log("Start : " + audio.buffered.start(bufferIndex) + " end " + audio.buffered.end(bufferIndex));
         console.log("###############################");
       }
-      if(audio.buffered.length > 1 ){
-        audioStatus.setLoadingPercent((audio.buffered.end(audio.buffered.length-2) / audioStatus.getDuration()) * 100);
+      if (audio.buffered.length > 1) {
+        // audioStatus.setLoadingPercent((audio.buffered.end(audio.buffered.length - 2) / audioStatus.getDuration()) * 100);
       }
       $rootScope.$apply();
     };

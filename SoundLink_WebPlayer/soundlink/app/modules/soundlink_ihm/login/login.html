@@ -1,6 +1,6 @@
 <form ng-submit="vm.login()" layout="row" layout-align="none center" flex>
     <div layout="row" layout-align="center center" flex>
-        <div layout="column" flex="30">
+        <div layout="column" flex="30" flex-xs="100">
             <md-toolbar class="big-title-header">
                 <div class="md-toolbar-tools" layout="row" layout-align="center center">
                     <span>SoundLink</span>
@@ -19,7 +19,7 @@
                     {{vm.loginMessage}}
                 </span>
             </div>
-            <div layout="row" layout-align="center">
+            <div layout="row" layout-align="center" layout-xs="column">
                 <md-button class="md-raised" type="submit">
                     <span>Login</span>
                 </md-button>

@@ -5,9 +5,9 @@ angular.module('soundlink').component('userProfilePage', {
     controller: userprofileController
 });
 
-userprofileController.$inject = ['soundlinkResource', 'userStorage', 'fileUtils'];
+userprofileController.$inject = ['usersResource', 'userStorage', 'fileUtils'];
 
-function userprofileController(soundlinkResource, userStorage, fileUtils) {
+function userprofileController(usersResource, userStorage, fileUtils) {
     var vm = this;
 
     vm.userInformation = angular.copy(userStorage.getUserInformation());
@@ -24,12 +24,8 @@ function userprofileController(soundlinkResource, userStorage, fileUtils) {
     };
 
     vm.saveUserInformation = function () {
-        soundlinkResource.saveUserInformation(vm.userInformation).then(function (userInformation){
+        usersResource.saveUserInformation(vm.userInformation).then(function (userInformation){
             userStorage.saveUserInformation(userInformation);
         });
-    };
-
-    vm.$onInit = function () {
-        console.log("tooo");
     };
 }

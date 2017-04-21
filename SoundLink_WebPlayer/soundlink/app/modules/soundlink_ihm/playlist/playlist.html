@@ -1,20 +1,36 @@
 <div ng-show="$ctrl.showPlaylist" layout="column" layout-align=" stretch" flex>
-
   <md-toolbar class="page-header">
     <div class="md-toolbar-tools" layout="row" layout-align="center center">
-      <span>Playlist</span>
+      <span flex>Playlist</span>
+      <md-button class="bordered small">
+        <md-icon ng-click="$ctrl.createPlaylist()">playlist_add</md-icon>
+        <md-tooltip md-direction="bottom">New Playlist</md-tooltip>
+      </md-button>
+      <md-button class="bordered small">
+        <md-icon ng-click="$ctrl.extractPlaylist()">save</md-icon>
+        <md-tooltip md-direction="bottom">Extract Playlist</md-tooltip>
+      </md-button>
+      <md-button class="bordered small">
+        <md-icon ng-click="$ctrl.clearPlaylist()">clear_all</md-icon>
+        <md-tooltip md-direction="bottom">Clear Playlist</md-tooltip>
+      </md-button>
     </div>
   </md-toolbar>
-
-  <md-list flex>
-    <md-list-item class="md-2-line" ng-repeat="music in $ctrl.getPlaylist()">
-      <div layout="row" layout-align="space-between" flex>
+  <md-input-container>
+    <md-select ng-model="$ctrl.selectedPlaylist" ng-change="$ctrl.onPlaylistSelected()" placeholder="Playlist">
+      <md-option ng-value="playlist" ng-repeat="playlist in $ctrl.getPlaylists()">{{ playlist.name }}</md-option>
+    </md-select>
+  </md-input-container>
+  <md-divider></md-divider>
+  <md-list flex class="scrollable">
+    <md-list-item class="md-2-line" ng-repeat="music in $ctrl.getPlaylist()" ng-class="{ 'selected' : $ctrl.getCurrentSong().id == music.id}">
+      <div layout="row" layout-align="space-between center" flex>
         <div class="md-list-item-text" play-music="::music" flex>
-          <h3 ng-class="{ 'font-orange' : $ctrl.getCurrentSong().id == music.id}">{{::music.title}}</h3>
+          <h3>{{::music.title}}</h3>
           <p>{{::music.artistName }}</p>
         </div>
-        <md-icon class="button">
-          menu
+        <md-icon class="button" ng-click="::$ctrl.removeFromPlaylist(music)">
+          close
         </md-icon>
       </div>
       <md-divider></md-divider>

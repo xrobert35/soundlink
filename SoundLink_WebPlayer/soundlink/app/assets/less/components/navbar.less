@@ -1,25 +1,32 @@
 @import "../lessvars";
-.navbar {
-  width: 100%;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  .nav-item {
-    &:hover {
-      color: @orange-color;
-      border-bottom: 1px solid @orange-color;
-      cursor: hand;
+md-toolbar {
+  &.navbar {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid @secondary-color;
+    background-color: white;
+    box-shadow: 2px 1px 3px 0px rgba(0, 0, 0, 0.2);
+    color: @secondary-color;
+    .nav-item {
+      &:hover {
+        color: @primary-color;
+        border-bottom: 1px solid @primary-color;
+        cursor: hand;
+      }
+      &:focus {
+        outline: none;
+      }
+      &.active {
+        color: @primary-color;
+        border-bottom: 3px solid @primary-color;
+        outline: none;
+      }
+      font-size: 18px;
+      padding: 10px 10px 8px 10px;
+      max-width: 80px;
+      width: 60px;
     }
-    &:focus {
-      outline: none;
-    }
-    &.active {
-      color: @orange-color;
-      border-bottom: 1px solid @orange-color;
-      outline : none;
-    }
-    font-size: 18px;
-    padding-left: 15px;
-    padding-right: 15px;
   }
 }
