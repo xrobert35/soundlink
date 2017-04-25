@@ -1,46 +1,31 @@
 package soundlink.server.controller;
 
-import java.util.Locale;
-import java.util.Properties;
+import javax.xml.bind.DatatypeConverter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import soundlink.server.configuration.AppConfig.SerializableResourceBundleMessageSource;
-import soundlink.service.manager.impl.FileManager;
+import soundlink.security.configuration.security.beans.SoundLinkUserDetails;
+import soundlink.security.configuration.security.service.TokenHandler;
 
 @RestController
-@RequestMapping("/message")
+@RequestMapping("soundlink/tech")
 public class TechController {
 
-    @Autowired
-    private FileManager fileManager;
+    @Value("${token.secret}")
+    private String secret;
 
-    @Autowired
-    private SerializableResourceBundleMessageSource messageBundle;
+    @RequestMapping(value = "/wsToken", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getWsToken() {
+        TokenHandler tokenHandler = new TokenHandler(DatatypeConverter.parseBase64Binary(secret));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SoundLinkUserDetails details = (SoundLinkUserDetails) authentication.getDetails();
+        return tokenHandler.createTemporaryTokenForUser(details);
 
-    @RequestMapping(value = "/default", method = RequestMethod.GET)
-    public Properties list(@RequestParam String lang) {
-        return messageBundle.getAllProperties(new Locale(lang));
-    }
-
-    /**
-     * Entry point used to get byte content of an image
-     *
-     * @param path image path
-     * @param name image name
-     * @param ext image extension
-     * @return an image
-     */
-    @RequestMapping(value = "/image/{path}/{name}.{ext}", produces = MediaType.IMAGE_PNG_VALUE)
-    public FileSystemResource showImage(@PathVariable("path") String path, @PathVariable("name") String name,
-            @PathVariable("ext") String ext) {
-        return new FileSystemResource(fileManager.getFile(path + FileManager.separator + name + "." + ext));
     }
 }

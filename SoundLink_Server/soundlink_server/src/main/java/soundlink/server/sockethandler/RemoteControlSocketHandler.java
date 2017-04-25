@@ -36,8 +36,9 @@ public class RemoteControlSocketHandler extends BaseTextWebSocketHandler {
         try {
             Map<String, Object> parameters = getParameters(message);
 
+            // action_code:parameter
             String action = getStringParameter(parameters, "action");
-            RemoteControlAction remoteAction = RemoteControlAction.valueOf(action);
+            RemoteControlAction remoteAction = RemoteControlAction.valueOf(action.split(":")[0]);
 
             String loginUser = session.getPrincipal().getName();
 
@@ -50,11 +51,13 @@ public class RemoteControlSocketHandler extends BaseTextWebSocketHandler {
                 WebSocketDto webSocketDto = new WebSocketDto();
                 if (webSocketSession != null) {
                     webSocketDto.setType(SocketMessageType.INFO);
-                    webSocketDto.setCode(remoteAction.name());
+                    webSocketDto.setCode(action);
+                    this.sendMessage(webSocketDto, webSocketSession);
                 } else {
                     // Envoi message
                     webSocketDto.setType(SocketMessageType.ERROR);
                     webSocketDto.setCode(NO_LISTENER);
+                    this.sendMessage(webSocketDto, session);
                 }
             }
         } catch (Exception e) {

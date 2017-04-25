@@ -96,17 +96,17 @@ public abstract class BaseTextWebSocketHandler extends AbstractWebSocketHandler 
     }
 
     protected void sendMessage(String string, WebSocketSession... sessions) {
-        sendMessage(new TextMessage(string));
+        sendMessage(new TextMessage(string), sessions);
     }
 
     protected void sendMessage(byte[] message, WebSocketSession... sessions) {
-        sendMessage(new BinaryMessage(message));
+        sendMessage(new BinaryMessage(message), sessions);
     }
 
     public void sendMessage(WebSocketDto dto, WebSocketSession... sessions) {
         try {
             WebSocketMessage<?> message = new TextMessage(new ObjectMapper().writeValueAsBytes(dto));
-            sendMessage(message);
+            sendMessage(message, sessions);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

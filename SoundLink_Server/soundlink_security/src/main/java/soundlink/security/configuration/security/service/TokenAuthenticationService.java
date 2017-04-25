@@ -41,11 +41,14 @@ public class TokenAuthenticationService {
                 Cookie cookie = WebUtils.getCookie(request, "X-AUTH-TOKEN");
                 if (cookie != null) {
                     token = URLDecoder.decode(cookie.getValue(), "utf8");
+                } else if (request.getParameter(AUTH_HEADER_NAME) != null) {
+                    token = request.getParameter(AUTH_HEADER_NAME);
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
+
         if (token != null) {
             final SoundLinkUserDetails user = tokenHandler.parseUserFromToken(token);
             if (user != null) {

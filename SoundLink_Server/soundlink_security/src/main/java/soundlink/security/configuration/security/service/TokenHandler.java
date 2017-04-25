@@ -42,6 +42,16 @@ public class TokenHandler {
         return sb.toString();
     }
 
+    public String createTemporaryTokenForUser(SoundLinkUserDetails user) {
+        byte[] userBytes = toJSON(user);
+        byte[] hash = createHmac(userBytes);
+        final StringBuilder sb = new StringBuilder(170);
+        sb.append(toBase64(userBytes));
+        sb.append(SEPARATOR);
+        sb.append(toBase64(hash));
+        return sb.toString();
+    }
+
     public SoundLinkUserDetails parseUserFromToken(String token) {
         final String[] parts = token.split(SEPARATOR_SPLITTER);
         if (parts.length == 2 && parts[0].length() > 0 && parts[1].length() > 0) {
@@ -52,12 +62,9 @@ public class TokenHandler {
                 boolean validHash = Arrays.equals(createHmac(userBytes), hash);
                 if (validHash) {
                     final SoundLinkUserDetails user = fromJSON(userBytes);
-                    // if (new Date().getTime() < user.getExpires()) {
                     return user;
-                    // }
                 }
             } catch (IllegalArgumentException e) {
-                // log tampering attempt here
             }
         }
         return null;
