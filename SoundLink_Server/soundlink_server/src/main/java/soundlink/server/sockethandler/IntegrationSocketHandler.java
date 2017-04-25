@@ -5,14 +5,14 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import soundlink.server.configuration.SocketHandler;
 import soundlink.service.websocket.handler.IMusicIntegrationExecutor;
 
-@Component
+@SocketHandler("ws/integration")
 public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
 
     @Autowired

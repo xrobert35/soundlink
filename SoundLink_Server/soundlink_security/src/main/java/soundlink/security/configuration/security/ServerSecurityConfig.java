@@ -15,14 +15,12 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import soundlink.security.configuration.security.filter.CsrfTokenResponseCookieBindingFilter;
-import soundlink.security.configuration.security.filter.RESTCrossDomainFilter;
 import soundlink.security.configuration.security.filter.StatelessAuthenticationFilter;
 import soundlink.security.configuration.security.filter.StatelessLoginFilter;
 import soundlink.security.configuration.security.service.TokenAuthenticationService;
@@ -39,8 +37,6 @@ import soundlink.security.configuration.security.service.TokenAuthenticationServ
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource
-    private RESTCrossDomainFilter crossDomainFilter;
     @Resource
     private CsrfTokenResponseCookieBindingFilter csrfTokenFilter;
     @Resource
@@ -95,17 +91,13 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-        // Add cross domain filter and csrf filter to add token into response
-        // cookie
-        http.addFilterBefore(crossDomainFilter, ChannelProcessingFilter.class);
-
         // custom JSON based authentication by POST of
         // {"username":"<name>","password":"<password>"} which sets the token
         // header upon authentication
         http.addFilterBefore(new StatelessLoginFilter("/security/login", tokenAuthenticationService, userDetailsService,
                 authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 
-        // custom Token based authentication based on the header
+        // custom Token based authentication based on the header and coockie
         // previously given to the client
         http.addFilterBefore(new StatelessAuthenticationFilter(tokenAuthenticationService),
                 UsernamePasswordAuthenticationFilter.class);

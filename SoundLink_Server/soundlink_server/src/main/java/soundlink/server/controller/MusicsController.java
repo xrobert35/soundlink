@@ -65,7 +65,6 @@ public class MusicsController {
     public void getMusicPart(@PathVariable("musicId") Integer id, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         File file = musicManager.getMusicFile(id);
-        MultipartFileSender.fromPath(file.toPath()).with(request).with(response).serveResource();
+        MultipartFileSender.fromPath(file.toPath()).with(request, response).serveResource();
     }
-
 }

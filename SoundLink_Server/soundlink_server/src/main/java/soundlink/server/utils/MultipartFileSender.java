@@ -36,9 +36,9 @@ public class MultipartFileSender {
                                                                 // week.
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
 
-    Path filepath;
-    HttpServletRequest request;
-    HttpServletResponse response;
+    private Path filepath;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     public MultipartFileSender() {
     }
@@ -61,12 +61,8 @@ public class MultipartFileSender {
         return this;
     }
 
-    public MultipartFileSender with(HttpServletRequest httpRequest) {
+    public MultipartFileSender with(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         request = httpRequest;
-        return this;
-    }
-
-    public MultipartFileSender with(HttpServletResponse httpResponse) {
         response = httpResponse;
         return this;
     }

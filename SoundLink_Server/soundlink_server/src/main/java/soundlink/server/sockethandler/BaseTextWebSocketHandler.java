@@ -2,17 +2,24 @@ package soundlink.server.sockethandler;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
+import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import soundlink.dto.socket.WebSocketDto;
 
 public abstract class BaseTextWebSocketHandler extends AbstractWebSocketHandler {
 
@@ -86,6 +93,33 @@ public abstract class BaseTextWebSocketHandler extends AbstractWebSocketHandler 
             }
         }
         return null;
+    }
+
+    protected void sendMessage(String string, WebSocketSession... sessions) {
+        sendMessage(new TextMessage(string));
+    }
+
+    protected void sendMessage(byte[] message, WebSocketSession... sessions) {
+        sendMessage(new BinaryMessage(message));
+    }
+
+    public void sendMessage(WebSocketDto dto, WebSocketSession... sessions) {
+        try {
+            WebSocketMessage<?> message = new TextMessage(new ObjectMapper().writeValueAsBytes(dto));
+            sendMessage(message);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void sendMessage(WebSocketMessage<?> message, WebSocketSession... sessions) {
+        Arrays.asList(sessions).forEach(session -> {
+            try {
+                session.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     protected abstract void onConnect(WebSocketSession session);
