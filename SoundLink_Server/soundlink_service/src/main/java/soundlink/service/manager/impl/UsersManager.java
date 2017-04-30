@@ -61,7 +61,9 @@ public class UsersManager implements IUsersManager {
         Users user = userRepository.findByLogin(login);
         user.setPicture(usersDto.getPicture());
         user.setEmail(usersDto.getEmail());
-
+        if (usersDto.getNewPassword() != null) {
+            user.setPassword(usersDto.getNewPassword());
+        }
         return userRepository.save(user);
     }
 

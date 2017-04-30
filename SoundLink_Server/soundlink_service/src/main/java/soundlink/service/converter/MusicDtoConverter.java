@@ -21,13 +21,14 @@ public class MusicDtoConverter extends AbstractDtoConverter<Music, MusicDto> {
         if (entity != null) {
             Album album = entity.getAlbum();
             dto.setAlbumName(album.getName());
+            dto.setAlbumId(album.getId());
             Artiste artiste = album.getArtiste();
             dto.setArtistName(artiste.getName());
+            dto.setArtisteId(artiste.getId());
         }
     }
 
     @Override
     protected void subConvertToEntity(MusicDto dto, Music entity) {
     }
-
 }

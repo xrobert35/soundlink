@@ -22,7 +22,7 @@ public class UsersDto {
 
     private String newPassword;
 
-    private String confirm;
+    private String confirmPassword;
 
     public Integer getId() {
         return id;
@@ -80,11 +80,11 @@ public class UsersDto {
         this.newPassword = newPassword;
     }
 
-    public String getConfirm() {
-        return confirm;
+    public String getConfirmPassword() {
+        return confirmPassword;
     }
 
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

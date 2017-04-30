@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,14 +39,33 @@ public class UsersController {
     @Autowired
     private UsersDtoConverter usersDtoConveter;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @RequestMapping(value = "/userInformation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UsersDto getUserInformation() {
         Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return usersDtoConveter.convertToDto(user);
     }
 
+    @RequestMapping(value = "/checkPassword", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public boolean checkUserPassword(@RequestParam("pwd") String pwd) {
+        Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return bCryptPasswordEncoder.matches(pwd, user.getPassword());
+    }
+
     @RequestMapping(value = "/saveUserInformation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UsersDto saveUserInformation(@RequestBody UsersDto usersDto) {
+        if (usersDto.getNewPassword() != null) {
+            if (usersDto.getNewPassword().equals(usersDto.getConfirmPassword())) {
+                if (usersDto.getCurrentPassword() == null) {
+                    throw new IllegalArgumentException("Current password can't be empty");
+                }
+            } else {
+                throw new IllegalArgumentException("Password can't be different");
+            }
+            usersDto.setNewPassword(bCryptPasswordEncoder.encode(usersDto.getNewPassword()));
+        }
         Users user = usersManager.updateUser(SecurityContextHolder.getContext().getAuthentication().getName(),
                 usersDto);
         return usersDtoConveter.convertToDto(user);

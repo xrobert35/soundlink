@@ -14,11 +14,11 @@ public class MusicDto {
 
     private String title;
 
-    private Long artisteId;
+    private Integer artisteId;
 
     private String artistName;
 
-    private Long albumId;
+    private Integer albumId;
 
     private String albumName;
 
@@ -118,19 +118,19 @@ public class MusicDto {
         this.musicFileSize = musicFileSize;
     }
 
-    public Long getArtisteId() {
+    public Integer getArtisteId() {
         return artisteId;
     }
 
-    public void setArtisteId(Long artisteId) {
+    public void setArtisteId(Integer artisteId) {
         this.artisteId = artisteId;
     }
 
-    public Long getAlbumId() {
+    public Integer getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(Long albumId) {
+    public void setAlbumId(Integer albumId) {
         this.albumId = albumId;
     }
 

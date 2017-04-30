@@ -15,38 +15,38 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @PropertySource("classpath:application.properties")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-	private static final String BUNDLE_BASE_NAME = "classpath:/locale/msg/messages";
-	private static final String BUNDLE_DEFAULT_ENCODING = "UTF-8";
+    private static final String BUNDLE_BASE_NAME = "classpath:/locale/msg/messages";
+    private static final String BUNDLE_DEFAULT_ENCODING = "UTF-8";
 
-	@Bean
-	public SerializableResourceBundleMessageSource serializableResourceBundleMessageSource() {
-		SerializableResourceBundleMessageSource resourceBundleMessage = new SerializableResourceBundleMessageSource();
-		resourceBundleMessage.setBasename(BUNDLE_BASE_NAME);
-		resourceBundleMessage.setDefaultEncoding(BUNDLE_DEFAULT_ENCODING);
+    @Bean
+    public SerializableResourceBundleMessageSource serializableResourceBundleMessageSource() {
+        SerializableResourceBundleMessageSource resourceBundleMessage = new SerializableResourceBundleMessageSource();
+        resourceBundleMessage.setBasename(BUNDLE_BASE_NAME);
+        resourceBundleMessage.setDefaultEncoding(BUNDLE_DEFAULT_ENCODING);
 
-		return resourceBundleMessage;
-	}
+        return resourceBundleMessage;
+    }
 
-	@Bean
-	public SessionLocaleResolver sessionLocaleResolver() {
-		SessionLocaleResolver resolver = new SessionLocaleResolver();
-		resolver.setDefaultLocale(new Locale("fr"));
-		return resolver;
-	}
+    @Bean
+    public SessionLocaleResolver sessionLocaleResolver() {
+        SessionLocaleResolver resolver = new SessionLocaleResolver();
+        resolver.setDefaultLocale(new Locale("fr"));
+        return resolver;
+    }
 
-	@Bean
-	public LocaleChangeInterceptor localeChangeInterceptor() {
-		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-		localeChangeInterceptor.setParamName("lang");
-		return localeChangeInterceptor;
-	}
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        return localeChangeInterceptor;
+    }
 
-	public class SerializableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
-		public Properties getAllProperties(Locale locale) {
-			clearCacheIncludingAncestors();
-			PropertiesHolder propertiesHolder = getMergedProperties(locale);
-			Properties properties = propertiesHolder.getProperties();
-			return properties;
-		}
-	}
+    public class SerializableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
+        public Properties getAllProperties(Locale locale) {
+            clearCacheIncludingAncestors();
+            PropertiesHolder propertiesHolder = getMergedProperties(locale);
+            Properties properties = propertiesHolder.getProperties();
+            return properties;
+        }
+    }
 }
