@@ -1,11 +1,8 @@
 package soundlink.service.websocket.handler.impl;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +28,7 @@ import soundlink.service.constant.SoundlinkConstant;
 import soundlink.service.manager.IAlbumManager;
 import soundlink.service.manager.IArtisteManager;
 import soundlink.service.manager.IMusicManager;
+import soundlink.service.utils.ImageUtils;
 import soundlink.service.websocket.handler.IMusicFileProcessor;
 
 @Component
@@ -168,11 +166,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-            int type = coverImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : coverImage.getType();
-            coverImage = resizeImageWithHint(coverImage, type);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(coverImage, "png", baos);
-            return baos.toByteArray();
+            return ImageUtils.reduceAndCreateJpgImage(coverImage, 120, 120, true);
         }
         return null;
     }

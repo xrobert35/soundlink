@@ -31,6 +31,9 @@ public class UsersArtistes {
     @JoinColumn(name = "artiste_id", nullable = false)
     private Artiste artiste;
 
+    @Column(name = "artiste_id", insertable = false, updatable = false)
+    private Integer artisteId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
@@ -76,6 +79,14 @@ public class UsersArtistes {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getArtisteId() {
+        return artisteId;
+    }
+
+    public void setArtisteId(Integer artisteId) {
+        this.artisteId = artisteId;
     }
 
     @Override

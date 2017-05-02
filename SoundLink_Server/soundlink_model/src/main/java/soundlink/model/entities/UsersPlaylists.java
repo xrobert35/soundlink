@@ -31,9 +31,15 @@ public class UsersPlaylists {
     @JoinColumn(name = "playlist_id", nullable = false)
     private Playlist playlist;
 
+    @Column(name = "playlist_id", updatable = false, insertable = false)
+    private Integer playlistId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
+
+    @Column(name = "user_id", updatable = false, insertable = false)
+    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -67,6 +73,22 @@ public class UsersPlaylists {
         this.user = user;
     }
 
+    public Integer getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(Integer playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof UsersPlaylists)) {
@@ -76,8 +98,8 @@ public class UsersPlaylists {
         if (id != null) {
             return Objects.equals(id, castOther.id);
         }
-        return Objects.equals(relationDate, castOther.relationDate) && Objects.equals(playlist, castOther.playlist)
-                && Objects.equals(user, castOther.user);
+        return Objects.equals(relationDate, castOther.relationDate) && Objects.equals(playlistId, castOther.playlistId)
+                && Objects.equals(userId, castOther.userId);
     }
 
     @Override

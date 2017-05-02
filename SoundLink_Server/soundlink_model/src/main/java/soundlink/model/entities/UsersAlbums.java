@@ -31,9 +31,15 @@ public class UsersAlbums {
     @JoinColumn(name = "album_id", nullable = false)
     private Album album;
 
+    @Column(name = "album_id", updatable = false, insertable = false)
+    private Integer albumId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
+
+    @Column(name = "user_id", updatable = false, insertable = false)
+    private Integer userId;
 
     public LocalDateTime getRelationDate() {
         return relationDate;
@@ -57,6 +63,30 @@ public class UsersAlbums {
 
     public void setUser(Users user) {
         this.user = user;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Integer albumId) {
+        this.albumId = albumId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Override

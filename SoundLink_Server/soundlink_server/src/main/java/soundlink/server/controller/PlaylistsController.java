@@ -1,12 +1,15 @@
 package soundlink.server.controller;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,10 +26,12 @@ import soundlink.model.entities.MusicsPlaylists;
 import soundlink.model.entities.Playlist;
 import soundlink.model.entities.Users;
 import soundlink.model.entities.UsersPlaylists;
+import soundlink.service.constant.SoundlinkConstant;
 import soundlink.service.converter.PlaylistDtoConverter;
 import soundlink.service.manager.IMusicManager;
 import soundlink.service.manager.IPlaylistManager;
 import soundlink.service.manager.IUsersManager;
+import soundlink.service.utils.ImageUtils;
 
 @RestController
 @RequestMapping("/soundlink/playlist")
@@ -43,6 +48,9 @@ public class PlaylistsController {
 
     @Autowired
     private IUsersManager usersManager;
+
+    @Value("#{environment['SOUNDLINK_HOME']}")
+    private String soundlinkFolder;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public PlaylistDto createPlayList(@RequestBody @Valid CreatePlaylistDto createPlaylistDto) {
@@ -64,6 +72,18 @@ public class PlaylistsController {
 
         final Playlist createdPlaylist = playlistManager.create(playlist);
 
+        if (createPlaylistDto.getCover() != null) {
+            try {
+                byte[] playlistCoverByte = ImageUtils.reduceAndCreateJpgImage(createPlaylistDto.getCover(), 120, 120,
+                        true);
+                File playlistCover = new File(
+                        soundlinkFolder + SoundlinkConstant.PLAYLISTS_COVERS_FOLDER + playlist.getId());
+                FileUtils.writeByteArrayToFile(playlistCover, playlistCoverByte);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         if (CollectionUtils.isNotEmpty(createPlaylistDto.getMusicsId())) {
             List<Music> musics = musicManager.findAllById(createPlaylistDto.getMusicsId());
             musics.forEach(music -> {
@@ -78,6 +98,22 @@ public class PlaylistsController {
         playlistManager.update(createdPlaylist);
 
         return playlistDtoConverter.convertToDto(createdPlaylist);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public void deletePlayList(@RequestParam Integer playlistId) {
+        Playlist playlist = playlistManager.findOne(playlistId);
+        Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        user.getPlaylists().removeIf(userPlaylist -> {
+            return userPlaylist.getPlaylistId().equals(playlist.getId());
+        });
+        playlist.getUsers().removeIf(userPlaylist -> {
+            return userPlaylist.getUserId().equals(user.getId());
+        });
+        usersManager.update(user);
+        if (CollectionUtils.isEmpty(playlist.getUsers())) {
+            playlistManager.delete(playlist);
+        }
     }
 
     @RequestMapping(value = "/addMusic", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -101,7 +137,7 @@ public class PlaylistsController {
     public void removeMusic(@RequestBody @Valid PlaylistActionDto playlistAction) {
         Playlist playlist = playlistManager.findOne(playlistAction.getPlaylistId());
         playlist.getMusics().removeIf(musicPlaylist -> {
-            return musicPlaylist.getMusic().getId().equals(playlistAction.getMusicId());
+            return musicPlaylist.getMusicId().equals(playlistAction.getMusicId());
         });
         playlist.setUpdateDate(LocalDateTime.now());
         playlistManager.update(playlist);

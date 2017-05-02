@@ -90,7 +90,7 @@ public class UsersController {
     public void removeFavoriteArtiste(@RequestParam("artisteId") Integer artisteId) {
         Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         user.getFavoritesArtistes().removeIf(favoriteArtiste -> {
-            return favoriteArtiste.getArtiste().getId().equals(artisteId);
+            return favoriteArtiste.getArtisteId().equals(artisteId);
         });
         usersManager.update(user);
     }
@@ -115,7 +115,7 @@ public class UsersController {
         Users user = usersManager.getUserWithFavoriteAlbumsFetchByLogin(
                 SecurityContextHolder.getContext().getAuthentication().getName());
         user.getFavoritesAlbums().removeIf(favoriteAlbum -> {
-            return favoriteAlbum.getAlbum().getId().equals(albumId);
+            return favoriteAlbum.getAlbumId().equals(albumId);
         });
         usersManager.update(user);
     }

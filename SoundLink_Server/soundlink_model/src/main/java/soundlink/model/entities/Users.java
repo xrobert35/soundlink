@@ -149,12 +149,11 @@ public class Users {
         if (id != null) {
             return Objects.equals(id, castOther.id);
         }
-        return Objects.equals(login, castOther.login) && Objects.equals(password, castOther.password)
-                && Objects.equals(email, castOther.email) && Objects.equals(role, castOther.role);
+        return Objects.equals(login, castOther.login);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, email, role);
+        return Objects.hash(id, login);
     }
 }

@@ -31,9 +31,15 @@ public class MusicsPlaylists {
     @JoinColumn(name = "playlist_id", nullable = false)
     private Playlist playlist;
 
+    @Column(name = "playlist_id", updatable = false, insertable = false)
+    private Integer playlistId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "music_id", nullable = false)
     private Music music;
+
+    @Column(name = "music_id", updatable = false, insertable = false)
+    private Integer musicId;
 
     public Integer getId() {
         return id;
@@ -65,6 +71,22 @@ public class MusicsPlaylists {
 
     public void setMusic(Music music) {
         this.music = music;
+    }
+
+    public Integer getPlaylistId() {
+        return playlistId;
+    }
+
+    public void setPlaylistId(Integer playlistId) {
+        this.playlistId = playlistId;
+    }
+
+    public Integer getMusicId() {
+        return musicId;
+    }
+
+    public void setMusicId(Integer musicId) {
+        this.musicId = musicId;
     }
 
     @Override
