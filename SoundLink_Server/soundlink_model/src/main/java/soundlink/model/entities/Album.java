@@ -1,6 +1,5 @@
 package soundlink.model.entities;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -53,8 +52,8 @@ public class Album {
     @Column(name = "album_directory")
     private String albumDirectory;
 
-    @Column(name = "release_date")
-    private LocalDateTime releaseDate;
+    @Column(name = "year")
+    private String year;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "album")
     private Set<Music> musics = new HashSet<Music>(0);
@@ -148,12 +147,12 @@ public class Album {
         this.nbDiscs = nbDiscs;
     }
 
-    public LocalDateTime getReleaseDate() {
-        return releaseDate;
+    public String getYear() {
+        return year;
     }
 
-    public void setReleaseDate(LocalDateTime releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public Set<UsersAlbums> getUsers() {

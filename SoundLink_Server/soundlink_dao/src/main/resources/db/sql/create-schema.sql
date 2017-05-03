@@ -25,7 +25,7 @@ CREATE TABLE users (
   login VARCHAR(255) UNIQUE,
   password VARCHAR(255),
   email VARCHAR(255),
-  role VARCHAR(255),
+  role VARCHAR(20),
   picture text
 );
 
@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS artiste;
 
 CREATE TABLE artiste (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) UNIQUE,
+  name VARCHAR(512) UNIQUE,
   valide boolean default false,
   integration_number INT
 );
@@ -54,12 +54,11 @@ COMMENT ON COLUMN artiste.valide is 'Integration validate ';
 CREATE TABLE album (
   id SERIAL PRIMARY KEY,
   artiste_id SERIAL,
-  name VARCHAR(255),
-  bit_rate VARCHAR(255),
-  extension VARCHAR(255),
-  release_date TIMESTAMP, 
+  name VARCHAR(512),
+  bit_rate VARCHAR(10),
+  extension VARCHAR(10),
+  year VARCHAR(10), 
   nb_discs INT,
-  albumDirectory VARCHAR(255),
   album_directory VARCHAR(1000),
   valide boolean default false,
   integration_number INT,
@@ -83,12 +82,13 @@ CREATE TABLE music (
   id SERIAL PRIMARY KEY,
   album_id SERIAL,
   artiste_id SERIAL,
-  title VARCHAR(255),
+  title VARCHAR(512),
   track_number INT,
   disc_number INT,
   duration_in_seconde INT,
-  bit_rate VARCHAR(255),
-  extension VARCHAR(255),
+  bit_rate VARCHAR(10),
+  extension VARCHAR(10),
+  year VARCHAR(10),
   music_file_path VARCHAR(1000),
   music_file_size BIGINT,
   valide boolean default false,

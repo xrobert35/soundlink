@@ -64,6 +64,9 @@ public class Music {
     @Column(name = "disc_number")
     private Integer discNumber;
 
+    @Column(name = "year")
+    private String year;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "music")
     private Set<MusicsPlaylists> playlistMusic = new HashSet<MusicsPlaylists>(0);
 
@@ -111,6 +114,14 @@ public class Music {
 
     public void setTrackNumber(Integer trackNumber) {
         this.trackNumber = trackNumber;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public Integer getDurationInSeconde() {

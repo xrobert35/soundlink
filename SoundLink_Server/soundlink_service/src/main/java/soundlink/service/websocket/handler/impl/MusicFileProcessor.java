@@ -8,9 +8,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.imgscalr.Scalr;
-import org.imgscalr.Scalr.Method;
-import org.imgscalr.Scalr.Mode;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.AudioHeader;
@@ -128,8 +125,9 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         album.setBitRate(audioHeader.getBitRate());
         album.setExtension(audioFile.getExt());
         album.setIntegrationNumber(integrationNumber);
-        album.setArtiste(artiste);
+        album.setYear(tag.getFirst(FieldKey.YEAR));
 
+        album.setArtiste(artiste);
         String albumPath = audioFile.getFile().getParentFile().getAbsolutePath().substring(soundlinkFolder.length());
         album.setAlbumDirectory(albumPath);
 
@@ -147,22 +145,30 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     }
 
     private void saveAlbumCover(Album album, Tag tag) throws IOException {
-        byte[] coverFromTag = exactCoverFromTag(tag);
+        byte[] coverFromTag = extractCoverFromTag(tag);
+        byte[] smallCoverFromTag = extractSmallCoverFromTag(tag);
         if (coverFromTag != null) {
-            File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
-            FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
+            File albumCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
+            FileUtils.writeByteArrayToFile(albumCover, coverFromTag);
+            File smallAlbumCover = new File(
+                    soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + "small-" + album.getId());
+            FileUtils.writeByteArrayToFile(smallAlbumCover, smallCoverFromTag);
         }
     };
 
     private void saveArtisteCover(Artiste artiste, Tag tag) throws IOException {
-        byte[] coverFromTag = exactCoverFromTag(tag);
+        byte[] coverFromTag = extractCoverFromTag(tag);
+        byte[] smallCoverFromTag = extractSmallCoverFromTag(tag);
         if (coverFromTag != null) {
             File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + artiste.getId());
             FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
+            File smallArtisteCover = new File(
+                    soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + "small-" + artiste.getId());
+            FileUtils.writeByteArrayToFile(smallArtisteCover, smallCoverFromTag);
         }
     };
 
-    private byte[] exactCoverFromTag(Tag tag) throws IOException {
+    private byte[] extractCoverFromTag(Tag tag) throws IOException {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
@@ -171,8 +177,13 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         return null;
     }
 
-    private BufferedImage resizeImageWithHint(BufferedImage originalImage, int type) {
-        return Scalr.resize(originalImage, Method.QUALITY, Mode.FIT_EXACT, 110, 110);
+    private byte[] extractSmallCoverFromTag(Tag tag) throws IOException {
+        Artwork firstArtwork = tag.getFirstArtwork();
+        if (firstArtwork != null) {
+            BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
+            return ImageUtils.reduceAndCreateJpgImage(coverImage, 50, 50, true);
+        }
+        return null;
     }
 
     private Music createMusic(AudioFile audioFile, Album album, Integer integrationNumber) throws IOException {
@@ -199,6 +210,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         }
 
         music.setTitle(tag.getFirst(FieldKey.TITLE));
+        music.setYear(tag.getFirst(FieldKey.YEAR));
 
         String artisteName = getArtisteName(tag, FieldKey.ARTIST);
         Artiste artiste = artisteManager.getArtisteByName(artisteName);
