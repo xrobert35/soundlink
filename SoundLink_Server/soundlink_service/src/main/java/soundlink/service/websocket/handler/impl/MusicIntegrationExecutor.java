@@ -153,7 +153,7 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
     }
 
     private void manageErrorFile(File musicFile, Exception exception) {
-        LOGGER.error("Error while parsing " + musicFile.getAbsolutePath() + " " + exception.getMessage());
+        LOGGER.error("Error while parsing " + musicFile.getAbsolutePath(), exception);
         musicFile.renameTo(new File(musicsErrorFolder.getPath() + musicFile.getName()));
     }
 
