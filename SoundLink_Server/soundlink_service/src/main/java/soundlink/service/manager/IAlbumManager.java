@@ -19,9 +19,10 @@ public interface IAlbumManager extends ISoundlinkManager<Album, Integer> {
      * Get all albums from artiste
      * 
      * @param artisteId
+     * @param userId
      * @return
      */
-    List<Album> getAlbumFromArtiste(Integer artisteId);
+    List<Album> getAlbumFromArtiste(Integer artisteId, Integer userId);
 
     /**
      * Find an album by his name and the artiste name

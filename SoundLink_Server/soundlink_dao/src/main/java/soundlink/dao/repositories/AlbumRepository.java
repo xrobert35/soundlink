@@ -37,11 +37,12 @@ public interface AlbumRepository extends JpaRepository<Album, Integer> {
 
     @Query("SELECT album " 
     + "FROM Album album "
+    + "LEFT JOIN album.users usersAlbums WITH usersAlbums.userId = :userId " 
     + "INNER JOIN album.artiste artiste "
 //    + "WHERE album.valide = true "
     + "WHERE artiste.id = :artisteId "
     + "ORDER BY album.name ")
-    List<Album> getAlbumsFromArtiste(@Param("artisteId") Integer artisteId);
+    List<Album> getAlbumsFromArtiste(@Param("artisteId") Integer artisteId, @Param("userId") Integer userId);
 
     @Query("SELECT album " 
     + "FROM Album album "

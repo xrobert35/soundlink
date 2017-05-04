@@ -26,6 +26,8 @@ public class AlbumDto {
 
     private File albumDirectory;
 
+    private boolean selected = false;
+
     private List<MusicDto> musics = new ArrayList<>(0);
 
     public Integer getId() {
@@ -90,6 +92,14 @@ public class AlbumDto {
 
     public void setDiscNumber(Integer discNumber) {
         this.discNumber = discNumber;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override

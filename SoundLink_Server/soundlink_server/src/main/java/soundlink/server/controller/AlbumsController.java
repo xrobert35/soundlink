@@ -37,7 +37,8 @@ public class AlbumsController {
      */
     @RequestMapping(value = "/fromArtiste", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<AlbumDto> getAlbumsArtiste(@RequestParam Integer artisteId) {
-        return albumDtoConverter.convertToDtoList(albumManager.getAlbumFromArtiste(artisteId));
+        Users user = usersManager.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return albumDtoConverter.convertToDtoList(albumManager.getAlbumFromArtiste(artisteId, user.getId()));
     }
 
     @RequestMapping(value = "/userAlbums", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

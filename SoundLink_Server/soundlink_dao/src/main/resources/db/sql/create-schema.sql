@@ -57,7 +57,7 @@ CREATE TABLE album (
   name VARCHAR(512),
   bit_rate VARCHAR(10),
   extension VARCHAR(10),
-  year VARCHAR(10), 
+  year VARCHAR(25), 
   nb_discs INT,
   album_directory VARCHAR(1000),
   valide boolean default false,
@@ -70,6 +70,7 @@ CREATE INDEX index_album_name_artiste ON album (name, artiste_id);
 COMMENT ON COLUMN album.id is 'Album id';
 COMMENT ON COLUMN album.artiste_id is 'Album artiste';
 COMMENT ON COLUMN album.name is 'Album name';
+COMMENT ON COLUMN album.year is 'Album release year';
 COMMENT ON COLUMN album.bit_rate is 'Album bit rate : bit/s';
 COMMENT ON COLUMN album.extension is 'Album extension : flac, mp3';
 COMMENT ON COLUMN album.album_directory is 'Album directory path';
@@ -88,7 +89,7 @@ CREATE TABLE music (
   duration_in_seconde INT,
   bit_rate VARCHAR(10),
   extension VARCHAR(10),
-  year VARCHAR(10),
+  year VARCHAR(25),
   music_file_path VARCHAR(1000),
   music_file_size BIGINT,
   valide boolean default false,
