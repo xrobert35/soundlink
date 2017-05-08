@@ -26,7 +26,8 @@ public final class ImageUtils {
     public static byte[] reduceAndCreateJpgImage(BufferedImage image, int maxWidth, int maxHeight, boolean keepRatio)
             throws IOException {
         image.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
-        image = Scalr.resize(image, Method.QUALITY, keepRatio ? Mode.AUTOMATIC : Mode.FIT_EXACT, maxWidth, maxHeight);
+        image = Scalr.resize(image, Method.ULTRA_QUALITY, keepRatio ? Mode.AUTOMATIC : Mode.FIT_EXACT, maxWidth,
+                maxHeight);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "jpg", baos);
         return baos.toByteArray();

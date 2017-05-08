@@ -172,7 +172,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         Artwork firstArtwork = tag.getFirstArtwork();
         if (firstArtwork != null) {
             BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-            return ImageUtils.reduceAndCreateJpgImage(coverImage, 120, 120, true);
+            return ImageUtils.reduceAndCreateJpgImage(coverImage, 150, 150, true);
         }
         return null;
     }
