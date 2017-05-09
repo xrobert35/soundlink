@@ -85,6 +85,9 @@ public class MusicFileProcessor implements IMusicFileProcessor {
             cleanTitle += musicFile.getAbsolutePath().substring(musicFile.getAbsolutePath().lastIndexOf('.'))
                     .toLowerCase();
             music.setMusicFilePath(musicFilePath + "/" + cleanTitle);
+        } else {
+            throw new Exception(
+                    "Music already existe " + artiste.getName() + " - " + album.getName() + " - " + music.getTitle());
         }
         moveToMusicsFolder(musicFile, musicFilePath, cleanTitle);
     }
