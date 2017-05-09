@@ -87,6 +87,8 @@ public class MusicIntegrationExecutor extends WebSocketExecutor implements IMusi
     public void execute() {
         integrationNumber = integrationManager.getNextIntegrationNumber();
 
+        sendProgressMessage("Integration started : Analyse files... ", 0, false);
+
         fileTraited = 0;
         totalFiles = countFilesInDirectory(musicsInputFolder);
 
