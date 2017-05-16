@@ -32,4 +32,19 @@ public final class ImageUtils {
         ImageIO.write(image, "jpg", baos);
         return baos.toByteArray();
     }
+
+    public static byte[] reduceAndCreateBlurrifiedJpgImage(BufferedImage image, int maxWidth, int maxHeight,
+            boolean keepRatio) throws IOException {
+        image.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+        image = Scalr.resize(image, Method.ULTRA_QUALITY, keepRatio ? Mode.AUTOMATIC : Mode.FIT_EXACT, maxWidth,
+                maxHeight);
+
+        BufferedImage blurrifiedImage = new BufferedImage(maxWidth, maxHeight, image.getType());
+        BoxBlurFilter boxBlurFilter = new BoxBlurFilter(5, 1);
+        blurrifiedImage = boxBlurFilter.filter(image, blurrifiedImage);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(blurrifiedImage, "jpg", baos);
+        return baos.toByteArray();
+    }
 }

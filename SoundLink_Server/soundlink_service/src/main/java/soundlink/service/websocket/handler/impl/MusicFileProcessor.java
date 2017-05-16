@@ -148,20 +148,26 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     }
 
     private void saveAlbumCover(Album album, Tag tag) throws IOException {
-        byte[] coverFromTag = extractCoverFromTag(tag);
-        byte[] smallCoverFromTag = extractSmallCoverFromTag(tag);
+        BufferedImage extractedCoverImage = extractBufferedImage(tag);
+        byte[] coverFromTag = extractCoverFromTag(extractedCoverImage);
+        byte[] smallCoverFromTag = extractSmallCoverFromTag(extractedCoverImage);
+        byte[] blurrifiedCoverFromTag = extractBlurrifiedImageCoverFromTag(extractedCoverImage);
         if (coverFromTag != null) {
             File albumCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
             FileUtils.writeByteArrayToFile(albumCover, coverFromTag);
             File smallAlbumCover = new File(
                     soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + "small-" + album.getId());
             FileUtils.writeByteArrayToFile(smallAlbumCover, smallCoverFromTag);
+            File burrifiedAlbumCover = new File(
+                    soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + "blur-" + album.getId());
+            FileUtils.writeByteArrayToFile(burrifiedAlbumCover, blurrifiedCoverFromTag);
         }
     };
 
     private void saveArtisteCover(Artiste artiste, Tag tag) throws IOException {
-        byte[] coverFromTag = extractCoverFromTag(tag);
-        byte[] smallCoverFromTag = extractSmallCoverFromTag(tag);
+        BufferedImage extractBufferedImage = extractBufferedImage(tag);
+        byte[] coverFromTag = extractCoverFromTag(extractBufferedImage);
+        byte[] smallCoverFromTag = extractSmallCoverFromTag(extractBufferedImage);
         if (coverFromTag != null) {
             File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + artiste.getId());
             FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
@@ -171,22 +177,25 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         }
     };
 
-    private byte[] extractCoverFromTag(Tag tag) throws IOException {
+    private BufferedImage extractBufferedImage(Tag tag) throws IOException {
         Artwork firstArtwork = tag.getFirstArtwork();
+        BufferedImage coverImage = null;
         if (firstArtwork != null) {
-            BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-            return ImageUtils.reduceAndCreateJpgImage(coverImage, 150, 150, true);
+            coverImage = (BufferedImage) firstArtwork.getImage();
         }
-        return null;
+        return coverImage;
     }
 
-    private byte[] extractSmallCoverFromTag(Tag tag) throws IOException {
-        Artwork firstArtwork = tag.getFirstArtwork();
-        if (firstArtwork != null) {
-            BufferedImage coverImage = (BufferedImage) firstArtwork.getImage();
-            return ImageUtils.reduceAndCreateJpgImage(coverImage, 50, 50, true);
-        }
-        return null;
+    private byte[] extractCoverFromTag(BufferedImage coverImage) throws IOException {
+        return ImageUtils.reduceAndCreateJpgImage(coverImage, 150, 150, true);
+    }
+
+    private byte[] extractSmallCoverFromTag(BufferedImage coverImage) throws IOException {
+        return ImageUtils.reduceAndCreateJpgImage(coverImage, 50, 50, true);
+    }
+
+    private byte[] extractBlurrifiedImageCoverFromTag(BufferedImage coverImage) throws IOException {
+        return ImageUtils.reduceAndCreateBlurrifiedJpgImage(coverImage, 50, 50, true);
     }
 
     private Music createMusic(AudioFile audioFile, Album album, Integer integrationNumber) throws IOException {
