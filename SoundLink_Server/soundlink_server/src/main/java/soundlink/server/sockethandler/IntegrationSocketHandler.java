@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -18,6 +20,8 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
     @Autowired
     private IMusicIntegrationExecutor musicIntegrationExecutor;
 
+    protected static final Logger LOGGER = LogManager.getLogger(IntegrationSocketHandler.class);
+
     private Thread integrationThread = null;
 
     @PostConstruct
@@ -27,6 +31,7 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
 
     @Override
     protected void onConnect(WebSocketSession session) {
+        LOGGER.info("Client for integration connected !");
         musicIntegrationExecutor.addSession(session);
     }
 
@@ -43,6 +48,7 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
 
         switch (action) {
         case "start":
+            LOGGER.info("Client call start");
             startIntegration(session);
             break;
         }
@@ -50,8 +56,11 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
 
     public void startIntegration(WebSocketSession session) {
         if (integrationThread == null || !integrationThread.isAlive()) {
+            LOGGER.info("Starting integration");
             integrationThread = new Thread(musicIntegrationExecutor);
             integrationThread.run();
+        } else {
+            LOGGER.info("Integration already running");
         }
     }
 }
