@@ -18,6 +18,8 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
     @Autowired
     private IMusicIntegrationExecutor musicIntegrationExecutor;
 
+    private Thread integrationThread = null;
+
     @PostConstruct
     public void init() {
         musicIntegrationExecutor.setAutoClose(true);
@@ -47,6 +49,9 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
     }
 
     public void startIntegration(WebSocketSession session) {
-        new Thread(musicIntegrationExecutor).run();
+        if (integrationThread == null || !integrationThread.isAlive()) {
+            integrationThread = new Thread(musicIntegrationExecutor);
+            integrationThread.run();
+        }
     }
 }

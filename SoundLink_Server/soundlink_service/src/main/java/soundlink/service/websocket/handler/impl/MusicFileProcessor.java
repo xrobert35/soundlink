@@ -149,10 +149,10 @@ public class MusicFileProcessor implements IMusicFileProcessor {
 
     private void saveAlbumCover(Album album, Tag tag) throws IOException {
         BufferedImage extractedCoverImage = extractBufferedImage(tag);
-        byte[] coverFromTag = extractCoverFromTag(extractedCoverImage);
-        byte[] smallCoverFromTag = extractSmallCoverFromTag(extractedCoverImage);
-        byte[] blurrifiedCoverFromTag = extractBlurrifiedImageCoverFromTag(extractedCoverImage);
-        if (coverFromTag != null) {
+        if (extractedCoverImage != null) {
+            byte[] coverFromTag = extractCoverFromTag(extractedCoverImage);
+            byte[] smallCoverFromTag = extractSmallCoverFromTag(extractedCoverImage);
+            byte[] blurrifiedCoverFromTag = extractBlurrifiedImageCoverFromTag(extractedCoverImage);
             File albumCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
             FileUtils.writeByteArrayToFile(albumCover, coverFromTag);
             File smallAlbumCover = new File(
@@ -166,9 +166,9 @@ public class MusicFileProcessor implements IMusicFileProcessor {
 
     private void saveArtisteCover(Artiste artiste, Tag tag) throws IOException {
         BufferedImage extractBufferedImage = extractBufferedImage(tag);
-        byte[] coverFromTag = extractCoverFromTag(extractBufferedImage);
-        byte[] smallCoverFromTag = extractSmallCoverFromTag(extractBufferedImage);
-        if (coverFromTag != null) {
+        if (extractBufferedImage != null) {
+            byte[] coverFromTag = extractCoverFromTag(extractBufferedImage);
+            byte[] smallCoverFromTag = extractSmallCoverFromTag(extractBufferedImage);
             File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + artiste.getId());
             FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
             File smallArtisteCover = new File(
