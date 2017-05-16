@@ -58,7 +58,7 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
         if (integrationThread == null || !integrationThread.isAlive()) {
             LOGGER.info("Starting integration");
             integrationThread = new Thread(musicIntegrationExecutor);
-            integrationThread.run();
+            integrationThread.start();
         } else {
             LOGGER.info("Integration already running");
         }
