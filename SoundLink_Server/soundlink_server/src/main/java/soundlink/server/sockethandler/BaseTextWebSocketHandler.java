@@ -1,6 +1,5 @@
 package soundlink.server.sockethandler;
 
-import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Map;
@@ -45,14 +44,6 @@ public abstract class BaseTextWebSocketHandler extends AbstractWebSocketHandler 
     public Map<String, Object> getParameters(TextMessage jsonTextMessage) {
         JsonParser springParser = JsonParserFactory.getJsonParser();
         return springParser.parseMap(jsonTextMessage.getPayload());
-    }
-
-    protected void sendMessage(WebSocketSession session, WebSocketMessage<?> message) {
-        try {
-            session.sendMessage(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getStringParameter(Map<String, Object> parameters, String parameterName) {
@@ -103,6 +94,18 @@ public abstract class BaseTextWebSocketHandler extends AbstractWebSocketHandler 
         sendMessage(new BinaryMessage(message), sessions);
     }
 
+    protected void sendMessage(WebSocketSession session, WebSocketMessage<?> message) {
+        try {
+            if (session.isOpen()) {
+                session.sendMessage(message);
+            } else {
+                LOGGER.error("Can't send message : session is closed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendMessage(WebSocketDto dto, WebSocketSession... sessions) {
         try {
             WebSocketMessage<?> message = new TextMessage(new ObjectMapper().writeValueAsBytes(dto));
@@ -116,7 +119,7 @@ public abstract class BaseTextWebSocketHandler extends AbstractWebSocketHandler 
         Arrays.asList(sessions).forEach(session -> {
             try {
                 session.sendMessage(message);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

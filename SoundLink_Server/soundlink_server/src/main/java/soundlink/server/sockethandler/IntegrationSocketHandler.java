@@ -37,6 +37,7 @@ public class IntegrationSocketHandler extends BaseTextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        musicIntegrationExecutor.removeSession(session);
         super.afterConnectionClosed(session, status);
     }
 

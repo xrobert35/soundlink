@@ -1,5 +1,6 @@
 package soundlink.server.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -74,11 +75,16 @@ public class PlaylistsController {
 
         if (createPlaylistDto.getCover() != null) {
             try {
-                byte[] playlistCoverByte = ImageUtils.reduceAndCreateJpgImage(createPlaylistDto.getCover(), 120, 120,
-                        true);
+                BufferedImage cover = ImageUtils.createBufferredJpgImage(createPlaylistDto.getCover());
+                byte[] jpgImage = ImageUtils.reduceAndCreateJpgImage(cover, 135, 135, true);
                 File playlistCover = new File(
                         soundlinkFolder + SoundlinkConstant.PLAYLISTS_COVERS_FOLDER + playlist.getId());
-                FileUtils.writeByteArrayToFile(playlistCover, playlistCoverByte);
+                FileUtils.writeByteArrayToFile(playlistCover, jpgImage);
+
+                byte[] blurrifiedImage = ImageUtils.reduceAndCreateBlurrifiedJpgImage(cover, 50, 50, true);
+                File playlistBlurrifiedCover = new File(
+                        soundlinkFolder + SoundlinkConstant.PLAYLISTS_COVERS_FOLDER + "blur-" + playlist.getId());
+                FileUtils.writeByteArrayToFile(playlistBlurrifiedCover, blurrifiedImage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
