@@ -1,0 +1,117 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          firewall rules
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+#Suppression des règles précédentes
+iptables -F
+iptables -X
+
+# Définition du blocage général
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+
+# Conservations des connexions déjà établies
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# Autorisation du loopback (127.0.0.1)
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# Autorisation des échanges avec le serveur DNS (53)
+iptables -A OUTPUT -p udp -m udp --dport 53 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p udp -m udp --sport 53 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# HTTP (80)
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT
+
+# SOUNDLINK (35664)
+#iptables -A INPUT  -p tcp --dport 35664 -m mac --mac-source 44:85:00:A3:70:05 -j ACCEPT
+iptables -A INPUT  -p tcp --dport 35664 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 35664 -j ACCEPT
+
+# SOUNDLINK-BDD (35000)
+#iptables -A INPUT  -p tcp --dport 35000 -m mac --mac-source 44:85:00:A3:70:05 -j ACCEPT
+iptables -A INPUT  -p tcp --dport 35000 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 35000 -j ACCEPT
+
+#EVOLUTION 
+#for MAC in `cat mac_addresses_file`; do
+#  iptables -A FORWARD -i eth0 -o eth1 -m mac --mac-source $MAC -j ACCEPT
+#done
+#
+
+# SSH (35665)
+iptables -A INPUT -p tcp --dport 35665 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 35665 -j ACCEPT
+
+# SSH (22)
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
+
+
+# NTP (123)
+#iptables -A INPUT -p udp --sport 123 -j ACCEPT
+#iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
+
+# HTTP (81 - PHPMyAdmin)
+#iptables -A INPUT -s 192.168.0.1/24 -p tcp --dport 81 -j ACCEPT
+#iptables -A OUTPUT -s 192.168.0.1/24 -p tcp --dport 81 -j ACCEPT
+
+# HTTP (8200 - MiniDLNA)
+#iptables -A INPUT -s 192.168.0.1/24 -p tcp --dport 8200 -j ACCEPT
+#iptables -A OUTPUT -s 192.168.0.1/24 -p tcp --dport 8200 -j ACCEPT
+
+# MiniDLNA (1900)
+#iptables -A INPUT -s 192.168.0.1/24 -p tcp -m tcp --dport 1900 -j ACCEPT
+#iptables -A INPUT -s 192.168.0.1/24 -p udp -m udp --dport 1900 -j ACCEPT
+
+# HTTP (9091 - Transmission-Daemon WebInterface - Direct Access)
+#iptables -A INPUT -s 192.168.0.1/24 -p tcp --dport 9091 -j ACCEPT
+#iptables -A OUTPUT -s 192.168.0.1/24 -p tcp --dport 9091 -j ACCEPT
+
+# VNC (5900:5910)
+#iptables -A INPUT -p tcp --dport 5900:5910 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 5900:5910 -j ACCEPT
+
+# Transmission (51413)
+#iptables -A INPUT -p tcp -m tcp --dport 51413 -j ACCEPT
+#iptables -A INPUT -p udp -m udp --dport 51413 -j ACCEPT
+#iptables -A OUTPUT -p tcp -m tcp --dport 51413 -j ACCEPT
+#iptables -A OUTPUT -p udp -m udp --dport 51413 -j ACCEPT
+
+# Announces trackers (9200)
+#iptables -A OUTPUT -p tcp --dport 9200 -j ACCEPT
+
+# Ports Torrents (49152:65535)
+#iptables -A INPUT -p tcp --dport 49152:65535 -j ACCEPT
+#iptables -A INPUT -p udp --dport 49152:65535 -j ACCEPT
+#iptables -A OUTPUT -p tcp --dport 49152:65535 -j ACCEPT
+#iptables -A OUTPUT -p udp --dport 49152:65535 -j ACCEPT
+
+# ICMP (Ping)
+#iptables -A INPUT -p icmp -j ACCEPT
+#iptables -A OUTPUT -p icmp -j ACCEPT
+
+# Parer les attaques de type Déni de Service
+iptables -A FORWARD -p tcp --syn -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p udp -m limit --limit 1/second -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
+
+# Parer les scans de ports
+iptables -A FORWARD -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j ACCEPT
+
+# Drop des scans XMAS et NULL
+iptables -A INPUT -p tcp --tcp-flags FIN,URG,PSH FIN,URG,PSH -j DROP
+iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
+iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+iptables -A INPUT -p tcp --tcp-flags SYN,RST SYN,RST -j DROP
