@@ -2,6 +2,7 @@ package soundlink.service.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -78,19 +79,25 @@ public abstract class WebSocketExecutor implements Runnable {
     }
 
     protected void sendMessage(WebSocketMessage<?> message) {
-        sessions.stream().forEach(session -> {
+        Iterator<WebSocketSession> iterator = sessions.iterator();
+        while (iterator.hasNext()) {
+            WebSocketSession session = iterator.next();
             try {
-                session.sendMessage(message);
-            } catch (IOException e) {
+                if (session.isOpen()) {
+                    session.sendMessage(message);
+                } else {
+                    iterator.remove();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 try {
                     session.close();
-                } catch (IOException e1) {
+                } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-                sessions.remove(session);
-                e.printStackTrace();
+                iterator.remove();
             }
-        });
+        }
     }
 
     public abstract void execute();

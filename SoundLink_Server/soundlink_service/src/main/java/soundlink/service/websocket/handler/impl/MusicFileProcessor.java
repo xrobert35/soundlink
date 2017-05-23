@@ -63,7 +63,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         }
 
         // Check if the album already exist in database
-        String albumName = tag.getFirst(FieldKey.ALBUM);
+        String albumName = getAlbumName(tag, FieldKey.ALBUM);
         Album album = albumManager.findAlbumByNameAndArtisteName(albumName, artisteName);
         if (album == null) {
             album = createAlbum(audioFile, artiste, integrationNumber);
@@ -182,6 +182,7 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         BufferedImage coverImage = null;
         if (firstArtwork != null) {
             coverImage = (BufferedImage) firstArtwork.getImage();
+            coverImage = ImageUtils.createBufferredJpgImage(coverImage);
         }
         return coverImage;
     }
@@ -244,9 +245,20 @@ public class MusicFileProcessor implements IMusicFileProcessor {
 
     private String getArtisteName(Tag tag, FieldKey fieldKey) {
         String artisteName = tag.getFirst(fieldKey);
-        if (artisteName != null && artisteName.endsWith(";")) {
-            artisteName = artisteName.substring(0, artisteName.length() - 1);
+        if (artisteName != null) {
+            if (artisteName.endsWith(";")) {
+                artisteName = artisteName.substring(0, artisteName.length() - 1);
+            }
+            artisteName = artisteName.trim();
         }
-        return artisteName.trim();
+        return artisteName;
+    }
+
+    private String getAlbumName(Tag tag, FieldKey fieldKey) {
+        String albumName = tag.getFirst(fieldKey);
+        if (albumName != null) {
+            albumName = albumName.trim();
+        }
+        return null;
     }
 }

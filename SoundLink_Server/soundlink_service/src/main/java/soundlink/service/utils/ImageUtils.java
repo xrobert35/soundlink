@@ -16,16 +16,24 @@ import org.imgscalr.Scalr.Mode;
 
 public final class ImageUtils {
 
-    public static byte[] reduceAndCreateJpgImage(String base64, int maxWidth, int maxHeight, boolean keepRatio)
-            throws IOException {
+    public static BufferedImage createBufferredJpgImage(String base64) throws IOException {
         InputStream in = new ByteArrayInputStream(Base64.getDecoder().decode(base64));
-        BufferedImage bufferedImage = ImageIO.read(in);
-        return reduceAndCreateJpgImage(bufferedImage, maxWidth, maxHeight, keepRatio);
+        BufferedImage bufferedImg = ImageIO.read(in);
+        BufferedImage bufferedJpgImage = new BufferedImage(bufferedImg.getWidth(), bufferedImg.getHeight(),
+                BufferedImage.TYPE_INT_RGB);
+        bufferedJpgImage.createGraphics().drawImage(bufferedImg, 0, 0, Color.WHITE, null);
+        return bufferedJpgImage;
+    }
+
+    public static BufferedImage createBufferredJpgImage(BufferedImage image) throws IOException {
+        BufferedImage bufferedJpgImage = new BufferedImage(image.getWidth(), image.getHeight(),
+                BufferedImage.TYPE_INT_RGB);
+        bufferedJpgImage.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+        return bufferedJpgImage;
     }
 
     public static byte[] reduceAndCreateJpgImage(BufferedImage image, int maxWidth, int maxHeight, boolean keepRatio)
             throws IOException {
-        image.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
         image = Scalr.resize(image, Method.ULTRA_QUALITY, keepRatio ? Mode.AUTOMATIC : Mode.FIT_EXACT, maxWidth,
                 maxHeight);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -35,10 +43,8 @@ public final class ImageUtils {
 
     public static byte[] reduceAndCreateBlurrifiedJpgImage(BufferedImage image, int maxWidth, int maxHeight,
             boolean keepRatio) throws IOException {
-        image.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
         image = Scalr.resize(image, Method.ULTRA_QUALITY, keepRatio ? Mode.AUTOMATIC : Mode.FIT_EXACT, maxWidth,
                 maxHeight);
-
         BufferedImage blurrifiedImage = new BufferedImage(maxWidth, maxHeight, image.getType());
         BoxBlurFilter boxBlurFilter = new BoxBlurFilter(5, 1);
         blurrifiedImage = boxBlurFilter.filter(image, blurrifiedImage);
