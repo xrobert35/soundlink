@@ -17,8 +17,8 @@ function artistesConfig($stateProvider) {
         });
     }
 
-    $stateProvider.state('soundlink.artistes', {
-        url: 'artistes',
+    $stateProvider.state('soundlink.search', {
+        url: 'search',
         resolve: {
             artistes: initArtistes
         },

@@ -6,9 +6,9 @@ angular.module('soundlink').component('myplaylistsPage', {
     bindings: { playlists : '<' }
 });
 
-myplaylistsController.$inject = ['playlistsResource'];
+myplaylistsController.$inject = ['playlistsResource', 'notificationManager'];
 
-function myplaylistsController(playlistsResource) {
+function myplaylistsController(playlistsResource, notificationManager) {
     var vm = this;
 
     vm.selectPlaylist = function (playlist) {
@@ -16,6 +16,9 @@ function myplaylistsController(playlistsResource) {
     };
 
     vm.deletePlaylist = function (playlist) {
-        playlistsResource.deletePlaylist(playlist.id);
+        playlistsResource.deletePlaylist(playlist.id).then(function(){
+            notificationManager.showNotification("Playlist  " + playlist.name+ " deleted");
+            vm.playlists.splice(vm.playlists.indexOf(playlist), 1);
+        });
     };
 }

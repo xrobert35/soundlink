@@ -1,17 +1,29 @@
 angular.module('soundlink').service("socketManager", socketManager);
 
-socketManager.$inject = ['$q', '$websocket', '$cookies', 'tokenStorage', 'config'];
+socketManager.$inject = ['$q', '$websocket', '$cookies', 'tokenStorage', 'config', 'techResource'];
 
-function socketManager($q, $websocket, $cookies, tokenStorage, config) {
+function socketManager($q, $websocket, $cookies, tokenStorage, config, techResource) {
 
   this.openSocket = function (path) {
-    $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve());
-    var socket = $websocket(config.wsServeurUrl + path);
-
-    socket.onOpen(function () {
-      $cookies.remove("X-AUTH-TOKEN");
+    return techResource.getWsToken().then(function (token) {
+      var httpParam = getHttpParam({'X-AUTH-TOKEN' : token});
+      return  $websocket(config.wsServeurUrl + path + httpParam);
     });
-
-    return socket;
   };
+
+  function getHttpParam(param) {
+    var httpParam = '?';
+    var isFirst = true;
+    for (var key in param) {
+      if (param.hasOwnProperty(key)) {
+        if (!isFirst) {
+          httpParam += '&';
+        } else {
+          isFirst = false;
+        }
+        httpParam += key + '=' + param[key];
+      }
+    }
+    return httpParam;
+  }
 }

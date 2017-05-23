@@ -1,17 +1,28 @@
 @import "lessvars";
-@table-border : 1px solid @primary-color;
+@text-color : white;
 .music-table {
+  .table-header {
+    background-color: transparent;
+    color: @text-color;
+    padding-top: 10px;
+    padding-right: 0px;
+  }
   .header {
-    padding-left : 15px;
+    padding-left: 15px;
     font-size: 15px;
-    color: @secondary-color;
+    color: @text-color ;
+    font-weight: bold;
     text-align: left;
+    padding-top: 2px;
+    md-icon {
+      color: @text-color ;
+    }
     &.tight {
       padding: 0 0 0 0 !important;
       max-width: 50px;
       width: 50px;
     }
-    &.center{
+    &.center {
       text-align: center;
     }
   }
@@ -22,55 +33,32 @@
       min-width: 60px;
       min-height: 30px;
     }
-    thead {
-      tr {
-        height: 39px;
-        th {
-          text-align: left;
-          font-size: 15px;
-          color: @primary-color;
-          font-weight: normal;
-          padding: 0px 0px 0px 15px;
-          border-bottom: @table-border;
-          &.tight-column {
-            max-width: 60px;
-            width: 60px;
-            text-align: left;
-            padding: 0 0 0 0 !important;
-          }
-          &.center {
-            text-align: center;
-          }
-        }
-      }
-    }
     tbody {
       tr {
-        // &:nth-child(even) {
-        //   background-color: @thirdly-color-blue
-        // }
-        // &:nth-child(odd) {
-        // }
         height: 25px;
         &:hover {
-          background-color: white;
+          background-color: grey;
         }
         .md-button {
           md-icon {
             color: @primary-color;
           }
         }
-      }
-      td {
-        &.center {
-          text-align: center;
-        }
-        height: 20px;
-        padding-left: 15px;
-        &.tight-column {
-          max-width: 50px;
-          width: 50px;
-          padding: 0 0 0 0 !important;
+        td {
+          color: @text-color ;
+          md-icon {
+            color: @text-color ;
+          }
+          &.center {
+            text-align: center;
+          }
+          height: 20px;
+          padding-left: 15px;
+          &.tight-column {
+            max-width: 50px;
+            width: 50px;
+            padding: 0 0 0 0 !important;
+          }
         }
       }
     }

@@ -34,7 +34,7 @@ function searchController(artistesResource, usersResource, notificationManager, 
         }
     };
 
-    vm.addRemoveArtisteToUser = function (artiste) {
+    vm.addRemoveArtisteToUser = function (artiste, $event) {
         if (artiste.selected) {
             usersResource.removeFavoriteArtiste(artiste.id).then(function () {
                 artiste.selected = false;

@@ -13,14 +13,17 @@
       vertical-align: top;
       margin-bottom: 15px;
       background-color: white;
+      md-icon {
+        margin: 0 0 0 0;
+      }
+      .card-content {
+        margin-top: 15px;
+      }
       md-card-header {
         padding: 0 0 0 0;
         height: 35px;
         max-height: 35px;
         padding-top: 3px;
-        md-icon {
-          margin: 0 0 0 0;
-        }
         md-card-header-text {
           cursor: pointer;
           cursor: hand;
@@ -40,23 +43,30 @@
         max-height: 50px;
         height: 50px;
         overflow: hidden;
+        line-height: 1.3em;
       }
       img.md-card-image {
         cursor: pointer;
         cursor: hand;
         max-height: 110px;
-        height: 110px;
+        max-width: 110px;
+        height: auto;
         width: auto;
-        margin: auto;
+        margin-left: 32px;
+        border: 2px solid transparent;
         &:focus, &:active {
           outline: none;
+          border: 2px solid @primary-color;
+        }
+        .selected {
           border: 2px solid @primary-color;
         }
       }
     }
     md-card-title {
       padding: 0 0 0 0;
-      height: 50px;
+      cursor: pointer;
+      cursor: hand;
       md-card-title-text {
         &.md-subhead {
           font-size: 12px;

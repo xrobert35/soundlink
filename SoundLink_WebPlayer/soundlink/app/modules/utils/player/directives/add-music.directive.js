@@ -13,7 +13,6 @@ function addMusicDirective(audioPlayer, eventManager) {
     link: function (scope, element, attrs) {
       element.bind('click', function (event) {
         audioPlayer.add(scope.song);
-        eventManager.fireEvent("playlistOpen");
       });
     }
   };

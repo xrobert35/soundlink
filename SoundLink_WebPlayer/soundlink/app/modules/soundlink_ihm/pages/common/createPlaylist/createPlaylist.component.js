@@ -6,9 +6,9 @@ angular.module('soundlink').component('createPlaylist', {
     bindings: {}
 });
 
-createPlaylistController.$inject = ['$mdDialog', 'fileUtils'];
+createPlaylistController.$inject = ['$mdDialog', 'fileUtils', 'playlistsResource', 'notificationManager'];
 
-function createPlaylistController($mdDialog, fileUtils) {
+function createPlaylistController($mdDialog, fileUtils, playlistsResource, notificationManager) {
     var vm = this;
 
     vm.playlist = {};

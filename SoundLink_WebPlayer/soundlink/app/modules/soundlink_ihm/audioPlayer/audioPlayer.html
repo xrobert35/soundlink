@@ -4,7 +4,7 @@
     </div>
     <div class="player-action" layout="row" layout-align="center">
         <div class="padding-left-20" flex layout="row" layout-align="start center">
-            <img ng-src="/covers/albums/{{$ctrl.getCurrentSong().album.id}}" class="smallAlbumCover margin-right-10">
+            <img ng-src="/covers/albums/small-{{$ctrl.getCurrentSong().albumId}}" ng-show="$ctrl.getCurrentSong().albumId" class="smallAlbumCover margin-right-10"></img>
             <div class="song-panel font-white" ng-if="$ctrl.getCurrentSong()">
                 <p>{{$ctrl.getCurrentSong().artistName + ' - ' + $ctrl.getCurrentSong().title}}</p>
                 <p>{{$ctrl.getCurrentSong().albumName}}</p>
@@ -14,10 +14,10 @@
             <md-icon>skip_previous</md-icon>
         </md-button>
         <md-button play-music ng-if="!$ctrl.isPlaying()" class="no-margin">
-            <md-icon>play_circle_filled</md-icon>
+            <md-icon>play_circle_outline</md-icon>
         </md-button>
         <md-button pause-music ng-if="$ctrl.isPlaying()" class="no-margin">
-            <md-icon>pause_circle_filled</md-icon>
+            <md-icon>pause_circle_outline</md-icon>
         </md-button>
         <md-button next-music class="no-margin">
             <md-icon>skip_next</md-icon>
@@ -30,7 +30,7 @@
             <md-icon ng-if="!$ctrl.isMuted()">volume_up</md-icon>
             <md-icon ng-if="$ctrl.isMuted()">volume_off</md-icon>
         </md-button>
-        <md-slider-container class="margin-left-20">
+        <md-slider-container>
             <md-slider flex min="0" max="100" ng-model="$ctrl.volume" ng-change="$ctrl.volumeChange()"></md-slider>
         </md-slider-container>
         <div layout="row" layout-align="end" flex>

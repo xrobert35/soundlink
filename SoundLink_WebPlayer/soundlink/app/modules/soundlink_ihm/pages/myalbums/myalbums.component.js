@@ -19,7 +19,7 @@ function myalbumsController(albumsResource, usersResource, notificationManager) 
     vm.removeAlbumFromUser = function (album) {
         usersResource.removeFavoriteAlbum(album.id).then(function () {
             notificationManager.showNotification("Album removed from favorite");
-            vm.artistes.splice(vm.artistes.indexOf(album), 1);
+            vm.albums.splice(vm.albums.indexOf(album), 1);
         });
     };
 }

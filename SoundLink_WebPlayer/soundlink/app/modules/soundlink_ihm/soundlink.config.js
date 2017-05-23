@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module("soundlink").config(function ($stateProvider, $urlRouterProvider) {
+angular.module("soundlink").config(soundlinkConfig);
+
+soundlinkConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+
+function soundlinkConfig($stateProvider, $urlRouterProvider) {
 
     var viewFolder = "app/modules/soundlink_ihm";
 
@@ -9,6 +13,6 @@ angular.module("soundlink").config(function ($stateProvider, $urlRouterProvider)
         controller: "soundlinkController",
         controllerAs: "soundlinkCtrl",
         templateUrl: viewFolder + '/soundlink.html',
-        redirectTo : 'soundlink.albums'
+        redirectTo: 'soundlink.albums'
     });
-});
+}

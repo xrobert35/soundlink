@@ -1,19 +1,18 @@
-<html ng-app="soundlink">
+<html ng-app="soundlink" ng-strict-di>
 
-<head>
-    <title>Soundlink</title>
-    <link rel="icon" type="image/png" href="soundlink_favicon.png" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-    <link rel="stylesheet" type="text/css" href="public/css/styles.css">
+    <head>
+        <title>Soundlink</title>
+        <link rel="icon" type="image/png" href="soundlink_favicon.png" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <link rel="stylesheet" type="text/css" href="public/css/styles.css">
+    </head>
 
-</head>
-
-<body class="contenu soundlink" layout="row" md-no-ink audio-key-listener>
-
-    <section ui-view layout="row" flex />
-
-    <script type="text/javascript" src="public/js/third-party.js"></script>
-    <script type="text/javascript" src="public/js/app.js"></script>
-</body>
+    <body class="contenu soundlink" layout="row" md-no-ink audio-key-listener>
+        <section ui-view layout="row" flex />
+        <script type="text/javascript" src="public/js/third-party.js"></script>
+        <script type="text/javascript" src="public/js/app.js"></script>
+        <script type="text/javascript" src="public/js/app-html.js"></script>
+        <script type="text/javascript" src="public/js/i18n.js"></script>
+    </body>
 
 </html>

@@ -16,12 +16,16 @@ function usersResource($http, config) {
     return $http.post(controllerUrl + 'saveUserInformation', userInformation).then(getData);
   };
 
+  this.checkPassword = function (pwd) {
+    return $http.get(controllerUrl + 'checkPassword', { params : { pwd: pwd }}).then(getData);
+  };
+
   this.addFavoriteAlbum = function (albumId) {
-    return $http.post(controllerUrl + 'addFavoriteAlbum', { param: { albumId: albumId } }).then(getData);
+    return $http.post(controllerUrl + 'addFavoriteAlbum', null, { params: { albumId: albumId } }).then(getData);
   };
 
   this.removeFavoriteAlbum = function (albumId) {
-    return $http.post(controllerUrl + 'removeFavoriteAlbum', { param: { albumId: albumId } }).then(getData);
+    return $http.post(controllerUrl + 'removeFavoriteAlbum', null, { params: { albumId: albumId } }).then(getData);
   };
 
   this.addFavoriteArtiste = function (artisteId) {

@@ -1,4 +1,8 @@
+'use strict';
+
 angular.module("soundlink").service('eventManager', eventManager);
+
+eventManager.$inject = ['$q'];
 
 function eventManager($q) {
 

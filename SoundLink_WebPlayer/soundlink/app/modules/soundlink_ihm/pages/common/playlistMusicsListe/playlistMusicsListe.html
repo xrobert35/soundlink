@@ -1,0 +1,53 @@
+<div class="cover-item sub-content" layout="row" layout-align="start">
+    <div class="backgroundPanel">
+        <div class="whitePanel"></div>
+        <img ng-src="/covers/playlists/blur-{{$ctrl.playlist.id}}" />
+    </div>
+    <div class="albums" layout="column">
+        <md-toolbar class="page-header underline">
+            <div class="md-toolbar-tools">
+                <span flex>{{::$ctrl.playlist.name}}</span>
+            </div>
+        </md-toolbar>
+        <div class="albums-list scrollable">
+            <div class="cover-small">
+                <div class="cover-content">
+                    <img ng-src="/covers/playlists/{{::$ctrl.playlist.id}}" class="md-card-image">
+                    <div layout="column" layout-align="start end" class="cover-icons">
+                        <md-icon class="button secondary-color" add-play-musics="$ctrl.musics" no-propagation>play_arrow</md-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="music-table" layout="column" flex>
+        <md-toolbar class="table-header underline" layout="row" layout-align="start start">
+            <div class="header tight center">
+                <md-icon class="button small" add-play-musics="$ctrl.musics">play_arrow</md-icon>
+            </div>
+            <div class="header tight center">
+                <md-icon class="button small" add-musics="$ctrl.musics">add_box</md-icon>
+            </div>
+            <div class="header" flex>Title</div>
+            <div class="header tight center">N&#186;</div>
+            <div class="header tight center">Duration</div>
+        </md-toolbar>
+        <div class="scrollable y">
+            <table>
+                <tbody>
+                    <tr ng-repeat="music in $ctrl.musics">
+                        <td class="tight-column center">
+                            <md-icon class="button small" add-play-music="::music">play_arrow</md-icon>
+                        </td>
+                        <td class="tight-column center">
+                            <md-icon class="button small" add-music="::music"> add_box </md-icon>
+                        </td>
+                        <td class="font-13">{{::music.title}}</td>
+                        <td class="tight-column center font-13">{{::music.trackNumber}}</td>
+                        <td class="tight-column center font-13">{{::music.durationInSeconde | minute}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

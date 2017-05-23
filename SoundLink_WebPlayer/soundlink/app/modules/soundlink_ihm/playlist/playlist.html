@@ -2,16 +2,16 @@
   <md-toolbar class="page-header">
     <div class="md-toolbar-tools" layout="row" layout-align="center center">
       <span flex>Playlist</span>
-      <md-button class="bordered small">
-        <md-icon ng-click="$ctrl.createPlaylist()">playlist_add</md-icon>
+      <md-button class="bordered small" ng-click="$ctrl.createPlaylist()">
+        <md-icon>playlist_add</md-icon>
         <md-tooltip md-direction="bottom">New Playlist</md-tooltip>
       </md-button>
-      <md-button class="bordered small">
-        <md-icon ng-click="$ctrl.extractPlaylist()">save</md-icon>
+      <md-button class="bordered small" ng-click="$ctrl.extractPlaylist()">
+        <md-icon>save</md-icon>
         <md-tooltip md-direction="bottom">Extract Playlist</md-tooltip>
       </md-button>
-      <md-button class="bordered small">
-        <md-icon ng-click="$ctrl.clearPlaylist()">clear_all</md-icon>
+      <md-button class="bordered small" ng-click="$ctrl.clearPlaylist()">
+        <md-icon >clear_all</md-icon>
         <md-tooltip md-direction="bottom">Clear Playlist</md-tooltip>
       </md-button>
     </div>
@@ -25,11 +25,12 @@
   <md-list flex class="scrollable">
     <md-list-item class="md-2-line" ng-repeat="music in $ctrl.getPlaylist()" ng-class="{ 'selected' : $ctrl.getCurrentSong().id == music.id}">
       <div layout="row" layout-align="space-between center" flex>
+        <img ng-src="/covers/albums/small-{{music.albumId}}" class="smallAlbumCover margin-right-10">
         <div class="md-list-item-text" play-music="::music" flex>
           <h3>{{::music.title}}</h3>
           <p>{{::music.artistName }}</p>
         </div>
-        <md-icon class="button" ng-click="::$ctrl.removeFromPlaylist(music)">
+        <md-icon class="button small" ng-click="::$ctrl.removeFromPlaylist(music)">
           close
         </md-icon>
       </div>

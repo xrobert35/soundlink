@@ -5,7 +5,7 @@ angular.module('soundlink').component('integrationPage', {
     controller: integrationController
 });
 
-integrationController.$inject = ['$state', 'soundlinkadminResource', 'integrationContenu',  'config', 'socketManager', 'Upload'];
+integrationController.$inject = ['$state', 'soundlinkadminResource', 'integrationContenu', 'config', 'socketManager', 'Upload'];
 
 function integrationController($state, soundlinkadminResource, integrationContenu, config, socketManager, Upload) {
     var vm = this;
@@ -16,25 +16,25 @@ function integrationController($state, soundlinkadminResource, integrationConten
     vm.selectAlbumChange = selectAlbumChange;
     vm.uploadFiles = uploadFiles;
 
-    vm.getIntegrationProgress = getIntegrationProgress;
-    vm.getUploadProgress = getUploadProgress;
-    vm.getIntegrationMessage = getIntegrationMessage;
-
     function selectArtisteChange(artiste) {
         angular.forEach(artiste.albums, function (album) {
             album.selected = artiste.selected;
         });
     }
 
-    function getIntegrationProgress() {
+    vm.getIntegrationProgress = function () {
         return vm.integrationProgress || 0;
-    }
+    };
 
-    function getUploadProgress() {
+    vm.getUploadProgress = function () {
         return vm.uploadProgress || 0;
-    }
+    };
 
-    function getIntegrationMessage() {
+    vm.getUploadMessage = function () {
+        return vm.uploadMessage;
+    };
+
+    vm.getIntegrationMessage = function () {
         if (vm.integrationMessage != null) {
             return vm.integrationMessage;
         }
@@ -49,13 +49,13 @@ function integrationController($state, soundlinkadminResource, integrationConten
                 data: { file: vm.fileToUpload }
             }).then(function (resp) {
                 vm.uploadSuccess = true;
-                console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                vm.uploadMessage = 'Success';
             }, function (resp) {
                 vm.uploadSuccess = false;
-                console.log('Error status: ' + resp.status);
+                vm.uploadMessage = 'Error';
             }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                vm.uploadProgress = progressPercentage;
+                vm.uploadProgress = parseInt(100.0 * evt.loaded / evt.total);
+                vm.uploadMessage = vm.uploadProgress + '%';
             });
         }
     }
@@ -75,28 +75,31 @@ function integrationController($state, soundlinkadminResource, integrationConten
     }
 
     vm.loadMusics = function loadMusics() {
-        var dataStream = socketManager.openSocket('integration');
-        vm.isloading = true;
-
-        dataStream.send(JSON.stringify({ action: 'start' }));
-
-        dataStream.onOpen(function () {
+        socketManager.openSocket('integration').then(function (dataStream) {
             vm.isloading = true;
-            vm.progress = 0;
-        });
-        dataStream.onClose(function () {
-            vm.isloading = false;
+            dataStream.onOpen(function () {
+                vm.integrationRunning = true;
+                vm.progress = 0;
+                dataStream.send(JSON.stringify({ action: 'start' }));
+            });
+            dataStream.onClose(function () {
+                vm.isloading = false;
+            });
+            dataStream.onMessage(function (message) {
+                var data = JSON.parse(message.data);
+                if (data.progress) {
+                    vm.integrationProgress = data.progress;
+                }
+                if (data.message) {
+                    vm.integrationMessage = data.message;
+                }
+                if(data.end){
+                    vm.integrationEnded = true;
+                    vm.integrationRunning = false;
+                }
+            });
         });
 
-        dataStream.onMessage(function (message) {
-            var data = JSON.parse(message.data);
-            if (data.progress) {
-                vm.integrationProgress = data.progress;
-            }
-            if (data.message) {
-                vm.integrationMessage = data.message;
-            }
-        });
     };
 
     vm.$onInit = function () {

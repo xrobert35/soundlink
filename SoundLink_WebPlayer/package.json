@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Projet Asi Central Server",
   "devDependencies": {
-    "clean-css": "^3.4.12",
+    "clean-css": "4.1.2",
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-angular-injector": "^1.0.0",

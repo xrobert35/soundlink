@@ -1,15 +1,19 @@
-<div layout="column" ng-show="$ctrl.showMenu" flex>
-    <md-toolbar class="page-header">
-        <div class="md-toolbar-tools" layout="row" layout-align="center center">
-            <span>Menu</span>
-        </div>
+<div layout="column" flex ng-class="{ 'reduce' : !$ctrl.isMenuExpanded()}">
+    <md-toolbar class="page-header" layout="row" layout-align="start center">
+        <md-icon class="button" ng-click="$ctrl.toggleMenu()" ng-if="$ctrl.isMenuExpanded()">chevron_left</md-icon>
+        <md-icon class="button" ng-click="$ctrl.toggleMenu()" ng-if="!$ctrl.isMenuExpanded()">chevron_right</md-icon>
+        <div class="font-orange">Soundlink</div>
     </md-toolbar>
-    <a ui-sref="soundlink.artistes" layout="row" layout-align="start center">
+    <a layout="row" layout-align="start center">
+        <img ng-src="data:image/JPEG;base64,{{$ctrl.getUserInformation().picture}}" class="headerProfilePicture"></img>
+        <span>{{$ctrl.getUserInformation().login}}</span>
+    </a>
+    <a ui-sref="soundlink.search" layout="row" layout-align="start center">
         <md-icon> search </md-icon>
         <span> Search </span>
     </a>
     <a ui-sref="soundlink.myartistes" layout="row" layout-align="start center">
-        <md-icon> star_border </md-icon>
+        <md-icon> star </md-icon>
         <span> My Artistes </span>
     </a>
     <a ui-sref="soundlink.myalbums" layout="row" layout-align="start center">
@@ -28,9 +32,14 @@
         <md-icon> file_download </md-icon>
         <span> Integration </span>
     </a>
-    <div layout="row" layout-align="start center">
+    <a layout="row" layout-align="start center">
         <md-switch ng-model="$ctrl.remoteControl" ng-change="$ctrl.remoteControlChanged()" aria-label="Remote control">
             Remote control
         </md-switch>
-    </div>
+    </a>
+    <a></a>
+    <a ui-sref="soundlink.integration" layout="row" layout-align="start center" ng-click="$ctrl.logout()">
+        <md-icon>power_settings_new</md-icon>
+        <span> Logout </span>
+    </a>
 </div>

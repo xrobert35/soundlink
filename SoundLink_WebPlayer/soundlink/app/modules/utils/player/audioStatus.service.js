@@ -17,7 +17,8 @@ function audioStatus() {
     repeating: false,
     repeatingOne: false,
     loadingPercent: 0,
-    playlist: []
+    playlist: [],
+    randomPlaylist: []
   };
 
   var contenu = {};
@@ -100,6 +101,14 @@ function audioStatus() {
 
   contenu.getPlaylist = function () {
     return status.playlist;
+  };
+
+  contenu.setRandomPlaylist = function (pRandomPlaylist) {
+    status.randomPlaylis = pRandomPlaylist;
+  };
+
+  contenu.getRandomPlaylist = function () {
+    return status.randomPlaylis;
   };
 
   contenu.setLoadingPercent = function (percent) {

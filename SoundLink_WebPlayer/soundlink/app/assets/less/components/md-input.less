@@ -1,15 +1,22 @@
-@import "../lessvars";
-.soundlink {
-  md-input-container {
-    margin: 0px;
-    input {
-      background-color: white !important;
-    }
-    label {
-      color : @primary-color !important;
-    }
-    &.last-container{
-      height : 34px;
+  @import "../lessvars";
+  .soundlink {
+    md-input-container {
+      margin: 0px;
+      input {
+        background-color: white;
+      }
+      &.last-container {
+        height: 34px;
+      }
+      &:not(.md-input-invalid) {
+        label {
+          color: @primary-color !important;
+        }
+        &.md-input-focused {
+          .md-input {
+            border-color: @primary-color;
+          }
+        }
+      }
     }
   }
-}

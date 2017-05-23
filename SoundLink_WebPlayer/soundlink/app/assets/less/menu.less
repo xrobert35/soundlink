@@ -1,10 +1,14 @@
 @import "lessvars";
 .soundlink {
     soundlink-menu {
-        & > div {
+        > div {
             width: 200px;
-            background-color: @secondary-color;
+            box-shadow: 0 0 3px 0;
             md-toolbar {
+                md-icon {
+                    color: inherit;
+                    margin: 10px 10px 12px 10px;
+                }
                 &.page-header {
                     background-color: white;
                     margin-bottom: 7px;
@@ -16,14 +20,12 @@
                 padding-left: 10px;
                 margin-bottom: 1px;
                 margin-right: 1px;
-                background-color: white;
                 border-bottom: 1px solid @primary-color;
                 height: 35px;
             }
             > a {
                 outline: none;
                 text-decoration: none;
-                
                 color: @secondary-color;
                 &:hover {
                     color: @primary-color;
@@ -32,9 +34,42 @@
                     color: inherit;
                     margin: 10px;
                 }
+                img {
+                    height: 33px;
+                    margin-right: 10px;
+                    margin-left : 5px;
+                }
                 span {
                     &:hover {
                         color: @primary-color;
+                    }
+                }
+            }
+            &.reduce {
+                width: auto;
+                md-toolbar {
+                    > div {
+                        display: none;
+                    }
+                }
+                > a {
+                    padding-left: 0px;
+                    md-icon {
+                        margin-left: 11px;
+                    }
+                    img {
+                        height: 33px;
+                        margin-right: 5px;
+                        margin-left: 6px;
+                    }
+                    span {
+                        display: none;
+                    }
+                    md-switch {
+                        .md-container {
+                            margin-left: 5px;
+                            margin-right: 4px;
+                        }
                     }
                 }
             }

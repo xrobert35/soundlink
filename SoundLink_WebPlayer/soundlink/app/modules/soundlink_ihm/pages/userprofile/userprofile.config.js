@@ -2,7 +2,7 @@
 
 angular.module("soundlink").config(userprofileConfig);
 
-userprofileConfig.$inject = ['$stateProvider'];
+userprofileConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 function userprofileConfig ($stateProvider, $urlRouterProvider) {
     $stateProvider.state('soundlink.userprofile', {

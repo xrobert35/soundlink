@@ -2,20 +2,23 @@
 //Module declaration
 angular.module("soundlink", ['ngSanitize',
     'ui.router', 'ngAria', 'ngAnimate', 'ngMaterial', 'ngCookies',
-    'pascalprecht.translate', 'ngResource', 'angularMoment', 'ngWebSocket', 'ngFileUpload', 'angular-bind-html-compile']);
+    'pascalprecht.translate', 'ngResource', 'ngMessages', 'angularMoment', 'ngWebSocket', 'ngFileUpload', 'angular-bind-html-compile']);
 
 angular.module("soundlink").constant('lodash', window._);
 
 angular.module("soundlink").run(main);
 
-main.$inject = ['$state', '$rootScope'];
+main.$inject = ['$state', '$rootScope', 'lodash'];
 
-function main($state, $rootScope) {
+function main($state, $rootScope, lodash) {
 
     var startResolve = false;
     var startError = false;
     var statePrevent;
     var statePreventParams;
+
+    $rootScope.lodash = lodash;
+
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toState.name != 'start' && !startResolve) {
@@ -32,7 +35,11 @@ function main($state, $rootScope) {
         if (toState.name == 'start') {
             startResolve = true;
             startError = false;
-            $state.go(statePrevent, statePreventParams);
+            if (statePrevent != null && statePrevent.name != "login") {
+                $state.go(statePrevent, statePreventParams);
+            } else {
+                $state.go("soundlink.search");
+            }
         } else if (toState.name == 'login') {
             startResolve = true;
             startError = false;

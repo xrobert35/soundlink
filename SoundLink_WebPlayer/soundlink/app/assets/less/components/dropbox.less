@@ -1,0 +1,23 @@
+@import "../lessvars";
+.soundlink {
+  .drop-box {
+    width: 250px;
+    height: 150px;
+    border: 2px dashed @secondary-color;
+    &.drag-ok {
+      border-color: green;
+    }
+    &.drag-err {
+      border-color: red;
+    }
+    &.success {
+      border-color: green;
+    }
+    &.error {
+      border-color: red;
+      label {
+        color : red;
+      }
+    }
+  }
+}

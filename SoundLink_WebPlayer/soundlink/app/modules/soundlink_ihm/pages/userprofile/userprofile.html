@@ -3,42 +3,52 @@
     <span>Profile</span>
   </div>
 </md-toolbar>
-<div layout="row" class="sub-content">
-  <div layout="column" flex="30">
-    <div layout="row" layout-align="center center">
-      <img ng-src="data:image/JPEG;base64,{{$ctrl.userInformation.picture}}" class="profilePicture">
+<form name="$ctrl.userProfilForm" class="sub-content" ng-submit="$ctrl.userProfilForm.$valid && $ctrl.saveUserInformation()" novalidate>
+  <div layout="row" >
+    <div layout="column" flex="30">
+      <div layout="row" layout-align="center center">
+        <img ng-src="data:image/JPEG;base64,{{$ctrl.userInformation.picture}}" class="profilePicture">
+      </div>
+      <div layout="column" layout-align="end end" flex>
+        <md-button class="md-raised" ng-click="$ctrl.clickUpload()">
+          <md-icon>file_upload</md-icon>
+        </md-button>
+        <input type="file" id="upload-picture" ng-hide="true" file-change="$ctrl.uploadPicture" accept="image/*">
+      </div>
     </div>
-    <div layout="column" layout-align="end end" flex>
-      <md-button class="md-raised" ng-click="$ctrl.clickUpload()">
-        <md-icon>file_upload</md-icon>
-      </md-button>
-      <input type="file" id="upload-picture" ng-hide="true" file-change="$ctrl.uploadPicture" accept="image/*">
+    <div layout="column" layout-align="center" flex="50" layout-margin>
+      <md-input-container>
+        <label>Login</label>
+        <input type="text" ng-model="$ctrl.userInformation.login" disabled />
+      </md-input-container>
+      <md-input-container disabled>
+        <label>Email</label>
+        <input type="text" ng-model="$ctrl.userInformation.email" />
+      </md-input-container>
+      <md-input-container>
+        <label>Current password</label>
+        <input name="currentPassword" type="password" ng-required="!$root.lodash.isEmpty($ctrl.userInformation.newPassword)" ng-model="$ctrl.userInformation.currentPassword"
+          ng-blur="$ctrl.checkPassword()" />
+        <div ng-messages="$ctrl.userProfilForm.currentPassword.$error">
+          <p ng-message="required" translate="VALIDATION.required"></p>
+          <p ng-message="wrong" translate="VALIDATION.wrong-pwd"></p>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>New password</label>
+        <input type="password" ng-model="$ctrl.userInformation.newPassword" ng-blur="$ctrl.isSamePassword()" />
+      </md-input-container>
+      <md-input-container class="last-container">
+        <label>Confirm password</label>
+        <input  name="confirmPassword" type="password" ng-model="$ctrl.userInformation.confirmPassword" minlength="8" ng-blur="$ctrl.isSamePassword()" />
+        <div ng-messages="$ctrl.userProfilForm.confirmPassword.$error">
+          <p ng-message="different" translate="VALIDATION.different-pwd"></p>
+          <p ng-message="minlength" translate="VALIDATION.length-pwd"></p>
+        </div>
+      </md-input-container>
     </div>
   </div>
-  <div layout="column" layout-align="center" flex="50" layout-padding>
-    <md-input-container>
-      <label>Login</label>
-      <input type="text" ng-model="$ctrl.userInformation.login" disabled />
-    </md-input-container>
-    <md-input-container disabled>
-      <label>Email</label>
-      <input type="text" ng-model="$ctrl.userInformation.email" />
-    </md-input-container>
-    <md-input-container>
-      <label>Current password</label>
-      <input type="text" ng-model="$ctrl.userInformation.currentPassword" />
-    </md-input-container>
-    <md-input-container>
-      <label>New password</label>
-      <input type="text" ng-model="$ctrl.userInformation.newPassword" />
-    </md-input-container>
-    <md-input-container class="last-container">
-      <label>Confirm password</label>
-      <input type="text" ng-model="$ctrl.userInformation.confirmPassword" />
-    </md-input-container>
+  <div layout="row" layout-align="center">
+    <md-button type="submit" class="md-raised">Save</md-button>
   </div>
-</div>
-
-<div layout="row" layout-align="center">
-  <md-button class="md-raised" ng-click="$ctrl.saveUserInformation()">Save</md-button>
-</div>
+</form>

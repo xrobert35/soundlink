@@ -3,13 +3,17 @@
 </md-toolbar>
 
 <div class="inline-container scrollable">
-    <md-card ng-click="$ctrl.selectArtiste(artiste)" ng-repeat="artiste in $ctrl.artistes" class="md-small artiste-item">
-        <md-card-header>
-            <md-card-header-text show-albums-liste>
-                <span class="md-title">{{ ::artiste.name }}</span>
-            </md-card-header-text>
-            <md-icon  class="button" ng-click="$ctrl.removeArtisteFromUser(artiste)">close</md-icon>
-        </md-card-header>
-        <img show-albums-liste ng-src="/covers/artistes/{{::artiste.id}}" class="md-card-image">
-    </md-card>
+  <div class="cover artiste-item" ng-repeat="artiste in $ctrl.artistes">
+        <div class="cover-content">
+            <img ng-src="/covers/artistes/{{::artiste.id}}" class="md-card-image">
+            <div show-albums-liste ng-click="$ctrl.selectArtiste(artiste)"
+            layout="column" layout-align="start end" class="cover-icons">
+                <md-icon class="button secondary-color" ng-click="$ctrl.removeArtisteFromUser(artiste)" no-propagation>close</md-icon>
+                <md-icon class="button secondary-color" no-propagation>play_arrow</md-icon>
+            </div>
+        </div>
+        <div class="cover-text" ng-click="$ctrl.selectArtiste(artiste)" show-albums-liste>
+            <span>{{::artiste.name }}</span>
+        </div>
+    </div>
 </div>

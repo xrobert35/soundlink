@@ -11,8 +11,6 @@ function loginConfig($stateProvider) {
 
     $stateProvider.state('login', {
         url: '/login',
-        controller: "loginController",
-        controllerAs: "vm",
-        templateUrl: '/app/modules/soundlink_ihm/login/login.html'
+        template: '<login-page layout="row" flex></login-page>'
     });
 }

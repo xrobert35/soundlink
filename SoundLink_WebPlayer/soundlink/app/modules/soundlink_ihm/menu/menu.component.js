@@ -5,22 +5,38 @@ angular.module('soundlink').component('soundlinkMenu', {
     controller: menuController
 });
 
-menuController.$inject = ['eventManager', 'notificationManager'];
+menuController.$inject = ['eventManager', 'notificationManager', 'audioRemoteControl', 'loginService', '$state', 'userStorage'];
 
-function menuController(eventManager, notificationManager) {
+function menuController(eventManager, notificationManager, audioRemoteControl, loginService, $state, userStorage) {
     var vm = this;
 
-    vm.showMenu = true;
+    var menuExpanded = false;
 
-    eventManager.subscribeToEvent("menuOpen", function (isOpen) {
-        vm.showMenu = isOpen;
-    });
+    vm.getUserInformation = userStorage.getUserInformation;
 
     vm.remoteControlChanged = function () {
         if (vm.remoteControl) {
-            notificationManager.showNotification("Remote control activited ");
+            audioRemoteControl.activeRemoteControl().then(function () {
+                notificationManager.showNotification("Remote control activited ");
+            });
         } else {
-            notificationManager.showNotification("Remote control desactivited ");
+            audioRemoteControl.desactiveRemoteControl().then(function () {
+                notificationManager.showNotification("Remote control desactivited ");
+            });
         }
+    };
+
+    vm.isMenuExpanded = function (){
+        return menuExpanded;
+    };
+
+    vm.toggleMenu = function (){
+        menuExpanded = !menuExpanded;
+    };
+
+    vm.logout = function () {
+        loginService.logout().then(function () {
+            $state.go('login');
+        });
     };
 }

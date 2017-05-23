@@ -1,11 +1,11 @@
 angular.module('soundlink').service("notificationManager", notificationManager);
 
-notificationManager.$inject = ['$mdToast'];
+notificationManager.$inject = ['$mdToast', '$filter'];
 
-function notificationManager($mdToast) {
+function notificationManager($mdToast, $filter) {
 
   this.showNotification = function (text) {
-    $mdToast.show($mdToast.simple().textContent(text).position('top right').hideDelay(3000));
+    $mdToast.show($mdToast.simple().textContent($filter('translate')(text)).position('top right').hideDelay(3000));
   };
 
 }

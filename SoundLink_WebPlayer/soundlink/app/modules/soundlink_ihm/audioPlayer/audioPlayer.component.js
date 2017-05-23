@@ -5,9 +5,9 @@ angular.module('soundlink').component('soundlinkAudioplayer', {
     controller: audioplayerController
 });
 
-audioplayerController.$inject = ['eventManager', 'audioPlayer', 'audioStatus'];
+audioplayerController.$inject = ['$scope', 'eventManager', 'audioPlayer', 'audioStatus'];
 
-function audioplayerController(eventManager, audioPlayer, audioStatus) {
+function audioplayerController($scope, eventManager, audioPlayer, audioStatus) {
     var vm = this;
 
     vm.volume = 50;
@@ -19,6 +19,14 @@ function audioplayerController(eventManager, audioPlayer, audioStatus) {
     vm.getProgress = audioStatus.getProgress;
     vm.getCurrentSong = audioStatus.getCurrentSong;
     vm.getLoadingPercent = audioStatus.getLoadingPercent;
+
+    var audioVolumeWatcher = $scope.$watch(audioStatus.getVolume, function(volume){
+        vm.volume = volume * 100;
+    });
+
+    vm.$onDestroy = function (){
+        audioVolumeWatcher();
+    };
 
     vm.volumeChange = function () {
         audioPlayer.setVolume(vm.volume);

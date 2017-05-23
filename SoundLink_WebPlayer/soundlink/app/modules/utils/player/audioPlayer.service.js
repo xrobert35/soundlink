@@ -2,9 +2,9 @@
 
 angular.module('soundlink').service("audioPlayer", audioPlayer);
 
-audioPlayer.$inject = ['audioStatus', '$q', '$cookies', 'tokenStorage', 'config', '$timeout', "$rootScope", 'eventManager'];
+audioPlayer.$inject = ['audioStatus', '$q', '$cookies', 'tokenStorage', 'config', '$timeout', "$rootScope", 'eventManager', 'lodash'];
 
-function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, $rootScope, eventManager) {
+function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, $rootScope, eventManager, lodash) {
 
   var audioPlayer = this;
 
@@ -26,17 +26,28 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
   };
 
   audioPlayer.add = function (song) {
-    if (audioStatus.getPlaylist().indexOf(song) == -1) {
-      audioStatus.getPlaylist().push(song);
-      eventManager.fireEvent("musicAdded", song);
-      $rootScope.$apply();
+    var songFind = lodash.find(audioStatus.getPlaylist(), function (music) {
+      return song.id === music.id;
+    });
+    if (songFind == null) {
+      $timeout(function () {
+        audioStatus.getPlaylist().push(song);
+        eventManager.fireEvent("musicAdded", song);
+      });
+    } else {
+      $timeout(function () {
+        lodash.remove(audioStatus.getPlaylist(), function (music) {
+          return song.id === music.id;
+        });
+        audioStatus.getPlaylist().push(song);
+      });
     }
   };
 
-  audioPlayer.togglePlayPause = function (){
-    if(audioStatus.isPlaying()){
+  audioPlayer.togglePlayPause = function () {
+    if (audioStatus.isPlaying()) {
       audioPlayer.pause();
-    }else{
+    } else {
       audioPlayer.play();
     }
   };
@@ -49,7 +60,7 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
         audioPlayer.setAudioPosition(0);
       } else {
         if (audio != null) {
-          stopPlaying();
+          audioPlayer.stop();
         }
         playSong(song);
       }
@@ -61,10 +72,17 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
     }
   };
 
-  function stopPlaying() {
-    audio.pause();
-    audio.src = "";
-  }
+  audioPlayer.stop = function () {
+    if (audio != null) {
+      audio.pause();
+      audio.src = "";
+    }
+    audioStatus.progress = 0;
+    audioStatus.duration = 0;
+    audioStatus.currentSong = null;
+    audioStatus.playing = false;
+    audioStatus.loadingPercent = 0;
+  };
 
   function playSong(song) {
     $q.when(song).then(function () {
@@ -72,7 +90,6 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
       audioStatus.setPlaying(true);
       audioStatus.setProgress(0);
     });
-    // player = AV.Player.fromURL(song.url);
     $cookies.put('X-AUTH-TOKEN', tokenStorage.retrieve());
     audio = new Audio('/soundlink_server/soundlink/musics/music/' + song.id);
 
@@ -126,10 +143,10 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
     if (currentSong != null) {
       var playlist = audioStatus.getPlaylist();
       var nextSongIndex = playlist.indexOf(currentSong) + 1;
-      if(audioStatus.isRepeatingOne()){
+      if (audioStatus.isRepeatingOne()) {
         audioPlayer.setAudioPosition(0);
         audio.play();
-      }else if (playlist.length > nextSongIndex) {
+      } else if (playlist.length > nextSongIndex) {
         audioPlayer.play(playlist[nextSongIndex]);
       } else if (audioStatus.isRepeating()) {
         audioPlayer.play(playlist[0]);
@@ -168,10 +185,10 @@ function audioPlayer(audioStatus, $q, $cookies, tokenStorage, config, $timeout, 
     };
     audio.onprogress = function () {
       for (var bufferIndex = 0; bufferIndex < audio.buffered.length; bufferIndex++) {
-        console.log("###############################");
-        console.log("Buffer " + bufferIndex);
-        console.log("Start : " + audio.buffered.start(bufferIndex) + " end " + audio.buffered.end(bufferIndex));
-        console.log("###############################");
+        // console.log("###############################");
+        // console.log("Buffer " + bufferIndex);
+        // console.log("Start : " + audio.buffered.start(bufferIndex) + " end " + audio.buffered.end(bufferIndex));
+        // console.log("###############################");
       }
       if (audio.buffered.length > 1) {
         // audioStatus.setLoadingPercent((audio.buffered.end(audio.buffered.length - 2) / audioStatus.getDuration()) * 100);

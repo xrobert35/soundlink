@@ -1,4 +1,4 @@
-<form ng-submit="vm.login()" layout="row" layout-align="none center" flex>
+<form ng-submit="$ctrl.login()" layout="row" layout-align="none center" flex>
     <div layout="row" layout-align="center center" flex>
         <div layout="column" flex="30" flex-xs="100">
             <md-toolbar class="big-title-header">
@@ -8,15 +8,15 @@
             </md-toolbar>
             <md-input-container>
                 <label>Login</label>
-                <input type="text" ng-model="vm.username" /></span>
+                <input type="text" ng-model="$ctrl.username" /></span>
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <input type="password" ng-model="vm.password" />
+                <input type="password" ng-model="$ctrl.password" />
             </md-input-container>
             <div>
                 <span class="font-orange" layout="row" layout-align="center" flex>
-                    {{vm.loginMessage}}
+                    {{$ctrl.loginMessage}}
                 </span>
             </div>
             <div layout="row" layout-align="center" layout-xs="column">

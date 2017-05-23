@@ -1,0 +1,87 @@
+@import "lessvars";
+@textcolor : white;
+.soundlink {
+  .cover-item  {
+    height: 405px;
+    position: relative;
+    .backgroundPanel {
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      .whitePanel {
+        position: absolute;
+        background-color: grey;
+        opacity: 0.6;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+      }
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+    }
+    md-toolbar {
+      &.page-header {
+        color: @textcolor;
+        font-weight: bold;
+      }
+      &.table-header {
+        color: @textcolor;
+        font-weight: bold;
+      }
+    }
+    .albums {
+      height: 385px;
+      width: 400px;
+      z-index: 1;
+      .albums-list {
+        overflow-y: auto;
+        padding-top: 15px;
+        height: 100%;
+        md-card {
+          &.md-small {
+            img {
+              border-radius: 5px;
+              box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+              max-height: 110px;
+              max-width: 110px;
+              height: 110px;
+              width: 110px;
+            }
+            &:focus, &:active {
+              img {
+                box-shadow: 0px 1px 3px 1px @primary-color, 0px 1px 1px 0px @primary-color, 0px 2px 1px -1px @primary-color;
+              }
+            }
+            border: none;
+            padding-top: 0px;
+            padding-bottom: 5px;
+            text-align: center;
+            box-shadow: none;
+            margin: 0px;
+            width: 180px;
+            height: 165px;
+            .md-subhead {
+              max-height: 45px;
+              height: 45px;
+              overflow: hidden;
+            }
+          }
+        }
+      }
+    }
+    .music-table {
+      z-index: 1;
+      padding-right: 15px;
+      height: 390px;
+    }
+  }
+}

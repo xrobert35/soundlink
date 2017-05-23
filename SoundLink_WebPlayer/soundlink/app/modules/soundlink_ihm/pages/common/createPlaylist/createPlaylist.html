@@ -3,35 +3,41 @@
     <span>New playlist</span>
   </div>
 </md-toolbar>
-<md-dialog-content layout="row">
-  <div layout="column" flex="50">
-    <div layout="column" layout-align="center center" class="bordered margin-15 img-container" flex>
-      <img ng-src="data:image/JPEG;base64,{{$ctrl.playlist.cover}}" class="playlistPicture">
+<form name="$ctrl.createPlaylistForm" ng-submit="$ctrl.createPlaylistForm.$valid && $ctrl.valideDialog()" novalidate>
+  <md-dialog-content layout="row">
+    <div layout="column" flex="50">
+      <div layout="column" layout-align="center center" class="bordered margin-15 img-container" flex>
+        <img ng-src="data:image/JPEG;base64,{{$ctrl.playlist.cover}}" class="playlistPicture">
+      </div>
+      <div layout="column" layout-align="end end">
+        <md-button class="md-raised" ng-click="$ctrl.clickUpload()">
+          <md-icon>file_upload</md-icon>
+        </md-button>
+        <input type="file" id="upload-playlist-picture" ng-hide="true" file-change="$ctrl.uploadPicture" accept="image/*">
+      </div>
     </div>
-    <div layout="column" layout-align="end end">
-      <md-button class="md-raised" ng-click="$ctrl.clickUpload()">
-        <md-icon>file_upload</md-icon>
-      </md-button>
-      <input type="file" id="upload-playlist-picture" ng-hide="true" file-change="$ctrl.uploadPicture" accept="image/*">
+    <div layout="column" layout-align="start" layout-padding flex="50">
+      <md-input-container>
+        <label>Name</label>
+        <input type="text" name="name" ng-model="$ctrl.playlist.name" required></input>
+        <div ng-messages="$ctrl.createPlaylistForm.name.$error">
+          <p ng-message="required" translate="VALIDATION.required"></p>
+        </div>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Description</label>
+        <textarea type="text" ng-model="$ctrl.playlist.description"></textarea>
+      </md-input-container>
     </div>
-  </div>
-  <div layout="column" layout-align="start" layout-padding flex="50">
-    <md-input-container>
-      <label>Name</label>
-      <input type="text" ng-model="$ctrl.playlist.name"></input>
-    </md-input-container>
-    <md-input-container flex>
-      <label>Description</label>
-      <textarea type="text" ng-model="$ctrl.playlist.description"></textarea>
-    </md-input-container>
-  </div>
-</md-dialog-content>
+  </md-dialog-content>
 
-<md-dialog-actions>
-  <md-button class="md-raised" ng-click="$ctrl.valideDialog()">
-    Create
-  </md-button>
-  <md-button class="md-raised" ng-click="$ctrl.closeDialog()">
-    Cancel
-  </md-button>
-</md-dialog-actions>
+  <md-dialog-actions>
+    <md-button class="md-raised" type="submit">
+      Create
+    </md-button>
+    <md-button class="md-raised" ng-click="$ctrl.closeDialog()">
+      Cancel
+    </md-button>
+  </md-dialog-actions>
+
+</form>

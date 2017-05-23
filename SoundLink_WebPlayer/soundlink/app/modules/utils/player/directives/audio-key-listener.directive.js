@@ -10,9 +10,9 @@ function audioKeyListenerDirective(audioPlayer, $document) {
     link: function (scope, element, attrs) {
       element.bind('keypress', function (event) {
         if (event.keyCode == 32) {
-          console.log("Key press" + event);
-          event.preventDefault();
-          audioPlayer.togglePlayPause();
+          // console.log("Key press" + event);
+          // event.preventDefault();
+          // audioPlayer.togglePlayPause();
         }
       });
     }

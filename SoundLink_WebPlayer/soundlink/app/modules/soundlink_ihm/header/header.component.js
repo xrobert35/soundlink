@@ -9,18 +9,4 @@ headerController.$inject = ['$scope', 'loginService', 'eventManager', '$state', 
 
 function headerController($scope, loginService, eventManager, $state, userStorage) {
     var vm = this;
-
-    vm.getUserInformation = userStorage.getUserInformation;
-
-    vm.menuOpen = true;
-    vm.toggleMenu = function () {
-        vm.menuOpen = !vm.menuOpen;
-        eventManager.fireEvent("menuOpen", vm.menuOpen);
-    };
-
-    vm.logout = function () {
-        loginService.logout().then(function () {
-            $state.go('login');
-        });
-    };
 }

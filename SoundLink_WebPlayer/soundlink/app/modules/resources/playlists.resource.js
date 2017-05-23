@@ -17,7 +17,7 @@ function playlistsResource($http, config) {
     };
 
     this.deletePlaylist = function (playlistId){
-        return $http.delete(controllerUrl + 'delete', playlistId).then(getData);
+        return $http.delete(controllerUrl + 'delete',  { params: { 'playlistId': playlistId }} ).then(getData);
     };
 
     this.getPlaylistsByUser = function (userId) {

@@ -16,7 +16,8 @@ function myartistesController(artistesResource, usersResource, notificationManag
         vm.selectedArtiste = artiste;
     };
 
-    vm.removeArtisteFromUser = function (artiste) {
+    vm.removeArtisteFromUser = function (artiste, $event) {
+        $event.stopPropagation();
         usersResource.removeFavoriteArtiste(artiste.id).then(function () {
             notificationManager.showNotification("Artiste removed from favorite");
             vm.artistes.splice(vm.artistes.indexOf(artiste), 1);

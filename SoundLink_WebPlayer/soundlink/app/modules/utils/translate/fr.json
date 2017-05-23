@@ -1,0 +1,12 @@
+{
+  "VALIDATION": {
+    "required": "This field is required",
+    "wrong-pwd" : "Wrong password",
+    "different-pwd" : "Passwords does not match",
+    "length-pwd" : "Password must contain at least 8 caracteres"
+  },
+  "NOTIFICATION" : {
+    "profile-updated" : "Profile updated"
+
+  }
+}

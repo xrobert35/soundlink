@@ -18,6 +18,6 @@ function myalbumsConfig($stateProvider) {
         resolve: {
             albums: initAlbums
         },
-        template: '<myalbums-page playlists="$resolve.albums" layout="column"></myalbums-page>'
+        template: '<myalbums-page albums="$resolve.albums" layout="column"></myalbums-page>'
     });
 }

@@ -4,7 +4,7 @@
   </div>
 </md-toolbar>
 
-<div layout="column" class="sub-content">
+<div layout="column" layout-align="start start" class="sub-content">
 
   <md-toolbar class="sub-header">
     <div class="md-toolbar-tools">
@@ -18,7 +18,7 @@
     <div ng-if="$ctrl.fileToUpload"><span> {{$ctrl.fileToUpload.name}}</span></div>
     <div layout="row" layout-align="center center" flex>
       <div class="progress-panel">
-        <label>{{$ctrl.getUploadProgress()+"%"}}</label>
+        <label>{{$ctrl.getUploadMessage()}}</label>
         <md-progress-circular md-mode="determinate" md-diameter="100" value="{{$ctrl.getUploadProgress()}}">
         </md-progress-circular>
       </div>
@@ -40,12 +40,12 @@
       <span class="font-orange">{{$ctrl.getIntegrationMessage()}}</span>
     </div>
 
-    <div ng-if="$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
+    <div ng-if="$ctrl.integrationRunning || $ctrl.integrationEnded" class="margin-top-20" layout="row" layout-align="center center">
       <md-progress-linear md-mode="determinate" value="{{$ctrl.getIntegrationProgress()}}"></md-progress-linear>
     </div>
   </div>
 
-  <div ng-if="!$ctrl.isloading" class="margin-top-20" layout="row" layout-align="center center">
+  <div ng-if="!$ctrl.integrationRunning" class="margin-top-20" layout="row" layout-align="center center">
     <md-button class="md-raised" ng-click="$ctrl.loadMusics()"> Start integration </md-button>
   </div>
 

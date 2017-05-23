@@ -24,6 +24,20 @@ function playlistController(eventManager, lodash, notificationManager, audioStat
         createPlaylistDialog.open().then(function (playlist) {
             playlistsResource.createPlaylist(playlist).then(function () {
                 notificationManager.showNotification("Playlist " + playlist.name + " created");
+                refreshPlaylists();
+            });
+        });
+    };
+
+    vm.extractPlaylist = function () {
+        createPlaylistDialog.open().then(function (playlist) {
+            var musicsId = lodash.flatMap(vm.getPlaylist(), function (playlist) {
+                return playlist.id;
+            });
+            playlist.musicsId = musicsId;
+            playlistsResource.createPlaylist(playlist).then(function () {
+                notificationManager.showNotification("Playlist " + playlist.name + " created");
+                refreshPlaylists();
             });
         });
     };
@@ -48,18 +62,6 @@ function playlistController(eventManager, lodash, notificationManager, audioStat
         } else {
             audioStatus.setPlaylist(vm.selectedPlaylist.musics);
         }
-    };
-
-    vm.extractPlaylist = function () {
-        createPlaylistDialog.open().then(function (playlist) {
-            playlistsResource.createPlaylist(playlist).then(function () {
-                var musicsId = lodash.flatMap(vm.getPlaylist(), function (playlist) {
-                    return playlist.id;
-                });
-                playlist.musicsId = musicsId;
-                notificationManager.showNotification("Playlist " + playlist.name + " created");
-            });
-        });
     };
 
     vm.clearPlaylist = function () {

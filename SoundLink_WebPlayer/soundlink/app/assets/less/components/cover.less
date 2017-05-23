@@ -1,0 +1,54 @@
+@import "../lessvars";
+@width : 135px;
+@height : 135px;
+@text-width : 170px;
+.soundlink {
+  .cover {
+    max-width: @width;
+    max-height: @height;
+    width: @width;
+    height: @height;
+    margin: 0px 20px 50px 20px;
+    padding-top : 15px;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    cursor: hand;
+    .cover-content {
+      position: relative;
+      img {
+        width: @width;
+        height: @height;
+        border-radius: 5px;
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+      }
+      .cover-icons {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: end;
+        outline: none;
+        md-icon {
+          background-color: @thirdly-color;
+          border-radius: 20px;
+          margin: 3px 5px 5px 0px;
+          box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.5), 0px 1px 1px 0px rgba(0, 0, 0, 0.5), 0px 2px 1px -1px rgba(0, 0, 0, 0.5);
+        }
+      }
+      &:hover {
+        .cover-icons {
+          display: flex;
+        }
+      }
+    }
+    .cover-text {
+      margin-top: 5px;
+      width: @text-width;
+      margin-left: -18px;
+      outline: none;
+    }
+  }
+}
