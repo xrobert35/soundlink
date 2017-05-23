@@ -9,7 +9,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class MusicsResource {
-
+  
   constructor(private http: Http, private tokenStorage: TokenStorage) {
   }
 

@@ -15,13 +15,15 @@ npm install --save @ionic-native/file-path
 
 #Diagnostic Ask user permission > sdk 23
 
-ionic plugin remove cordova.plugins.diagnostic
-npm remove --save @ionic-native/diagnostic
+#ionic plugin remove cordova.plugins.diagnostic
+#npm remove --save @ionic-native/diagnostic
 
 ionic plugin add cordova.plugins.diagnostic@3.1.0
 npm install --save @ionic-native/diagnostic@3.1.0
 
 
+#ionic g page remoteControl
+ 
 
 #http://ionichelper.forlearning.net/ionic-2-building-a-release-android-apk/
 

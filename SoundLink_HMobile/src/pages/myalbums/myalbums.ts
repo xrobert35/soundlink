@@ -4,7 +4,7 @@ import { AlbumsResource } from '../../app/resources/albums.resource';
 import { AlbumMusicsPage } from "../album-musics/album-musics";
 
 @Component({
-  selector: 'page-myalbums',
+  selector: 'page-mymusics.page-myalbums',
   templateUrl: 'myalbums.html'
 })
 export class MyAlbumsPage {

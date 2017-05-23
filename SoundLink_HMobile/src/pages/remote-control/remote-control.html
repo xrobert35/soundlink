@@ -1,0 +1,29 @@
+<ion-content padding>
+  <div class="layout-column end flex">
+    <div ion-button outline (click)="remoteConnect()">
+      <div class="layout-row flex center vcenter">
+        <ion-icon name="ios-link-outline"></ion-icon>
+      </div>
+    </div>
+    <div class="layout-row center">
+      <div ion-button clear class="flex" (click)="remote('PREVIOUS_SONG')">
+        <ion-icon name="ios-rewind-outline"></ion-icon>
+      </div>
+      <div ion-button clear class="flex" (click)="remote('PLAY')">
+        <ion-icon name="ios-play"></ion-icon>
+      </div>
+      <div ion-button clear class="flex" (click)="remote('PAUSE')">
+        <ion-icon name="ios-pause"></ion-icon>
+      </div>
+      <div ion-button clear class="flex" (click)="remote('NEXT_SONG')">
+        <ion-icon name="ios-fastforward-outline"></ion-icon>
+      </div>
+      <div ion-button clear class="flex" (click)="volumeUp()">
+        <ion-icon name="ios-add-outline"></ion-icon>
+      </div>
+      <div ion-button clear class="flex" (click)="volumeDown()">
+        <ion-icon name="ios-remove-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

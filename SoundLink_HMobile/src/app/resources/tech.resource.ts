@@ -7,23 +7,19 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class SoundlinkResource {
+export class TechResource {
 
   constructor(private http: Http, private tokenStorage: TokenStorage) {
   }
 
-  login(credentials) {
-    return this.http.post(AppConfig.SERVER_URL + 'security/login', credentials).toPromise();
-  }
-
-  getUserInformation(){
+ getWsToken() {
     return this.tokenStorage.retrieve().then(token => {
       let headers = new Headers();
       headers.append('X-AUTH-TOKEN', token);
       let options = new RequestOptions({
         headers: headers
       });
-      return this.http.get(AppConfig.SERVER_URL + 'soundlink/users/userInformation', options).map(response => response.json()).toPromise();
+      return this.http.get(AppConfig.SERVER_URL + 'soundlink/tech/wsToken', options).map(response => response.text()).toPromise();
     });
-  }
+  };
 }

@@ -4,7 +4,7 @@ import { ArtistesResource } from '../../app/resources/artistes.resource';
 import { AlbumsPage } from "../albums/albums";
 
 @Component({
-  selector: 'page-myartistes',
+  selector: 'page-mymusics.page-myartistes',
   templateUrl: 'myartistes.html'
 })
 export class MyArtistesPage {

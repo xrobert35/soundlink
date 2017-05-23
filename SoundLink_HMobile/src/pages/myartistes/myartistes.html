@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Artites</ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content>
   <ion-list>
     <div ion-item *ngFor="let artiste of artistes ; trackBy:trackByIndex;" (click)="onArtisteSelected(artiste)">

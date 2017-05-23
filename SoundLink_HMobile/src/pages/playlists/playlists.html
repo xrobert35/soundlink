@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Playlists</ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content padding>
   <div class="playlistItem" *ngFor="let playlist of playlists; trackBy:trackByIndex">
       <span [innerHtml]="playlist.name"></span>

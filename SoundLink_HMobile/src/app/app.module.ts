@@ -7,12 +7,13 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home'
 import { TabsPage } from '../pages/tabs/tabs'
 
+import { MyMusicsPage } from '../pages/mymusics/mymusics'
 import { MyArtistesPage } from '../pages/myartistes/myartistes';
 import { MyAlbumsPage } from '../pages/myalbums/myalbums';
-
-import { SearchPage } from '../pages/search/search';
 import { PlaylistsPage } from '../pages/playlists/playlists';
 
+import { SearchPage } from '../pages/search/search';
+import { RemoteControlPage} from '../pages/remote-control/remote-control';
 
 import { AlbumsPage } from '../pages/albums/albums'
 import { AlbumMusicsPage } from '../pages/album-musics/album-musics'
@@ -38,10 +39,12 @@ import { IonicStorageModule } from '@ionic/storage';
     SearchPage,
     PlaylistsPage,
     PlaylistCreatePage,
+    MyMusicsPage,
     MyArtistesPage,
     MyAlbumsPage,
     AlbumsPage,
-    AlbumMusicsPage
+    AlbumMusicsPage,
+    RemoteControlPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -60,9 +63,11 @@ import { IonicStorageModule } from '@ionic/storage';
     PlaylistsPage,
     PlaylistCreatePage,
     MyArtistesPage,
-    AlbumsPage,
+    MyMusicsPage,
     MyAlbumsPage,
-    AlbumMusicsPage
+    AlbumsPage,
+    AlbumMusicsPage,
+    RemoteControlPage
   ],
   providers: [
     StatusBar,

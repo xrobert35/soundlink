@@ -5,12 +5,16 @@
   "typescript": true,
   "proxies": [
     {
+      "path": "/soundlink_server/ws/",
+      "proxyUrl": "ws://86.253.44.88:35664/soundlink_server/"
+    },
+    {
       "path": "/soundlink_server/",
-      "proxyUrl": "http://192.168.1.84:35663/soundlink_server/"
+      "proxyUrl": "http://86.253.44.88:35663/soundlink_server/"
     },
     {
       "path": "/covers/",
-      "proxyUrl": "http://192.168.1.84:35663/covers/"
+      "proxyUrl": "http://86.253.44.88:35663/covers/"
     }
   ]
 }

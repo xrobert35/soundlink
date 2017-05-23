@@ -5,7 +5,7 @@ import { PlaylistsResource } from '../../app/resources/playlists.resource';
 import { PlaylistCreatePage } from "./create/playlist.create"
 
 @Component({
-  selector: 'page-playlists',
+  selector: 'page-mymusics.page-playlists',
   templateUrl: 'playlists.html'
 })
 export class PlaylistsPage {

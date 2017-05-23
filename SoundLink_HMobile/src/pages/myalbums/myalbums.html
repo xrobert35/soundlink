@@ -1,3 +1,9 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Albums</ion-title>
+  </ion-navbar>
+</ion-header>
+
 <ion-content>
   <ion-list>
     <div ion-item *ngFor="let album of albums ; trackBy:trackByIndex;" (click)="onAlbumSelected(album)">
