@@ -259,6 +259,6 @@ public class MusicFileProcessor implements IMusicFileProcessor {
         if (albumName != null) {
             albumName = albumName.trim();
         }
-        return null;
+        return albumName;
     }
 }
