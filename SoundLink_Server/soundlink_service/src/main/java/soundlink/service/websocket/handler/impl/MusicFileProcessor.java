@@ -148,16 +148,16 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     }
 
     private void saveAlbumCover(Album album, Tag tag) throws IOException {
-        BufferedImage extractedCoverImage = extractBufferedImage(tag);
+        BufferedImage extractedCoverImage = extractReducedBufferedImage(tag);
         if (extractedCoverImage != null) {
             byte[] coverFromTag = extractCoverFromTag(extractedCoverImage);
-            byte[] smallCoverFromTag = extractSmallCoverFromTag(extractedCoverImage);
+            BufferedImage smallBufferedCoverFromTag = extractSmallCoverFromTag(extractedCoverImage);
             byte[] blurrifiedCoverFromTag = extractBlurrifiedImageCoverFromTag(extractedCoverImage);
             File albumCover = new File(soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + album.getId());
             FileUtils.writeByteArrayToFile(albumCover, coverFromTag);
             File smallAlbumCover = new File(
                     soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + "small-" + album.getId());
-            FileUtils.writeByteArrayToFile(smallAlbumCover, smallCoverFromTag);
+            FileUtils.writeByteArrayToFile(smallAlbumCover, ImageUtils.toByte(smallBufferedCoverFromTag));
             File burrifiedAlbumCover = new File(
                     soundlinkFolder + SoundlinkConstant.ALBUMS_COVERS_FOLDER + "blur-" + album.getId());
             FileUtils.writeByteArrayToFile(burrifiedAlbumCover, blurrifiedCoverFromTag);
@@ -165,38 +165,38 @@ public class MusicFileProcessor implements IMusicFileProcessor {
     };
 
     private void saveArtisteCover(Artiste artiste, Tag tag) throws IOException {
-        BufferedImage extractBufferedImage = extractBufferedImage(tag);
+        BufferedImage extractBufferedImage = extractReducedBufferedImage(tag);
         if (extractBufferedImage != null) {
             byte[] coverFromTag = extractCoverFromTag(extractBufferedImage);
-            byte[] smallCoverFromTag = extractSmallCoverFromTag(extractBufferedImage);
+            BufferedImage smallCoverFromTag = extractSmallCoverFromTag(extractBufferedImage);
             File artisteCover = new File(soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + artiste.getId());
             FileUtils.writeByteArrayToFile(artisteCover, coverFromTag);
             File smallArtisteCover = new File(
                     soundlinkFolder + SoundlinkConstant.ARTISTES_COVERS_FOLDER + "small-" + artiste.getId());
-            FileUtils.writeByteArrayToFile(smallArtisteCover, smallCoverFromTag);
+            FileUtils.writeByteArrayToFile(smallArtisteCover, ImageUtils.toByte(smallCoverFromTag));
         }
     };
 
-    private BufferedImage extractBufferedImage(Tag tag) throws IOException {
+    private BufferedImage extractReducedBufferedImage(Tag tag) throws IOException {
         Artwork firstArtwork = tag.getFirstArtwork();
         BufferedImage coverImage = null;
         if (firstArtwork != null) {
             coverImage = (BufferedImage) firstArtwork.getImage();
-            coverImage = ImageUtils.createBufferredJpgImage(coverImage);
+            coverImage = ImageUtils.reduceAndCreateJpgBufferedImage(coverImage, 150, 150, true);
         }
         return coverImage;
     }
 
     private byte[] extractCoverFromTag(BufferedImage coverImage) throws IOException {
-        return ImageUtils.reduceAndCreateJpgImage(coverImage, 150, 150, true);
+        return ImageUtils.toByte(coverImage);
     }
 
-    private byte[] extractSmallCoverFromTag(BufferedImage coverImage) throws IOException {
-        return ImageUtils.reduceAndCreateJpgImage(coverImage, 50, 50, true);
+    private BufferedImage extractSmallCoverFromTag(BufferedImage coverImage) throws IOException {
+        return ImageUtils.reduceAndCreateJpgBufferedImage(coverImage, 50, 50, true);
     }
 
     private byte[] extractBlurrifiedImageCoverFromTag(BufferedImage coverImage) throws IOException {
-        return ImageUtils.reduceAndCreateBlurrifiedJpgImage(coverImage, 50, 50, true);
+        return ImageUtils.createBlurrifiedJpgImage(coverImage);
     }
 
     private Music createMusic(AudioFile audioFile, Album album, Integer integrationNumber) throws IOException {
