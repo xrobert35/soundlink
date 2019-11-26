@@ -28,7 +28,7 @@
 		<hibernate.version>5.1.5.Final</hibernate.version>
 
 		<dozer.version>5.5.1</dozer.version>
-		<junrar.version>0.7</junrar.version>
+		<junrar.version>1.0.1</junrar.version>
 
 		<jaudio.tagger.version>2.2.6-SNAPSHOT</jaudio.tagger.version>
 		<xutils.version>0.0.1-SNAPSHOT</xutils.version>
