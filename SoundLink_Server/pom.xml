@@ -18,7 +18,7 @@
 		<h2.database.version>1.4.191</h2.database.version>
 		<postgres.database.version>9.1-901-1.jdbc4</postgres.database.version>
 
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<log4j.version>2.7</log4j.version>
 		<servlet.api.version>3.1.0</servlet.api.version>
 		<jackson.version>2.7.2</jackson.version>
