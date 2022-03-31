@@ -13,7 +13,7 @@
 
 		<spring.version>4.2.5.RELEASE</spring.version>
 		<spring.messaging-security>4.2.1.RELEASE</spring.messaging-security>
-		<spring.boot.version>1.3.3.RELEASE</spring.boot.version>
+		<spring.boot.version>2.5.12</spring.boot.version>
 
 		<h2.database.version>1.4.191</h2.database.version>
 		<postgres.database.version>9.1-901-1.jdbc4</postgres.database.version>
